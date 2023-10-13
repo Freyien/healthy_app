@@ -8,12 +8,12 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:healthy_app/Firebase/firebase_options.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/core/domain/usecases/get_initial_route_usecase.dart';
 import 'package:healthy_app/di/di_background_notifications.dart';
 import 'package:healthy_app/di/di_business.dart';
 import 'package:healthy_app/features/common/notifications/domain/usecases/show_background_notification_usecase.dart';
+import 'package:healthy_app/firebase/firebase_options.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();

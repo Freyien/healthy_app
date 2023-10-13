@@ -1,6 +1,7 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
+import 'package:healthy_app/features/common/notifications/domain/usecases/show_background_notification_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 GetIt slb = GetIt.asNewInstance();
@@ -36,5 +37,5 @@ void _registerRepositories() {}
 
 // Use cases
 void _registerUseCases() {
-  // slb.registerLazySingleton(() => ShowBackgroundNotificationUseCase(slb()));
+  slb.registerLazySingleton(() => ShowBackgroundNotificationUseCase(slb()));
 }
