@@ -1,5 +1,21 @@
 # Healthy App
 
+## Getting Started 🚀
+For iOS must be loaded follow files:
+
+ios/firebase_app_id_file.json
+ios/Runner/GoogleService-Info.plist
+
+For android must be loaded follow files:
+
+android/app/src/production/google-services.json
+
+For all must be loaded follow files:
+
+lib/firebase_app_id_file.json
+
+---
+
 ![coverage][coverage_badge]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![License: MIT][license_badge]][license_link]
