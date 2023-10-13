@@ -1,4 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
+import 'package:healthy_app/features/common/app_update/domain/repositories/app_update_repository.dart';
+import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
+import 'package:healthy_app/features/common/splash/domain/repositories/splash_repository.dart';
 
 class GetInitialRouteUseCase {
   GetInitialRouteUseCase(
