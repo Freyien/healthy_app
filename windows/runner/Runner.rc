@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example.verygoodcore.healthy-app" "\0"
+            VALUE "CompanyName", "com.freyien.healthy.app" "\0"
             VALUE "FileDescription", "healthy_app" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "healthy_app" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.example.verygoodcore.healthy-app. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2022 com.freyien.healthy.app. All rights reserved." "\0"
             VALUE "OriginalFilename", "healthy_app.exe" "\0"
             VALUE "ProductName", "Healthy App" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"

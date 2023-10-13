@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.verygoodcore.healthy_app">
+    package="com.freyien.healthy.app">
    <application
         android:label="${appName}"
         android:name="${applicationName}"
