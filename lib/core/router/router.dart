@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/core/domain/utils/router_utils.dart';
+import 'package:healthy_app/features/common/app_update/domain/entities/app_version_status.dart';
+import 'package:healthy_app/features/common/app_update/ui/app_update_page.dart';
+import 'package:healthy_app/features/common/notifications/ui/notifications_page.dart';
 
 class AppRouter {
   static GoRouter router(InitialRouteEntity initialRoute) {
@@ -19,7 +22,7 @@ class AppRouter {
           name: 'notification_request',
           path: '/notification_request',
           builder: (context, state) {
-            return Scaffold();
+            return NotificationsPage();
           },
         ),
         GoRoute(
@@ -40,14 +43,13 @@ class AppRouter {
           name: 'app_update',
           path: '/app_update',
           builder: (context, state) {
-            return Scaffold();
-            // final extra = (state.extra ?? {}) as Map<String, dynamic>;
-            // final appVersionStatus =
-            //     extra['appVersionStatus'] as AppVersionStatus;
+            final extra = (state.extra ?? {}) as Map<String, dynamic>;
+            final appVersionStatus =
+                extra['appVersionStatus'] as AppVersionStatus;
 
-            // return AppUpdatePage(
-            //   appVersionStatus: appVersionStatus,
-            // );
+            return AppUpdatePage(
+              appVersionStatus: appVersionStatus,
+            );
           },
         ),
         StatefulShellRoute.indexedStack(
