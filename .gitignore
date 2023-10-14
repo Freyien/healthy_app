@@ -126,3 +126,5 @@ app.*.map.json
 !.idea/runConfigurations/
 
 lib/Firebase/firebase_options.dart
+lib/Firebase/firebase_options_dev.dart
+lib/Firebase/firebase_options_prod.dart
