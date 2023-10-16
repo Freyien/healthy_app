@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/core/domain/utils/router_utils.dart';
+import 'package:healthy_app/features/client/dashboard/ui/dashboard_page.dart';
 import 'package:healthy_app/features/client/sign_in/ui/sign_in_page.dart';
 import 'package:healthy_app/features/client/sign_up/ui/sign_up_page.dart';
 import 'package:healthy_app/features/common/app_update/domain/entities/app_version_status.dart';
@@ -56,8 +57,7 @@ class AppRouter {
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
-            return Scaffold();
-            // return DashboardPage(navigationShell: navigationShell);
+            return DashboardPage(navigationShell: navigationShell);
           },
           branches: [
             StatefulShellBranch(
