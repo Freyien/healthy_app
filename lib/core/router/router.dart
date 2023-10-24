@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/core/domain/utils/router_utils.dart';
 import 'package:healthy_app/features/client/dashboard/ui/dashboard_page.dart';
+import 'package:healthy_app/features/client/eating_plan/ui/eating_plan_page.dart';
 import 'package:healthy_app/features/client/sign_in/ui/sign_in_page.dart';
 import 'package:healthy_app/features/client/sign_up/ui/sign_up_page.dart';
 import 'package:healthy_app/features/common/app_update/domain/entities/app_version_status.dart';
@@ -66,7 +67,7 @@ class AppRouter {
                   name: 'home',
                   path: '/home',
                   builder: (context, state) {
-                    return Scaffold();
+                    return EatingPlanPage();
                   },
                   routes: [],
                 ),
