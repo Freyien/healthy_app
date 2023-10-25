@@ -42,7 +42,7 @@ class EatingTile extends StatelessWidget {
       child: InkWell(
         onTap: () {},
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+          padding: EdgeInsets.only(top: 4, bottom: 4, left: 4, right: 0),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -86,6 +86,7 @@ class EatingTile extends StatelessWidget {
               CupertinoCheckbox(
                 value: true,
                 onChanged: (_) {},
+                activeColor: context.appColors.primary,
               ),
             ],
           ),

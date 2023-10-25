@@ -9,8 +9,13 @@ class EatingPlanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
-        title: const Text('Plan Alimenticio'),
+        title: const Text('24 Octubre 2023'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.calendar_month_outlined),
+          ),
+        ],
       ),
       body: SafeArea(
         child: ScrollFillRemaining(
@@ -71,6 +76,42 @@ class EatingPlanPage extends StatelessWidget {
                 name: 'Queso panela',
                 pathImage: 'assets/images/cheese.png',
                 portion: '40 grs',
+              ),
+              VerticalSpace.xxxlarge(),
+              Text(
+                'Comida',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              VerticalSpace.xsmall(),
+              const HorizontalDivider(),
+              const EatingTile(
+                calories: '75 kcal',
+                name: 'Manzana',
+                pathImage: 'assets/images/apple.png',
+                portion: '1 pieza',
+              ),
+              const EatingTile(
+                calories: '250 kcal',
+                name: 'Pepino',
+                pathImage: 'assets/images/cucumber.png',
+                portion: '1/2 pieza',
+              ),
+              const EatingTile(
+                calories: '50 kcal',
+                name: 'Queso panela',
+                pathImage: 'assets/images/cheese.png',
+                portion: '40 grs',
+              ),
+              VerticalSpace.xxxlarge(),
+              Text(
+                'Almuerzo',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
               ),
             ],
           ),

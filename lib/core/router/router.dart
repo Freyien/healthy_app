@@ -7,6 +7,7 @@ import 'package:healthy_app/features/client/dashboard/ui/dashboard_page.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/eating_plan_page.dart';
 import 'package:healthy_app/features/client/sign_in/ui/sign_in_page.dart';
 import 'package:healthy_app/features/client/sign_up/ui/sign_up_page.dart';
+import 'package:healthy_app/features/client/water/ui/water_page.dart';
 import 'package:healthy_app/features/common/app_update/domain/entities/app_version_status.dart';
 import 'package:healthy_app/features/common/app_update/ui/app_update_page.dart';
 import 'package:healthy_app/features/common/notifications/ui/notifications_page.dart';
@@ -76,10 +77,10 @@ class AppRouter {
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  name: 'store_location',
-                  path: '/store_location',
+                  name: 'water',
+                  path: '/water',
                   builder: (context, state) {
-                    return Scaffold();
+                    return WaterPage();
                   },
                 ),
               ],

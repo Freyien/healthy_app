@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/features/client/dashboard/ui/sections/notifications/dashboard_notification.dart';
@@ -23,8 +24,8 @@ class DashboardPage extends StatelessWidget {
           elevation: 8,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: "Plan",
+              icon: Icon(FontAwesomeIcons.utensils),
+              label: "Alimentos",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.water_drop),
