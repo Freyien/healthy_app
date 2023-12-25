@@ -26,6 +26,8 @@ class InputText extends StatelessWidget {
     this.maxLines = 1,
     this.maxLength,
     this.readOnly = false,
+    this.autofocus = false,
+    this.onFieldSubmitted,
   });
 
   final String labelText;
@@ -50,6 +52,8 @@ class InputText extends StatelessWidget {
   final int? maxLines;
   final int? maxLength;
   final bool readOnly;
+  final bool autofocus;
+  final Function(String)? onFieldSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +74,7 @@ class InputText extends StatelessWidget {
             enabled: enabled,
             disabledopacity: disabledopacity,
             child: TextFormField(
+              autofocus: autofocus,
               maxLength: maxLength,
               maxLines: maxLines,
               obscureText: obscureText,
@@ -77,6 +82,7 @@ class InputText extends StatelessWidget {
               keyboardType: keyboardType,
               textInputAction: textInputAction,
               onChanged: onChanged,
+              onFieldSubmitted: onFieldSubmitted,
               textAlign: textAlign,
               validator: validator,
               textCapitalization: textCapitalization,

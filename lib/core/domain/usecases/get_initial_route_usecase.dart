@@ -19,18 +19,23 @@ class GetInitialRouteUseCase {
     bool checkNotifications = true,
     bool checkUpdateVersion = true,
   }) async {
+    // Notifications
     if (checkNotifications) {
       final notificationRoute = await _checkNotificationPermission();
       if (notificationRoute.isValid) return notificationRoute;
     }
 
+    // Update version
     if (checkUpdateVersion) {
       final updateRoute = await _checkUpdateIsRequired();
       if (updateRoute.isValid) return updateRoute;
     }
 
+    // User is logged In
     final loggedRoute = await _checkUserIsLoggedIn();
     if (loggedRoute.isValid) return loggedRoute;
+
+    // User has doctor
 
     return InitialRouteEntity(name: InitialRoute.signIn);
   }

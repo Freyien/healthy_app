@@ -11,6 +11,9 @@ import 'package:healthy_app/core/data/network/cloud_client.dart';
 import 'package:healthy_app/core/domain/usecases/get_initial_route_usecase.dart';
 import 'package:healthy_app/core/ui/constants/app_colors.dart';
 import 'package:healthy_app/di/config/remote_config.dart';
+import 'package:healthy_app/features/client/doctor_code/data/doctor_code_repository_impl.dart';
+import 'package:healthy_app/features/client/doctor_code/domain/repositories/doctor_code_repository.dart';
+import 'package:healthy_app/features/client/doctor_code/ui/bloc/doctor_code_bloc.dart';
 import 'package:healthy_app/features/client/sign_in/data/sign_in_repository_impl.dart';
 import 'package:healthy_app/features/client/sign_in/domain/repositories/sign_in_repository.dart';
 import 'package:healthy_app/features/client/sign_in/ui/bloc/sign_in_bloc.dart';
@@ -109,6 +112,9 @@ void _registerRepositories() {
   sl.registerLazySingleton<SignUpRepository>(
     () => SignUpRepositoryImpl(sl(), sl()),
   );
+  sl.registerLazySingleton<DoctorCodeRepository>(
+    () => DoctorCodeRepositoryImpl(sl()),
+  );
 }
 
 // Blocs
@@ -117,6 +123,7 @@ void _registerBlocs() {
   sl.registerFactory(() => NotificationBloc(sl(), sl()));
   sl.registerFactory(() => SignInBloc(sl()));
   sl.registerFactory(() => SignUpBloc(sl()));
+  sl.registerFactory(() => DoctorCodeBloc(sl()));
 }
 
 // Use cases

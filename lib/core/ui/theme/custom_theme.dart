@@ -27,6 +27,7 @@ class CustomTheme {
       inputDecorationTheme: InputDecorationTheme(
         fillColor: DefaultColors.flashWhite,
         filled: true,
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         hintStyle: TextStyle(
           color: LightColors.primaryText.withOpacity(.5),
         ),
@@ -54,6 +55,16 @@ class CustomTheme {
       ),
       cardTheme: CardTheme(
         color: Colors.white,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (states) => DefaultColors.primary,
+          ),
+          foregroundColor: MaterialStateProperty.resolveWith<Color>(
+            (states) => Colors.white,
+          ),
+        ),
       ),
       extensions: <ThemeExtension<dynamic>>[
         AppColors(
@@ -101,6 +112,7 @@ class CustomTheme {
       inputDecorationTheme: InputDecorationTheme(
         fillColor: DarkColors.input,
         filled: true,
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         hintStyle: TextStyle(
           color: DarkColors.primaryText.withOpacity(.6),
         ),
@@ -119,6 +131,7 @@ class CustomTheme {
           borderSide: BorderSide(color: DarkColors.input),
           borderRadius: BorderRadius.circular(10),
         ),
+        prefixIconColor: DarkColors.primaryText.withOpacity(.7),
       ),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: DefaultColors.primary,
@@ -127,6 +140,16 @@ class CustomTheme {
       ),
       cardTheme: CardTheme(
         color: DefaultColors.darkCharcoal,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (states) => DefaultColors.primary,
+          ),
+          foregroundColor: MaterialStateProperty.resolveWith<Color>(
+            (states) => Colors.white,
+          ),
+        ),
       ),
       extensions: <ThemeExtension<dynamic>>[
         AppColors(
