@@ -6,6 +6,7 @@ import 'package:healthy_app/core/domain/utils/router_utils.dart';
 import 'package:healthy_app/features/client/dashboard/ui/dashboard_page.dart';
 import 'package:healthy_app/features/client/doctor_code/ui/doctor_code_page.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/eating_plan_page.dart';
+import 'package:healthy_app/features/client/initial_config/ui/initial_config_page.dart';
 import 'package:healthy_app/features/client/sign_in/ui/sign_in_page.dart';
 import 'package:healthy_app/features/client/sign_up/ui/sign_up_page.dart';
 import 'package:healthy_app/features/client/water/ui/water_page.dart';
@@ -18,7 +19,7 @@ class AppRouter {
     final initialLocation = RouterUtils.getLocation(initialRoute.name);
 
     final router = GoRouter(
-      initialLocation: '/doctor_code',
+      initialLocation: '/initial_config',
       initialExtra: initialRoute.params,
       observers: [
         BotToastNavigatorObserver(),
@@ -46,13 +47,6 @@ class AppRouter {
           },
         ),
         GoRoute(
-          name: 'doctor_code',
-          path: '/doctor_code',
-          builder: (context, state) {
-            return DoctorCodePage();
-          },
-        ),
-        GoRoute(
           name: 'app_update',
           path: '/app_update',
           builder: (context, state) {
@@ -63,6 +57,20 @@ class AppRouter {
             return AppUpdatePage(
               appVersionStatus: appVersionStatus,
             );
+          },
+        ),
+        GoRoute(
+          name: 'initial_config',
+          path: '/initial_config',
+          builder: (context, state) {
+            return InitialConfigPage();
+          },
+        ),
+        GoRoute(
+          name: 'doctor_code',
+          path: '/doctor_code',
+          builder: (context, state) {
+            return DoctorCodePage();
           },
         ),
         StatefulShellRoute.indexedStack(

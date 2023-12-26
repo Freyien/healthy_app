@@ -91,7 +91,7 @@ class SignInPage extends StatelessWidget {
         LoadingUtils.hide(context);
 
         context.read<AnalyticsBloc>().add(LogEvent('logged'));
-        context.goNamed('doctor_code');
+        context.goNamed('initial_config');
         break;
     }
   }
