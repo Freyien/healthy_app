@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:healthy_app/core/domain/enums/fetching_status.dart';
 import 'package:healthy_app/core/domain/enums/saving_status.dart';
+import 'package:healthy_app/core/domain/failures/failures.dart';
 import 'package:healthy_app/core/ui/utils/loading.dart';
 import 'package:healthy_app/core/ui/utils/toast.dart';
-import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
+import 'package:healthy_app/features/client/doctor_code/domain/failures/doctor_code_failures.dart';
 import 'package:healthy_app/features/client/doctor_code/ui/bloc/doctor_code_bloc.dart';
 import 'package:healthy_app/features/client/doctor_code/ui/widgets/doctor_code_form.dart';
 
@@ -16,32 +16,13 @@ class DoctorCodePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<DoctorCodeBloc>()..add(GetClientEvent()),
+      create: (context) => sl<DoctorCodeBloc>(),
       child: Scaffold(
         body: SafeArea(
-          child: BlocConsumer<DoctorCodeBloc, DoctorCodeState>(
+          child: BlocListener<DoctorCodeBloc, DoctorCodeState>(
             listenWhen: (p, c) => p.savingStatus != c.savingStatus,
-            buildWhen: (p, c) => p.fetchingStatus != c.fetchingStatus,
             listener: _doctorCodeListener,
-            builder: (context, state) {
-              switch (state.fetchingStatus) {
-                case FetchingStatus.initial:
-                case FetchingStatus.loading:
-                  // Loading
-                  return Center(child: CircularProgressIndicator());
-                case FetchingStatus.success:
-                  // Show doctor code input
-                  if (state.client.doctorId.isEmpty) return DoctorCodeForm();
-
-                  _goHome(context);
-                  return Center(child: CircularProgressIndicator());
-                case FetchingStatus.failure:
-                  // Failure
-                  return ErrorFullScreen(onRetry: () {
-                    context.read<DoctorCodeBloc>().add(GetClientEvent());
-                  });
-              }
-            },
+            child: DoctorCodeForm(),
           ),
         ),
       ),
@@ -57,17 +38,19 @@ class DoctorCodePage extends StatelessWidget {
         break;
       case SavingStatus.failure:
         LoadingUtils.hide(context);
-        return Toast.showError('Ha ocurrido un error inesperado.');
+        return _showError(state.failure);
       case SavingStatus.success:
         LoadingUtils.hide(context);
-        context.goNamed('home');
-        break;
+        return context.goNamed('home');
     }
   }
 
-  void _goHome(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 450), () {
-      context.goNamed('home');
-    });
+  void _showError(Failure failure) {
+    if (failure is DoctorDoesNotExistsFailure) {
+      return Toast.showError(
+          'Código incorrecto, verifica y vuelve a intentar.');
+    }
+
+    return Toast.showError('Ha ocurrido un error inesperado.');
   }
 }

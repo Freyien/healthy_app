@@ -19,7 +19,7 @@ class AppRouter {
     final initialLocation = RouterUtils.getLocation(initialRoute.name);
 
     final router = GoRouter(
-      initialLocation: '/initial_config',
+      initialLocation: '/doctor_code',
       initialExtra: initialRoute.params,
       observers: [
         BotToastNavigatorObserver(),

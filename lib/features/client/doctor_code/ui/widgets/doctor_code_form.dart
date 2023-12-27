@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
@@ -11,75 +12,85 @@ class DoctorCodeForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final keyForm = GlobalKey<FormState>();
 
-    return ScrollFillRemaining(
-      child: PaddingFormColumn(
-        formKey: keyForm,
-        padding: EdgeInsets.zero,
-        children: [
-          Spacer(),
+    return FadeInDown(
+      key: UniqueKey(),
+      from: 40,
+      child: ScrollFillRemaining(
+        child: PaddingFormColumn(
+          formKey: keyForm,
+          padding: EdgeInsets.zero,
+          children: [
+            Spacer(),
 
-          // Image
-          Image.asset('assets/images/doctor.png'),
-          VerticalSpace.large(),
+            // Image
+            Image.asset('assets/images/doctor.png', width: 128, height: 128),
+            VerticalSpace.large(),
 
-          // Title
-          Text(
-            'Ingresa el código de tu nutriólog@',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: context.appColors.textContrast,
-              letterSpacing: -.5,
+            // Title
+            Text(
+              'Ingresa el código de tu nutriólog@',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: context.appColors.textContrast,
+                letterSpacing: -.5,
+              ),
             ),
-          ),
-          VerticalSpace.xxsmall(),
+            VerticalSpace.xxsmall(),
 
-          // Subtitle
-          Text(
-            'Solicita a tu nutriólog@ su código e ingresalo en el campo de abajo',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.grey,
+            // Subtitle
+            Text(
+              'Solicita a tu nutriólog@ su código e ingresalo en el campo de abajo',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.grey,
+              ),
             ),
-          ),
-          VerticalSpace.medium(),
+            VerticalSpace.medium(),
 
-          // Input text
-          InputText(
-            labelText: 'Código',
-            hintText: 'ABCDEFG',
-            textCapitalization: TextCapitalization.characters,
-            textInputAction: TextInputAction.done,
-            prefixIcon: Icon(Icons.abc),
-            onChanged: (value) {
-              context.read<DoctorCodeBloc>().add(ChangeCodeEvent(value));
-            },
-            onFieldSubmitted: (_) {
-              if (!keyForm.currentState!.validate()) return;
-              context.read<DoctorCodeBloc>().add(SaveCodeEvent());
-            },
-            validator: (_) {
-              final code = context.read<DoctorCodeBloc>().state.code;
+            // Input text
+            InputText(
+              labelText: 'Código',
+              hintText: 'ABCDEFG',
+              textCapitalization: TextCapitalization.characters,
+              textInputAction: TextInputAction.done,
+              prefixIcon: Icon(Icons.abc),
+              onChanged: (value) {
+                context.read<DoctorCodeBloc>().add(ChangeCodeEvent(value));
+              },
+              onFieldSubmitted: (_) {
+                if (!keyForm.currentState!.validate()) return;
+                context.read<DoctorCodeBloc>().add(SaveCodeEvent());
+              },
+              validator: (_) {
+                final code = context.read<DoctorCodeBloc>().state.code;
 
-              if (code.isEmpty) return 'Este campo es obligatorio';
+                if (code.isEmpty) return 'Este campo es obligatorio';
 
-              return null;
-            },
-          ),
-          Spacer(),
+                return null;
+              },
+            ),
+            Spacer(),
 
-          // Button
-          PrimaryButton(
-            text: 'Usar código',
-            onPressed: () {
-              if (!keyForm.currentState!.validate()) return;
+            // Button
+            FadeInUp(
+              from: 30,
+              key: UniqueKey(),
+              delay: Duration(milliseconds: 400),
+              duration: Duration(milliseconds: 550),
+              child: PrimaryButton(
+                text: 'Usar código',
+                onPressed: () {
+                  if (!keyForm.currentState!.validate()) return;
 
-              context.read<DoctorCodeBloc>().add(SaveCodeEvent());
-            },
-          ),
-        ],
+                  context.read<DoctorCodeBloc>().add(SaveCodeEvent());
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

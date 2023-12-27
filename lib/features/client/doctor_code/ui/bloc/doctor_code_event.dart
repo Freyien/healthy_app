@@ -7,8 +7,6 @@ sealed class DoctorCodeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetClientEvent extends DoctorCodeEvent {}
-
 class ChangeCodeEvent extends DoctorCodeEvent {
   final String code;
 

@@ -2,39 +2,33 @@ part of 'doctor_code_bloc.dart';
 
 class DoctorCodeState extends Equatable {
   const DoctorCodeState({
-    required this.fetchingStatus,
-    required this.client,
     required this.savingStatus,
     required this.code,
+    required this.failure,
   });
-
-  final FetchingStatus fetchingStatus;
-  final ClientEntity client;
 
   final SavingStatus savingStatus;
   final String code;
+  final Failure failure;
 
   factory DoctorCodeState.initial() => DoctorCodeState(
-        fetchingStatus: FetchingStatus.initial,
-        client: ClientEntity.initial(),
         savingStatus: SavingStatus.initial,
         code: '',
+        failure: NoneFailure(),
       );
 
   DoctorCodeState copyWith({
-    FetchingStatus? fetchingStatus,
-    ClientEntity? client,
     SavingStatus? savingStatus,
     String? code,
+    Failure? failure,
   }) {
     return DoctorCodeState(
-      fetchingStatus: fetchingStatus ?? this.fetchingStatus,
-      client: client ?? this.client,
       savingStatus: savingStatus ?? this.savingStatus,
       code: code ?? this.code,
+      failure: failure ?? this.failure,
     );
   }
 
   @override
-  List<Object> get props => [fetchingStatus, client, savingStatus, code];
+  List<Object> get props => [savingStatus, code, failure];
 }
