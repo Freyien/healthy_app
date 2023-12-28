@@ -7,6 +7,7 @@ import 'package:healthy_app/features/client/dashboard/ui/dashboard_page.dart';
 import 'package:healthy_app/features/client/doctor_code/ui/doctor_code_page.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/eating_plan_page.dart';
 import 'package:healthy_app/features/client/initial_config/ui/initial_config_page.dart';
+import 'package:healthy_app/features/client/personal_info/ui/personal_info_page.dart';
 import 'package:healthy_app/features/client/sign_in/ui/sign_in_page.dart';
 import 'package:healthy_app/features/client/sign_up/ui/sign_up_page.dart';
 import 'package:healthy_app/features/client/water/ui/water_page.dart';
@@ -19,7 +20,7 @@ class AppRouter {
     final initialLocation = RouterUtils.getLocation(initialRoute.name);
 
     final router = GoRouter(
-      initialLocation: '/doctor_code',
+      initialLocation: initialLocation,
       initialExtra: initialRoute.params,
       observers: [
         BotToastNavigatorObserver(),
@@ -64,6 +65,13 @@ class AppRouter {
           path: '/initial_config',
           builder: (context, state) {
             return InitialConfigPage();
+          },
+        ),
+        GoRoute(
+          name: 'personal_info',
+          path: '/personal_info',
+          builder: (context, state) {
+            return PersonalInfoPage();
           },
         ),
         GoRoute(

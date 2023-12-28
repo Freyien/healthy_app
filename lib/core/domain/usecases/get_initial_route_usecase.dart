@@ -35,8 +35,6 @@ class GetInitialRouteUseCase {
     final loggedRoute = await _checkUserIsLoggedIn();
     if (loggedRoute.isValid) return loggedRoute;
 
-    // User has doctor
-
     return InitialRouteEntity(name: InitialRoute.signIn);
   }
 
@@ -79,6 +77,6 @@ class GetInitialRouteUseCase {
     final isUserloggedIn = response.data!;
     if (!isUserloggedIn) return InitialRouteEntity(name: InitialRoute.signIn);
 
-    return InitialRouteEntity(name: InitialRoute.home);
+    return InitialRouteEntity(name: InitialRoute.initialConfig);
   }
 }

@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -45,7 +44,7 @@ Future<void> bootstrap(
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-    FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
+    // FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
 
     await SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,

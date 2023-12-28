@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthy_app/core/data/network/cloud_client.dart';
 import 'package:healthy_app/core/domain/entities/response.dart';
 import 'package:healthy_app/core/domain/failures/failures.dart';
@@ -18,6 +19,7 @@ class InitialConfigRepositoryImpl implements InitialConfigRepository {
 
       return Response.success(client);
     } catch (e) {
+      print(FirebaseAuth.instance.currentUser?.email);
       return Response.failed(UnexpectedFailure());
     }
   }

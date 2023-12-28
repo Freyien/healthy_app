@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
+import 'package:healthy_app/core/ui/utils/keyboard.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/features/client/doctor_code/ui/bloc/doctor_code_bloc.dart';
 
@@ -83,6 +84,7 @@ class DoctorCodeForm extends StatelessWidget {
               child: PrimaryButton(
                 text: 'Usar código',
                 onPressed: () {
+                  Keyboard.close(context);
                   if (!keyForm.currentState!.validate()) return;
 
                   context.read<DoctorCodeBloc>().add(SaveCodeEvent());

@@ -1,44 +1,43 @@
 import 'package:equatable/equatable.dart';
 
 class InitialConfigEntity extends Equatable {
-  final String doctorId;
+  final bool personalInfo;
+  final bool doctorCode;
 
   InitialConfigEntity({
-    required this.doctorId,
+    required this.personalInfo,
+    required this.doctorCode,
   });
 
   factory InitialConfigEntity.initial() => InitialConfigEntity(
-        doctorId: '',
+        personalInfo: false,
+        doctorCode: false,
       );
 
-  NextPage get nextPage {
-    return doctorId.isEmpty //
-        ? NextPage.doctorCode
-        : NextPage.home;
-  }
-
   InitialConfigEntity copyWith({
-    String? doctorId,
+    bool? personalInfo,
+    bool? doctorCode,
   }) {
     return InitialConfigEntity(
-      doctorId: doctorId ?? this.doctorId,
+      personalInfo: personalInfo ?? this.personalInfo,
+      doctorCode: doctorCode ?? this.doctorCode,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'doctorId': doctorId,
+      'personalInfo': personalInfo,
+      'doctorCode': doctorCode,
     };
   }
 
   factory InitialConfigEntity.fromMap(Map<String, dynamic> map) {
     return InitialConfigEntity(
-      doctorId: map['doctorId'] ?? '',
+      personalInfo: map['personalInfo'] ?? false,
+      doctorCode: map['doctorCode'] ?? false,
     );
   }
 
   @override
-  List<Object> get props => [doctorId];
+  List<Object> get props => [personalInfo, doctorCode];
 }
-
-enum NextPage { doctorCode, home }

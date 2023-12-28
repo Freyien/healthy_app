@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
-import 'package:healthy_app/features/client/initial_config/domain/entities/initial_config_entity.dart';
 import 'package:healthy_app/features/client/initial_config/ui/bloc/initial_config_bloc.dart';
 
 class InitialConfigPage extends StatelessWidget {
@@ -51,11 +50,12 @@ class InitialConfigPage extends StatelessWidget {
   void _initialConfigListener(BuildContext context, InitialConfigState state) {
     if (state.fetchingStatus != FetchingStatus.success) return;
 
-    switch (state.initialConfig.nextPage) {
-      case NextPage.doctorCode:
-        return context.goNamed('doctor_code');
-      case NextPage.home:
-        return context.goNamed('home');
-    }
+    if (!state.initialConfig.personalInfo) //
+      return context.goNamed('personal_info');
+
+    if (!state.initialConfig.doctorCode) //
+      return context.goNamed('doctor_code');
+
+    return context.goNamed('home');
   }
 }
