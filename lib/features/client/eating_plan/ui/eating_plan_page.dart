@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
-import 'package:healthy_app/core/extensions/datetime.dart';
-import 'package:healthy_app/core/ui/utils/calendar.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/bloc/eating_plan_bloc.dart';
+import 'package:healthy_app/features/client/eating_plan/ui/widgets/eating_plan_appbar.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/widgets/eating_plan_loading.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/widgets/food_option_pagination.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/widgets/plan_block_title.dart';
@@ -21,65 +20,20 @@ class EatingPlanPage extends StatelessWidget {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Spacer(flex: 2),
-                IconButton(
-                  onPressed: () {
-                    final bloc = context.read<EatingPlanBloc>();
-                    final date = bloc.state.date;
-
-                    bloc.add(GetEatingPlanEvent(date.subtract(Duration(
-                      days: 1,
-                    ))));
-                  },
-                  icon: Icon(Icons.arrow_back_ios),
-                ),
-                BlocBuilder<EatingPlanBloc, EatingPlanState>(
-                  builder: (context, state) {
-                    return Text(state.date.format('MMMMd'));
-                  },
-                ),
-                IconButton(
-                  onPressed: () {
-                    final bloc = context.read<EatingPlanBloc>();
-                    final date = bloc.state.date;
-
-                    bloc.add(GetEatingPlanEvent(date.add(
-                      Duration(days: 1),
-                    )));
-                  },
-                  icon: Icon(Icons.arrow_forward_ios),
-                ),
-                Spacer(flex: 1),
-                IconButton(
-                  onPressed: () {
-                    CalendarUtils.showCalendarDatePicker(
-                      context,
-                      minDate: DateTime(2024),
-                      maxDate: DateTime.now().add(Duration(days: 60)),
-                      onConfirm: (date) {
-                        context
-                            .read<EatingPlanBloc>()
-                            .add(GetEatingPlanEvent(date));
-                      },
-                    );
-                  },
-                  icon: Icon(Icons.calendar_month_outlined),
-                ),
-              ],
-            ),
+            title: EatingPlanAppBarTitle(),
           ),
           body: SafeArea(
             child: BlocBuilder<EatingPlanBloc, EatingPlanState>(
               builder: (context, state) {
+                // Initial
                 if (state.fetchingStatus == FetchingStatus.initial)
                   return EatingPlanLoading();
 
+                // Loading
                 if (state.fetchingStatus == FetchingStatus.loading)
                   return EatingPlanLoading();
 
+                // Failure
                 if (state.fetchingStatus == FetchingStatus.failure)
                   return ErrorFullScreen(onRetry: () {
                     context
@@ -87,6 +41,7 @@ class EatingPlanPage extends StatelessWidget {
                         .add(GetEatingPlanEvent(DateTime.now()));
                   });
 
+                // Empty
                 if (state.eatingPlan.planBlockList.isEmpty)
                   return MessageFullScreen(
                     widthPercent: .4,
@@ -96,6 +51,7 @@ class EatingPlanPage extends StatelessWidget {
                         'No tienes un plan alimenticio para este día, selecciona otro o acércate con tu nutriólogo/a',
                   );
 
+                // Success
                 return ListView.builder(
                   padding: EdgeInsets.all(16),
                   itemCount: state.eatingPlan.planBlockList.length,

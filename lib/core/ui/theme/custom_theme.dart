@@ -69,6 +69,11 @@ class CustomTheme {
               return LightColors.textContrast;
             },
           ),
+          overlayColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+              return DefaultColors.primary.withOpacity(.1);
+            },
+          ),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -167,7 +172,13 @@ class CustomTheme {
               if (states.contains(MaterialState.disabled)) {
                 return DarkColors.textContrast.withOpacity(.3);
               }
+
               return DarkColors.textContrast;
+            },
+          ),
+          overlayColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+              return DefaultColors.primary.withOpacity(.1);
             },
           ),
         ),
