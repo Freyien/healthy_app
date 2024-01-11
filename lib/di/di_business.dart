@@ -14,6 +14,9 @@ import 'package:healthy_app/di/config/remote_config.dart';
 import 'package:healthy_app/features/client/doctor_code/data/doctor_code_repository_impl.dart';
 import 'package:healthy_app/features/client/doctor_code/domain/repositories/doctor_code_repository.dart';
 import 'package:healthy_app/features/client/doctor_code/ui/bloc/doctor_code_bloc.dart';
+import 'package:healthy_app/features/client/eating_plan/data/eating_plan_repository_impl.dart';
+import 'package:healthy_app/features/client/eating_plan/domain/repositories/eating_plan_repository.dart';
+import 'package:healthy_app/features/client/eating_plan/ui/bloc/eating_plan_bloc.dart';
 import 'package:healthy_app/features/client/initial_config/data/initial_config_repository_impl.dart';
 import 'package:healthy_app/features/client/initial_config/domain/repositories/initial_config_repository.dart';
 import 'package:healthy_app/features/client/initial_config/ui/bloc/initial_config_bloc.dart';
@@ -127,6 +130,9 @@ void _registerRepositories() {
   sl.registerLazySingleton<PersonalInfoRepository>(
     () => PersonalInfoRepositoryImpl(sl()),
   );
+  sl.registerLazySingleton<EatingPlanRepository>(
+    () => EatingPlanRepositoryImpl(sl()),
+  );
 }
 
 // Blocs
@@ -138,6 +144,7 @@ void _registerBlocs() {
   sl.registerFactory(() => DoctorCodeBloc(sl()));
   sl.registerFactory(() => InitialConfigBloc(sl()));
   sl.registerFactory(() => PersonalInfoBloc(sl()));
+  sl.registerFactory(() => EatingPlanBloc(sl()));
 }
 
 // Use cases

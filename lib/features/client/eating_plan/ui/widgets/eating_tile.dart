@@ -1,95 +1,117 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
-import 'package:healthy_app/core/ui/widgets/horizontal_space.dart';
+import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
+import 'package:healthy_app/features/client/eating_plan/domain/entities/food_option_entity.dart';
+import 'package:healthy_app/features/client/eating_plan/ui/widgets/food_portion.dart';
 
 class EatingTile extends StatelessWidget {
   const EatingTile({
     super.key,
-    required this.calories,
-    required this.name,
-    required this.pathImage,
-    required this.portion,
+    required this.foodOption,
+    required this.onChanged,
+    required this.checked,
+    required this.dotsLength,
+    required this.activeDotIndex,
   });
 
-  final String calories;
-  final String name;
-  final String pathImage;
-  final String portion;
+  final FoodOptionEntity foodOption;
+  final Function(bool?) onChanged;
+  final bool checked;
+  final int dotsLength;
+  final int activeDotIndex;
 
   @override
   Widget build(BuildContext context) {
-    final appColor = context.appColors;
+    final appColors = context.appColors;
 
-    return Slidable(
-      key: key,
-      startActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        extentRatio: .5,
-        openThreshold: .1,
-        dragDismissible: true,
+    return CheckboxListTile.adaptive(
+      value: checked,
+      onChanged: onChanged,
+      activeColor: appColors.primary,
+      secondary: Column(
         children: [
-          SlidableAction(
-            onPressed: (_) {},
-            backgroundColor: appColor.primary!,
-            foregroundColor: Colors.white,
-            icon: Icons.sync,
-            label: 'Cambiar',
+          // Image
+          CachedNetworkImage(
+            imageUrl: foodOption.imageUrl,
+            width: 30,
+            height: 30,
+            placeholder: (context, url) {
+              return Container(
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                  color: appColors.loadingBackground,
+                  shape: BoxShape.circle,
+                ),
+              );
+            },
           ),
+          VerticalSpace.xsmall(),
+
+          // Dots
+          if (dotsLength > 1)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(
+                dotsLength,
+                (dotIndex) {
+                  final isActive = dotIndex == activeDotIndex;
+
+                  return Container(
+                    height: 6,
+                    width: 6,
+                    margin: EdgeInsets.only(right: 3),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color:
+                          isActive ? context.appColors.primary! : Colors.grey,
+                    ),
+                  );
+                },
+              ),
+            ),
         ],
       ),
-      child: InkWell(
-        onTap: () {},
-        child: Container(
-          padding: EdgeInsets.only(top: 4, bottom: 4, left: 4, right: 0),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: appColor.border!.withOpacity(.2),
+      title: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Name
+          Flexible(
+            child: Text(
+              foodOption.name,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: appColors.textContrast,
+                fontSize: 14,
               ),
             ),
           ),
-          child: Row(
-            children: [
-              // Image
-              Image.asset(
-                pathImage,
-                width: 25,
-                height: 25,
+
+          HorizontalSpace.small(),
+
+          // Portion
+          if (foodOption.comment.isNotEmpty) FoodPortion(food: foodOption)
+        ],
+      ),
+      subtitle: foodOption.comment.isNotEmpty
+          ? Text(
+              foodOption.comment,
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
               ),
-              HorizontalSpace.xxlarge(),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Name
-                    Text(
-                      name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    // Portion
-                    Text(
-                      portion,
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
-              // Calories
-              Text(
-                calories,
-                style: TextStyle(color: Colors.grey),
-              ),
-              CupertinoCheckbox(
-                value: true,
-                onChanged: (_) {},
-                activeColor: context.appColors.primary,
-              ),
-            ],
-          ),
+            )
+          : FoodPortion(food: foodOption),
+      contentPadding: EdgeInsets.symmetric(horizontal: 0),
+      dense: true,
+      controlAffinity: ListTileControlAffinity.trailing,
+      shape: Border(
+        bottom: BorderSide(
+          color: appColors.border!.withOpacity(.5),
         ),
       ),
     );

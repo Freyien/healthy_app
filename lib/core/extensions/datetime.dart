@@ -37,4 +37,7 @@ extension DateTimeExtensions on DateTime {
         millisecond,
         microsecond,
       );
+
+  DateTime removeTime() =>
+      DateTime(this.year, this.month, this.day, 0, 0, 0, 0);
 }

@@ -28,6 +28,7 @@ dependencies:
   device_info_plus: ^9.0.3
   dio: ^5.1.1
   equatable: ^2.0.5
+  expandable_page_view: ^1.0.17
   firebase_analytics: ^10.4.5
   firebase_auth: ^4.7.0
   firebase_core: ^2.15.0

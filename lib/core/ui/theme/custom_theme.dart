@@ -56,6 +56,21 @@ class CustomTheme {
       cardTheme: CardTheme(
         color: Colors.white,
       ),
+      listTileTheme: ListTileThemeData(
+        iconColor: LightColors.textContrast,
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+              if (states.contains(MaterialState.disabled)) {
+                return LightColors.textContrast.withOpacity(.3);
+              }
+              return LightColors.textContrast;
+            },
+          ),
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -108,6 +123,7 @@ class CustomTheme {
           fontSize: 20,
           fontWeight: FontWeight.w500,
         ),
+        // surfaceTintColor: Colors.transparent,
       ),
       inputDecorationTheme: InputDecorationTheme(
         fillColor: DarkColors.input,
@@ -140,6 +156,21 @@ class CustomTheme {
       ),
       cardTheme: CardTheme(
         color: DefaultColors.darkCharcoal,
+      ),
+      listTileTheme: ListTileThemeData(
+        iconColor: DarkColors.textContrast,
+      ),
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+              if (states.contains(MaterialState.disabled)) {
+                return DarkColors.textContrast.withOpacity(.3);
+              }
+              return DarkColors.textContrast;
+            },
+          ),
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
