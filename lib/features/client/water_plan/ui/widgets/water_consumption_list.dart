@@ -45,7 +45,7 @@ class _EmptyList extends StatelessWidget {
           return Column(
             children: [
               // Animation
-              FadeInLeft(
+              FadeInDown(
                 from: 30,
                 child: Container(
                   // width: constraints.maxWidth * .7,

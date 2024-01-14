@@ -12,6 +12,7 @@ import 'package:healthy_app/features/client/water_plan/ui/widgets/water_consumpt
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_consumption_title.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_container.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_loading.dart';
+import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_appbar.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_buttons.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_header.dart';
 
@@ -25,13 +26,7 @@ class WaterPlanPage extends StatelessWidget {
           sl<WaterPlanBloc>()..add(GetWaterPlanEvent(DateTime.now())),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('24 Octubre 2023'),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.calendar_month_outlined),
-            ),
-          ],
+          title: WaterPlanAppBarTitle(),
         ),
         body: Builder(builder: (context) {
           return SafeArea(
