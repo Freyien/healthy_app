@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
+import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_button.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class WaterPlanButtons extends StatelessWidget {
   const WaterPlanButtons({super.key});
@@ -38,9 +41,7 @@ class WaterPlanButtons extends StatelessWidget {
             ),
             WaterButton(
               width: buttonWidth,
-              onPressed: () {
-                context.read<WaterPlanBloc>().add(AddWaterConsumptionEvent(0));
-              },
+              onPressed: () => _showDialog(context),
               imageName: 'gota-de-agua',
               text: 'otro',
             ),
@@ -52,5 +53,110 @@ class WaterPlanButtons extends StatelessWidget {
 
   void _addWaterConsumption(BuildContext context, int quantity) {
     context.read<WaterPlanBloc>().add(AddWaterConsumptionEvent(quantity));
+  }
+
+  void _showDialog(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: context.appColors.scaffold,
+        isDismissible: true,
+        builder: (contextModal) {
+          return _Dialog(
+            onPressed: (quantity) => _addWaterConsumption(context, quantity),
+          );
+        });
+  }
+}
+
+class _Dialog extends StatelessWidget {
+  const _Dialog({required this.onPressed});
+
+  final Function(int quantity) onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+    final mask = MaskTextInputFormatter(
+      mask: '####',
+      filter: {"#": RegExp(r'^[\.0-9]*$')},
+    );
+
+    return PaddingFormColumn(
+      mainAxisSize: MainAxisSize.min,
+      formKey: formKey,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              padding: EdgeInsetsDirectional.all(0),
+              height: 30,
+              width: 30,
+              decoration: BoxDecoration(
+                color: Colors.grey[800],
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(Icons.close, size: 20),
+                padding: EdgeInsetsDirectional.all(0),
+              ),
+            ),
+            Spacer(flex: 3),
+            Text(
+              'Personalizado',
+              style: Theme.of(context).appBarTheme.titleTextStyle,
+            ),
+            Spacer(flex: 4),
+          ],
+        ),
+        VerticalSpace.xlarge(),
+        InputText(
+          labelText: 'Agua',
+          hintText: 'Cantidad de agua',
+          inputFormatters: [mask],
+          autofocus: true,
+          keyboardType: TextInputType.number,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Image.asset(
+              'assets/images/gota-de-agua.png',
+              width: 24,
+              height: 24,
+            ),
+          ),
+          suffixIcon: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('mls'),
+            ],
+          ),
+          validator: (val) {
+            final value = val ?? '';
+            if (value.isEmpty) return 'Este campo es obligatorio';
+
+            if (value == '0') return 'Este campo debe ser mayor a 0';
+
+            return null;
+          },
+        ),
+        Text('*Ingresa la cantidad en mililitros'),
+        VerticalSpace.xlarge(),
+        PrimaryButton(
+          text: 'Aceptar',
+          onPressed: () {
+            if (!formKey.currentState!.validate()) return;
+
+            final quantity = int.tryParse(mask.getUnmaskedText()) ?? 0;
+
+            onPressed(quantity);
+
+            Navigator.pop(context);
+          },
+        ),
+        VerticalSpace.large(),
+      ],
+    );
   }
 }

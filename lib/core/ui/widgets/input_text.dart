@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 
 class InputText extends StatelessWidget {
@@ -28,6 +29,7 @@ class InputText extends StatelessWidget {
     this.readOnly = false,
     this.autofocus = false,
     this.onFieldSubmitted,
+    this.inputFormatters,
   });
 
   final String labelText;
@@ -54,6 +56,7 @@ class InputText extends StatelessWidget {
   final bool readOnly;
   final bool autofocus;
   final Function(String)? onFieldSubmitted;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +91,7 @@ class InputText extends StatelessWidget {
               textCapitalization: textCapitalization,
               onTap: onTap,
               readOnly: readOnly,
+              inputFormatters: inputFormatters,
               decoration: InputDecoration(
                 contentPadding: contentPadding,
                 fillColor: fillColor,
