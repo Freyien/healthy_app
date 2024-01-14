@@ -22,11 +22,10 @@ class MessageFullScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final appColors = context.appColors;
 
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return Column(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return ScrollFillRemaining(
+          child: Column(
             children: [
               Spacer(),
 
@@ -76,9 +75,9 @@ class MessageFullScreen extends StatelessWidget {
               Spacer(),
               VerticalSpace.medium(),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

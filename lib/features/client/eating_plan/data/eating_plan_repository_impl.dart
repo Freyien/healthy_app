@@ -37,9 +37,8 @@ class EatingPlanRepositoryImpl implements EatingPlanRepository {
     bool checked,
   ) async {
     try {
-      await _client.get(
+      await _client.post(
         'checkFoodOption',
-        useCache: false,
         parameters: {
           'foodCheckedId': foodCheckedId,
           'foodBlockId': foodBlock.id,

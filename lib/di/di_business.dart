@@ -29,6 +29,9 @@ import 'package:healthy_app/features/client/sign_in/ui/bloc/sign_in_bloc.dart';
 import 'package:healthy_app/features/client/sign_up/data/sign_up_repository_impl.dart';
 import 'package:healthy_app/features/client/sign_up/domain/repositories/sign_up_repository.dart';
 import 'package:healthy_app/features/client/sign_up/ui/bloc/sign_up_bloc.dart';
+import 'package:healthy_app/features/client/water_plan/data/water_plan_repository_impl.dart';
+import 'package:healthy_app/features/client/water_plan/domain/repositories/water_plan_repository.dart';
+import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
 import 'package:healthy_app/features/common/analytics/data/analytics_repository_impl.dart';
 import 'package:healthy_app/features/common/analytics/domain/repositories/analytics_repository.dart';
 import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
@@ -133,6 +136,9 @@ void _registerRepositories() {
   sl.registerLazySingleton<EatingPlanRepository>(
     () => EatingPlanRepositoryImpl(sl()),
   );
+  sl.registerLazySingleton<WaterPlanRepository>(
+    () => WaterPlanRepositoryImpl(sl()),
+  );
 }
 
 // Blocs
@@ -145,6 +151,7 @@ void _registerBlocs() {
   sl.registerFactory(() => InitialConfigBloc(sl()));
   sl.registerFactory(() => PersonalInfoBloc(sl()));
   sl.registerFactory(() => EatingPlanBloc(sl()));
+  sl.registerFactory(() => WaterPlanBloc(sl()));
 }
 
 // Use cases

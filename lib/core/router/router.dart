@@ -10,7 +10,7 @@ import 'package:healthy_app/features/client/initial_config/ui/initial_config_pag
 import 'package:healthy_app/features/client/personal_info/ui/personal_info_page.dart';
 import 'package:healthy_app/features/client/sign_in/ui/sign_in_page.dart';
 import 'package:healthy_app/features/client/sign_up/ui/sign_up_page.dart';
-import 'package:healthy_app/features/client/water/ui/water_page.dart';
+import 'package:healthy_app/features/client/water_plan/ui/water_plan_page.dart';
 import 'package:healthy_app/features/common/app_update/domain/entities/app_version_status.dart';
 import 'package:healthy_app/features/common/app_update/ui/app_update_page.dart';
 import 'package:healthy_app/features/common/notifications/ui/notifications_page.dart';
@@ -101,10 +101,10 @@ class AppRouter {
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  name: 'water',
-                  path: '/water',
+                  name: 'water_plan',
+                  path: '/water_plan',
                   builder: (context, state) {
-                    return WaterPage();
+                    return WaterPlanPage();
                   },
                 ),
               ],

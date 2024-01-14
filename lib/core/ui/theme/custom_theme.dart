@@ -76,16 +76,7 @@ class CustomTheme {
           ),
         ),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (states) => DefaultColors.primary,
-          ),
-          foregroundColor: MaterialStateProperty.resolveWith<Color>(
-            (states) => Colors.white,
-          ),
-        ),
-      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(),
       extensions: <ThemeExtension<dynamic>>[
         AppColors(
           primary: DefaultColors.primary,
@@ -183,16 +174,7 @@ class CustomTheme {
           ),
         ),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (states) => DefaultColors.primary,
-          ),
-          foregroundColor: MaterialStateProperty.resolveWith<Color>(
-            (states) => Colors.white,
-          ),
-        ),
-      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(),
       extensions: <ThemeExtension<dynamic>>[
         AppColors(
           primary: DefaultColors.primary,

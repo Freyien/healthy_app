@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
@@ -20,6 +21,8 @@ class PrimaryButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         elevation: 0,
+        backgroundColor: context.appColors.primary,
+        foregroundColor: Colors.white,
       ),
       child: Text(text),
     );

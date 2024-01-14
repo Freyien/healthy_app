@@ -36,9 +36,8 @@ class EatingPlanPage extends StatelessWidget {
                 // Failure
                 if (state.fetchingStatus == FetchingStatus.failure)
                   return ErrorFullScreen(onRetry: () {
-                    context
-                        .read<EatingPlanBloc>()
-                        .add(GetEatingPlanEvent(DateTime.now()));
+                    final bloc = context.read<EatingPlanBloc>();
+                    bloc.add(GetEatingPlanEvent(bloc.state.date));
                   });
 
                 // Empty
