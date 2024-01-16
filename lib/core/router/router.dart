@@ -1,5 +1,4 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/core/domain/utils/router_utils.dart';
@@ -7,6 +6,7 @@ import 'package:healthy_app/features/client/dashboard/ui/dashboard_page.dart';
 import 'package:healthy_app/features/client/doctor_code/ui/doctor_code_page.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/eating_plan_page.dart';
 import 'package:healthy_app/features/client/initial_config/ui/initial_config_page.dart';
+import 'package:healthy_app/features/client/measures_chart/ui/measures_chart_page.dart';
 import 'package:healthy_app/features/client/personal_info/ui/personal_info_page.dart';
 import 'package:healthy_app/features/client/sign_in/ui/sign_in_page.dart';
 import 'package:healthy_app/features/client/sign_up/ui/sign_up_page.dart';
@@ -94,7 +94,6 @@ class AppRouter {
                   builder: (context, state) {
                     return EatingPlanPage();
                   },
-                  routes: [],
                 ),
               ],
             ),
@@ -112,35 +111,11 @@ class AppRouter {
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  name: 'my_qr_code',
-                  path: '/my_qr_code',
+                  name: 'measures_chart',
+                  path: '/measures_chart',
                   builder: (context, state) {
-                    return Scaffold();
+                    return MeasuresChartPage();
                   },
-                )
-              ],
-            ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  name: 'offers',
-                  path: '/offers',
-                  builder: (context, state) {
-                    return Scaffold();
-                  },
-                  routes: [],
-                )
-              ],
-            ),
-            StatefulShellBranch(
-              routes: [
-                GoRoute(
-                  name: 'account',
-                  path: '/account',
-                  builder: (context, state) {
-                    return Scaffold();
-                  },
-                  routes: [],
                 ),
               ],
             ),

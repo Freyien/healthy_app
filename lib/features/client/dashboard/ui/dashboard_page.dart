@@ -33,7 +33,7 @@ class DashboardPage extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bar_chart_rounded),
-              label: "Avance",
+              label: "Medidas",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),

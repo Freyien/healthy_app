@@ -54,7 +54,7 @@ class WaterPlanRepositoryImpl implements WaterPlanRepository {
   @override
   Future<Response<void>> deleteWaterConsumption(String id) async {
     try {
-      final result = await _client.post(
+      await _client.post(
         'deleteWaterConsumption',
         parameters: {
           'id': id,
