@@ -16,7 +16,7 @@ class ScrollFillRemaining extends StatelessWidget {
           Keyboard.close(context);
         },
         child: CustomScrollView(
-          physics: const ClampingScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,
