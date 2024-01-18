@@ -68,10 +68,10 @@ android {
     signingConfigs {
         if (System.getenv("CI")) {
             release {
-                storeFile file(System.getenv("ANDROID_KEYSTORE_PATH"))
-                keyAlias System.getenv("ANDROID_KEYSTORE_ALIAS")
-                keyPassword System.getenv("ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
-                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                storeFile file(System.getenv("CM_KEYSTORE_PATH"))
+                keyAlias System.getenv("CM_KEY_ALIAS")
+                keyPassword System.getenv("CM_KEY_PASSWORD")
+                storePassword System.getenv("CM_KEYSTORE_PASSWORD")
             }
         } else {
             release {
