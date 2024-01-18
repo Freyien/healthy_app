@@ -25,6 +25,7 @@ class MessageFullScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return ScrollFillRemaining(
+          padding: EdgeInsetsDirectional.all(24),
           child: Column(
             children: [
               Spacer(),

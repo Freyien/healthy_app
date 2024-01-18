@@ -18,16 +18,20 @@ class MeasureChartDataEntity extends Equatable {
 
   int get minElementValue {
     final initialValue = elementList.first.value;
-    return elementList.fold(
+    final minValue = elementList.fold(
         initialValue, (min, e) => e.value > min ? min : e.value);
+
+    return minValue.floor();
   }
 
   int get maxElementValue {
     final initialValue = elementList.first.value;
-    return elementList.fold(
+    final maxValue = elementList.fold(
       initialValue,
       (max, e) => e.value >= max ? e.value : max,
     );
+
+    return maxValue.ceil();
   }
 
   MeasureChartDataEntity copyWith({

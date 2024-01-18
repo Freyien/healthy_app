@@ -6,7 +6,7 @@ class MeasureEntity extends Equatable {
   final String key;
   final String measure;
   final String text;
-  final int value;
+  final num value;
 
   const MeasureEntity({
     required this.id,
@@ -23,7 +23,7 @@ class MeasureEntity extends Equatable {
     String? key,
     String? measure,
     String? text,
-    int? value,
+    num? value,
   }) {
     return MeasureEntity(
       id: id ?? this.id,
@@ -53,7 +53,7 @@ class MeasureEntity extends Equatable {
       key: map['key'] as String,
       measure: map['measure'] as String,
       text: map['text'] as String,
-      value: map['value'] as int,
+      value: map['value'] as num,
     );
   }
 

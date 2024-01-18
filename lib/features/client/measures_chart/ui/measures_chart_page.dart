@@ -40,6 +40,15 @@ class MeasuresChartPage extends StatelessWidget {
                         .add(GetMeasureConsultationEvent());
                   });
 
+                if (state.chartDataList.isEmpty)
+                  return MessageFullScreen(
+                    widthPercent: .4,
+                    animationName: 'empty',
+                    title: 'No hay medidas disponibles',
+                    subtitle:
+                        'No tienes medidas registradas, acércate con tu nutriólogo/a',
+                  );
+
                 // ListView.custom(childrenDelegate: childrenDelegate);
 
                 return ListView.builder(

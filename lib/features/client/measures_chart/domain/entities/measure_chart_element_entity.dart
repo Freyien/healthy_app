@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class MeasureChartElementEntity extends Equatable {
-  final int value;
+  final num value;
   final DateTime date;
 
   const MeasureChartElementEntity({
@@ -10,7 +10,7 @@ class MeasureChartElementEntity extends Equatable {
   });
 
   MeasureChartElementEntity copyWith({
-    int? value,
+    num? value,
     DateTime? date,
   }) {
     return MeasureChartElementEntity(

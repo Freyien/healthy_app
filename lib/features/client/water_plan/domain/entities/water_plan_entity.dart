@@ -63,7 +63,7 @@ class WaterPlanEntity extends Equatable {
 
     return WaterPlanEntity(
       id: map['id'] as String,
-      water: map['water'],
+      water: ((map['water'] * 1000) as num).toInt(),
       waterConsumptionList: List<WaterConsumptionEntity>.from(
         (map['waterConsumptionList']).map<WaterConsumptionEntity>(
           (x) => WaterConsumptionEntity.fromMap(

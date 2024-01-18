@@ -63,13 +63,14 @@ class WaterPlanPage extends StatelessWidget {
                         bloc.add(GetWaterPlanEvent(bloc.state.date));
                       });
 
+                    // Empty
                     if (state.waterPlan.id.isEmpty)
                       return MessageFullScreen(
                         widthPercent: .4,
                         animationName: 'empty',
                         title: 'No hay plan disponible',
                         subtitle:
-                            'No tienes un plan alimenticio para este día, selecciona otro o acércate con tu nutriólogo/a',
+                            'No tienes un plan de hidratación para este día, selecciona otro o acércate con tu nutriólogo/a',
                       );
 
                     // Success

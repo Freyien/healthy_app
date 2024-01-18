@@ -50,7 +50,7 @@ class EatingPlanEntity extends Equatable {
 
     return EatingPlanEntity(
       id: map['id'] as String,
-      water: num.tryParse(map['water']) ?? 0,
+      water: map['water'],
       planBlockList: List<PlanBlockEntity>.from(
         map['foodBlockList'].map(
           (x) => PlanBlockEntity.fromMap(
