@@ -154,7 +154,6 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				54BA9E85B20C51E55A74F1BA /* [CP] Embed Pods Frameworks */,
-				B89D72A5B20BE2E72E704CCD /* [CP] Copy Pods Resources */,
 				30F594A195F11BFD161A2163 /* [firebase_crashlytics] Crashlytics Upload Symbols */,
 			);
 			buildRules = (
@@ -308,23 +307,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
 		};
-		B89D72A5B20BE2E72E704CCD /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -427,7 +409,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.freyien.healthy.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REVERSED_CLIENT_ID = "com.googleusercontent.apps.507111859430-bcn9q6guamnatal2e0oe9q84jifop32p";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.507111859430-6p876dg0nrl53mskej462ito3s6mvato";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -560,7 +542,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.freyien.healthy.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REVERSED_CLIENT_ID = "com.googleusercontent.apps.507111859430-bcn9q6guamnatal2e0oe9q84jifop32p";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.507111859430-6p876dg0nrl53mskej462ito3s6mvato";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -585,7 +567,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.freyien.healthy.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REVERSED_CLIENT_ID = "com.googleusercontent.apps.507111859430-bcn9q6guamnatal2e0oe9q84jifop32p";
+				REVERSED_CLIENT_ID = "com.googleusercontent.apps.507111859430-6p876dg0nrl53mskej462ito3s6mvato";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
