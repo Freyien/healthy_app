@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/utils/keyboard.dart';
 import 'package:healthy_app/core/ui/widgets/circle_icon_button.dart';
 import 'package:healthy_app/core/ui/widgets/input_text.dart';
+import 'package:healthy_app/core/ui/widgets/primary_button.dart';
 import 'package:healthy_app/core/ui/widgets/vertical_space.dart';
 import 'package:healthy_app/features/client/sign_in/domain/entities/entities.dart';
 import 'package:healthy_app/features/client/sign_in/ui/bloc/sign_in_bloc.dart';
@@ -26,30 +26,22 @@ class SignInForm extends StatelessWidget {
 
           // Password input
           const _PasswordInput(),
-          VerticalSpace.xxxlarge(),
+          VerticalSpace.small(),
 
-          // Sign in button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                Keyboard.close(context);
-                if (!key.currentState!.validate()) {
-                  return;
-                }
+          PrimaryButton(
+            text: 'Iniciar sesión',
+            onPressed: () {
+              Keyboard.close(context);
+              if (!key.currentState!.validate()) {
+                return;
+              }
 
-                context
-                    .read<AnalyticsBloc>()
-                    .add(LogEvent('signInButtonPressed'));
+              context
+                  .read<AnalyticsBloc>()
+                  .add(LogEvent('signInButtonPressed'));
 
-                context.read<SignInBloc>().add(const SignInwithEmailEvent());
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 45),
-                backgroundColor: context.appColors.primary,
-              ),
-              child: Text('Iniciar sesión'),
-            ),
+              context.read<SignInBloc>().add(const SignInwithEmailEvent());
+            },
           ),
         ],
       ),

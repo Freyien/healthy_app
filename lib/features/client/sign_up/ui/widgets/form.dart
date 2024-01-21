@@ -5,6 +5,7 @@ import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/utils/keyboard.dart';
 import 'package:healthy_app/core/ui/widgets/circle_icon_button.dart';
 import 'package:healthy_app/core/ui/widgets/input_text.dart';
+import 'package:healthy_app/core/ui/widgets/primary_button.dart';
 import 'package:healthy_app/core/ui/widgets/vertical_space.dart';
 import 'package:healthy_app/features/client/sign_up/domain/entities/entities.dart';
 import 'package:healthy_app/features/client/sign_up/ui/bloc/sign_up_bloc.dart';
@@ -27,30 +28,22 @@ class SignUpForm extends StatelessWidget {
 
           // Password input
           const _PasswordInput(),
-          VerticalSpace.xxxlarge(),
+          VerticalSpace.small(),
 
-          // Sign in button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                Keyboard.close(context);
-                if (!key.currentState!.validate()) {
-                  return;
-                }
+          PrimaryButton(
+            text: 'Crear cuenta',
+            onPressed: () {
+              Keyboard.close(context);
+              if (!key.currentState!.validate()) {
+                return;
+              }
 
-                context
-                    .read<AnalyticsBloc>()
-                    .add(LogEvent('SignUpButtonPressed'));
+              context
+                  .read<AnalyticsBloc>()
+                  .add(LogEvent('SignUpButtonPressed'));
 
-                context.read<SignUpBloc>().add(const SignUpwithEmailEvent());
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 45),
-                backgroundColor: appColors.primary,
-              ),
-              child: Text('Crear cuenta'),
-            ),
+              context.read<SignUpBloc>().add(const SignUpwithEmailEvent());
+            },
           ),
         ],
       ),
