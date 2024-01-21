@@ -157,10 +157,3 @@ class MeasuresChartPage extends StatelessWidget {
     );
   }
 }
-
-class _ChartData {
-  _ChartData(this.x, this.y, this.y2);
-  final DateTime x;
-  final double y;
-  final double y2;
-}

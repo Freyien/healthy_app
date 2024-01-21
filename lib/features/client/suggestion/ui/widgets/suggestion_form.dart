@@ -17,7 +17,7 @@ class SuggestionForm extends StatelessWidget {
       child: Column(
         children: [
           InputText(
-            maxLines: 10,
+            maxLines: 7,
             hintText: 'Escribe tu sugerencia aquí',
             textInputAction: TextInputAction.done,
             maxLength: 500,

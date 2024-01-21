@@ -130,7 +130,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
     final savedToken = _prefs.get('notificationToken');
     if (savedToken.toString() == token) return;
 
-    await Future.delayed(Duration(milliseconds: 3500));
+    // await Future.delayed(Duration(milliseconds: 3500));
 
     // Save token in server
     await _functions.httpsCallable('saveNotificationToken').call({

@@ -39,7 +39,7 @@ class GetInitialRouteUseCase {
   }
 
   Future<InitialRouteEntity> _checkNotificationPermission() async {
-    final res = await _notificationRepository.checkNotificationPermission();
+    final res = await _notificationRepository.requestPermission();
 
     if (res.isFailed) return InitialRouteEntity();
     final authorizationStatus = res.data!;

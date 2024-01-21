@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/features/common/notifications/ui/bloc/notification_bloc.dart';
 
 import 'account_option.dart';
@@ -64,16 +65,23 @@ class _NotificationOptionState extends State<NotificationOption>
           iconWidget: Stack(
             children: [
               Icon(Icons.notifications),
-              FadeInDown(
-                from: 10,
-                delay: Duration(microseconds: 250),
-                child: CircleAvatar(
-                  maxRadius: 6,
-                  backgroundColor: Colors.red,
-                  child: Text(
-                    '1',
-                    style: TextStyle(
-                      color: Colors.white,
+              Positioned(
+                right: 0,
+                top: -5,
+                child: FadeInDown(
+                  from: 10,
+                  delay: Duration(microseconds: 250),
+                  child: Container(
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: context.appColors.primary,
+                    ),
+                    child: Text(
+                      '1',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),

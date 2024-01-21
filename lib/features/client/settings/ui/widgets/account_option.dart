@@ -26,7 +26,11 @@ class AccountOption extends StatelessWidget {
     final appColors = context.appColors;
     Widget? subtitleWidget;
 
-    if (subtitle.isNotEmpty) subtitleWidget = Text(subtitle);
+    if (subtitle.isNotEmpty)
+      subtitleWidget = Text(
+        subtitle,
+        style: TextStyle(color: appColors.textContrast),
+      );
 
     return Container(
       margin: EdgeInsets.only(bottom: 12),

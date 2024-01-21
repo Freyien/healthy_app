@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/utils/keyboard.dart';
 import 'package:healthy_app/core/ui/widgets/circle_icon_button.dart';
 import 'package:healthy_app/core/ui/widgets/input_text.dart';
@@ -16,7 +15,6 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appColors = context.appColors;
     final key = GlobalKey<FormState>();
 
     return Form(
