@@ -10,6 +10,7 @@ import 'package:healthy_app/features/client/measures_chart/ui/measures_chart_pag
 import 'package:healthy_app/features/client/personal_info/ui/personal_info_page.dart';
 import 'package:healthy_app/features/client/sign_in/ui/sign_in_page.dart';
 import 'package:healthy_app/features/client/sign_up/ui/sign_up_page.dart';
+import 'package:healthy_app/features/client/suggestion/ui/suggestion_page.dart';
 import 'package:healthy_app/features/client/water_plan/ui/water_plan_page.dart';
 import 'package:healthy_app/features/common/app_update/domain/entities/app_version_status.dart';
 import 'package:healthy_app/features/common/app_update/ui/app_update_page.dart';
@@ -116,6 +117,26 @@ class AppRouter {
                   builder: (context, state) {
                     return MeasuresChartPage();
                   },
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  name: 'account',
+                  path: '/account',
+                  builder: (context, state) {
+                    return MeasuresChartPage();
+                  },
+                  routes: [
+                    GoRoute(
+                      name: 'suggestion',
+                      path: 'suggestion',
+                      builder: (context, state) {
+                        return SuggestionPage();
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
