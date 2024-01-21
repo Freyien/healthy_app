@@ -30,8 +30,11 @@ class WaterPlanAppBarTitle extends StatelessWidget {
             builder: (context, state) {
               return TextButton(
                 onPressed: () {
+                  final bloc = context.read<WaterPlanBloc>();
+
                   CalendarUtils.showCalendarDatePicker(
                     context,
+                    initialDate: bloc.state.date,
                     minDate: DateTime(2024),
                     maxDate: DateTime.now().add(Duration(days: 60)),
                     onConfirm: (date) {
@@ -64,8 +67,11 @@ class WaterPlanAppBarTitle extends StatelessWidget {
           Spacer(flex: 1),
           IconButton(
             onPressed: () {
+              final bloc = context.read<WaterPlanBloc>();
+
               CalendarUtils.showCalendarDatePicker(
                 context,
+                initialDate: bloc.state.date,
                 minDate: DateTime(2024),
                 maxDate: DateTime.now().add(Duration(days: 60)),
                 onConfirm: (date) {

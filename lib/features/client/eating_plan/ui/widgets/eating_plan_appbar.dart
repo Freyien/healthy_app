@@ -30,14 +30,15 @@ class EatingPlanAppBarTitle extends StatelessWidget {
             builder: (context, state) {
               return TextButton(
                 onPressed: () {
+                  final bloc = context.read<EatingPlanBloc>();
+
                   CalendarUtils.showCalendarDatePicker(
                     context,
                     minDate: DateTime(2024),
                     maxDate: DateTime.now().add(Duration(days: 60)),
+                    initialDate: bloc.state.date,
                     onConfirm: (date) {
-                      context
-                          .read<EatingPlanBloc>()
-                          .add(GetEatingPlanEvent(date));
+                      bloc.add(GetEatingPlanEvent(date));
                     },
                   );
                 },
@@ -64,12 +65,15 @@ class EatingPlanAppBarTitle extends StatelessWidget {
           Spacer(flex: 1),
           IconButton(
             onPressed: () {
+              final bloc = context.read<EatingPlanBloc>();
+
               CalendarUtils.showCalendarDatePicker(
                 context,
                 minDate: DateTime(2024),
                 maxDate: DateTime.now().add(Duration(days: 60)),
+                initialDate: bloc.state.date,
                 onConfirm: (date) {
-                  context.read<EatingPlanBloc>().add(GetEatingPlanEvent(date));
+                  bloc.add(GetEatingPlanEvent(date));
                 },
               );
             },
