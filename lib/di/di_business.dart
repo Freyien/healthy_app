@@ -26,12 +26,18 @@ import 'package:healthy_app/features/client/measures_chart/ui/bloc/measure_bloc.
 import 'package:healthy_app/features/client/personal_info/data/personal_info_repository_impl.dart';
 import 'package:healthy_app/features/client/personal_info/domain/repositories/personal_info_repository.dart';
 import 'package:healthy_app/features/client/personal_info/ui/bloc/personal_info_bloc.dart';
+import 'package:healthy_app/features/client/settings/data/settings_repository_impl.dart';
+import 'package:healthy_app/features/client/settings/domain/repositories/settings_repository.dart';
+import 'package:healthy_app/features/client/settings/ui/bloc/settings_bloc.dart';
 import 'package:healthy_app/features/client/sign_in/data/sign_in_repository_impl.dart';
 import 'package:healthy_app/features/client/sign_in/domain/repositories/sign_in_repository.dart';
 import 'package:healthy_app/features/client/sign_in/ui/bloc/sign_in_bloc.dart';
 import 'package:healthy_app/features/client/sign_up/data/sign_up_repository_impl.dart';
 import 'package:healthy_app/features/client/sign_up/domain/repositories/sign_up_repository.dart';
 import 'package:healthy_app/features/client/sign_up/ui/bloc/sign_up_bloc.dart';
+import 'package:healthy_app/features/client/suggestion/data/suggestion_repository_impl.dart';
+import 'package:healthy_app/features/client/suggestion/domain/repositories/suggestion_repository.dart';
+import 'package:healthy_app/features/client/suggestion/ui/bloc/suggestion_bloc.dart';
 import 'package:healthy_app/features/client/water_plan/data/water_plan_repository_impl.dart';
 import 'package:healthy_app/features/client/water_plan/domain/repositories/water_plan_repository.dart';
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
@@ -145,6 +151,12 @@ void _registerRepositories() {
   sl.registerLazySingleton<MeasureRepository>(
     () => MeasureRepositoryImpl(sl()),
   );
+  sl.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton<SuggestionRepository>(
+    () => SuggestionRepositoryImpl(sl()),
+  );
 }
 
 // Blocs
@@ -159,6 +171,8 @@ void _registerBlocs() {
   sl.registerFactory(() => EatingPlanBloc(sl()));
   sl.registerFactory(() => WaterPlanBloc(sl()));
   sl.registerFactory(() => MeasureBloc(sl()));
+  sl.registerFactory(() => SettingsBloc(sl(), sl(), sl()));
+  sl.registerFactory(() => SuggestionBloc(sl()));
 }
 
 // Use cases

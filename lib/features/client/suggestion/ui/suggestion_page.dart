@@ -84,7 +84,7 @@ class SuggestionPage extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto',
+                    'Tomará un poco de tiempo, pero ten por seguro que leeremos cada sugerencia que envíes.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: appColors.textContrast,

@@ -250,8 +250,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
   @override
   Future<void> suscribeToCommonTipics() async {
     try {
-      await _suscribeTopic("productDetail");
-      await _suscribeTopic("offerDetail");
+      await _suscribeTopic("news");
     } catch (e) {
       print(e);
     }
@@ -260,8 +259,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
   @override
   Future<void> unsuscribeToCommonTipics() async {
     try {
-      await _unsuscribeTopic("productDetail");
-      await _unsuscribeTopic("offerDetail");
+      await _unsuscribeTopic("news");
     } catch (e) {
       print(e);
     }

@@ -21,6 +21,7 @@ class SuggestionForm extends StatelessWidget {
             hintText: 'Escribe tu sugerencia aquí',
             textInputAction: TextInputAction.done,
             maxLength: 500,
+            autofocus: true,
             validator: (_) {
               final bloc = context.read<SuggestionBloc>();
               final suggestion = bloc.state.form.suggestion;

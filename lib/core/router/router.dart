@@ -8,6 +8,7 @@ import 'package:healthy_app/features/client/eating_plan/ui/eating_plan_page.dart
 import 'package:healthy_app/features/client/initial_config/ui/initial_config_page.dart';
 import 'package:healthy_app/features/client/measures_chart/ui/measures_chart_page.dart';
 import 'package:healthy_app/features/client/personal_info/ui/personal_info_page.dart';
+import 'package:healthy_app/features/client/settings/ui/settings_page.dart';
 import 'package:healthy_app/features/client/sign_in/ui/sign_in_page.dart';
 import 'package:healthy_app/features/client/sign_up/ui/sign_up_page.dart';
 import 'package:healthy_app/features/client/suggestion/ui/suggestion_page.dart';
@@ -123,10 +124,10 @@ class AppRouter {
             StatefulShellBranch(
               routes: [
                 GoRoute(
-                  name: 'account',
-                  path: '/account',
+                  name: 'settings',
+                  path: '/settings',
                   builder: (context, state) {
-                    return MeasuresChartPage();
+                    return Settingspage();
                   },
                   routes: [
                     GoRoute(
