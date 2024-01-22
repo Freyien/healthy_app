@@ -24,6 +24,9 @@ class PersonalInfoPage extends StatelessWidget {
       create: (context) => sl<PersonalInfoBloc>(),
       child: Scaffold(
         appBar: AppBar(
+          leading: BackButton(
+            onPressed: () => context.goNamed('sign_in'),
+          ),
           title: Text('Información personal'),
         ),
         body: BlocListener<PersonalInfoBloc, PersonalInfoState>(

@@ -140,7 +140,7 @@ void _registerRepositories() {
     () => InitialConfigRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<PersonalInfoRepository>(
-    () => PersonalInfoRepositoryImpl(sl()),
+    () => PersonalInfoRepositoryImpl(sl(), sl()),
   );
   sl.registerLazySingleton<EatingPlanRepository>(
     () => EatingPlanRepositoryImpl(sl()),

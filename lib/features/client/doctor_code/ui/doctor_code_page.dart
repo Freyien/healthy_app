@@ -18,6 +18,11 @@ class DoctorCodePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<DoctorCodeBloc>(),
       child: Scaffold(
+        appBar: AppBar(
+          leading: BackButton(
+            onPressed: () => context.goNamed('sign_in'),
+          ),
+        ),
         body: SafeArea(
           child: BlocListener<DoctorCodeBloc, DoctorCodeState>(
             listenWhen: (p, c) => p.savingStatus != c.savingStatus,
