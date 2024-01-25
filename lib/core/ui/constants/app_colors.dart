@@ -16,6 +16,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.loadingHighlight,
     required this.shadow,
     required this.gainsboro,
+    required this.appbar,
   });
 
   final Color? primary;
@@ -32,6 +33,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color? loadingHighlight;
   final Color? shadow;
   final Color? gainsboro;
+  final Color? appbar;
 
   bool get isDark => scaffold == DarkColors.scaffold;
 
@@ -51,6 +53,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? loadingHighlight,
     Color? shadow,
     Color? gainsboro,
+    Color? appbar,
   }) {
     return AppColors(
       primary: primary ?? this.primary,
@@ -67,6 +70,7 @@ class AppColors extends ThemeExtension<AppColors> {
       loadingHighlight: loadingHighlight ?? this.loadingHighlight,
       shadow: shadow ?? this.shadow,
       gainsboro: gainsboro ?? this.gainsboro,
+      appbar: appbar ?? this.appbar,
     );
   }
 
@@ -92,6 +96,7 @@ class AppColors extends ThemeExtension<AppColors> {
       loadingHighlight: Color.lerp(loadingHighlight, other.loadingHighlight, t),
       shadow: Color.lerp(shadow, other.shadow, t),
       gainsboro: Color.lerp(gainsboro, other.gainsboro, t),
+      appbar: Color.lerp(appbar, other.appbar, t),
     );
   }
 }
@@ -116,6 +121,7 @@ class DarkColors {
   static Color loadingHighlight = Colors.grey[900]!;
   static const Color shadow = Colors.black54;
   static const Color border = Color(0xFF4c4b50);
+  static const Color appbar = Color(0xff27252E);
 }
 
 class LightColors {
@@ -128,4 +134,5 @@ class LightColors {
   static Color loadingHighlight = Colors.grey[400]!;
   static const Color shadow = Color(0xffDDDDDD);
   static const Color border = Color(0xffDDDDDD);
+  static const Color appbar = Color(0xffE3DFEB);
 }

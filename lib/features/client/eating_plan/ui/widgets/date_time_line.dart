@@ -7,15 +7,17 @@ import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/bloc/eating_plan_bloc.dart';
 
 class DateTimeLine extends StatelessWidget {
-  const DateTimeLine({super.key});
+  const DateTimeLine({super.key, required this.height});
+
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     final controller = EasyInfiniteDateTimelineController();
-    final toolbarHeight = 68.0;
-    final timeLineHeight = toolbarHeight - 4;
+    final timeLineHeight = height - 8;
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         BlocConsumer<EatingPlanBloc, EatingPlanState>(
           listenWhen: (p, c) => p.date != c.date,
@@ -68,14 +70,16 @@ class DateTimeLine extends StatelessWidget {
                                 ? Colors.white
                                 : isSameWeekday
                                     ? context.appColors.primary
-                                    : Colors.grey,
-                            fontSize: 10,
+                                    : context.appColors.textContrast!
+                                        .withOpacity(.7),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                         Text(
                           dayNumber,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: isSelected ? Colors.white : null,
                           ),
@@ -83,8 +87,12 @@ class DateTimeLine extends StatelessWidget {
                         Text(
                           monthName,
                           style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.grey,
-                            fontSize: 10,
+                            color: isSelected
+                                ? Colors.white
+                                : context.appColors.textContrast!
+                                    .withOpacity(.7),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ],
@@ -102,7 +110,7 @@ class DateTimeLine extends StatelessWidget {
             });
           },
         ),
-        VerticalSpace.xsmall(),
+        VerticalSpace.small(),
       ],
     );
   }

@@ -13,8 +13,9 @@ class CustomTheme {
       hintColor: DefaultColors.primary,
       primaryColor: DefaultColors.primary,
       appBarTheme: AppBarTheme(
-        backgroundColor: LightColors.scaffold,
-        elevation: 3,
+        backgroundColor: LightColors.appbar,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
         iconTheme: IconThemeData(
           color: LightColors.textContrast,
         ),
@@ -97,6 +98,7 @@ class CustomTheme {
           loadingHighlight: LightColors.loadingHighlight,
           shadow: LightColors.shadow,
           gainsboro: DefaultColors.gainsboro,
+          appbar: LightColors.appbar,
         ),
       ],
     );
@@ -200,6 +202,7 @@ class CustomTheme {
           loadingHighlight: DarkColors.loadingHighlight,
           shadow: DarkColors.shadow,
           gainsboro: DefaultColors.gainsboro,
+          appbar: DarkColors.appbar,
         ),
       ],
     );

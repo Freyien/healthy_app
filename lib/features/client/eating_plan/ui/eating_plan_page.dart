@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
-import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/bloc/eating_plan_bloc.dart';
@@ -16,35 +15,30 @@ class EatingPlanPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateLineHeight = 76.0;
+
     return BlocProvider(
       create: (context) =>
           sl<EatingPlanBloc>()..add(GetEatingPlanEvent(DateTime.now())),
       child: Builder(builder: (context) {
         return Scaffold(
-          body: RefreshIndicator.adaptive(
-            onRefresh: () async {
-              final bloc = context.read<EatingPlanBloc>();
-              bloc.add(GetEatingPlanEvent(bloc.state.date));
-            },
+          // backgroundColor: context.appColors.appbar,
+          appBar: AppBar(
+            toolbarHeight: 50,
+            title: EatingPlanAppBarTitle(),
+          ),
+          body: SafeArea(
             child: CustomScrollView(
               slivers: [
                 SliverAppBar(
-                  backgroundColor: context.appColors.scaffold,
-                  toolbarHeight: 120,
+                  toolbarHeight: dateLineHeight,
                   leadingWidth: 0,
                   titleSpacing: 0,
                   pinned: false,
-                  snap: false,
+                  snap: true,
                   floating: true,
-                  forceElevated: true,
-                  title: Column(
-                    children: [
-                      EatingPlanAppBarTitle(),
-
-                      // Date time line
-                      DateTimeLine(),
-                    ],
-                  ),
+                  stretch: false,
+                  title: DateTimeLine(height: dateLineHeight),
                 ),
 
                 // Fetching builder
@@ -83,15 +77,15 @@ class EatingPlanPage extends StatelessWidget {
                             'No tienes un plan alimenticio para este día, selecciona otro o acércate con tu nutriólogo/a',
                       ));
 
-                    return SliverPadding(
-                      padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int planBlockIndex) {
-                            final planBlock =
-                                state.eatingPlan.planBlockList[planBlockIndex];
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int planBlockIndex) {
+                          final planBlock =
+                              state.eatingPlan.planBlockList[planBlockIndex];
 
-                            return Column(
+                          return Container(
+                            padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // Plan block title
@@ -115,10 +109,10 @@ class EatingPlanPage extends StatelessWidget {
                                 ),
                                 VerticalSpace.xxlarge(),
                               ],
-                            );
-                          },
-                          childCount: state.eatingPlan.planBlockList.length,
-                        ),
+                            ),
+                          );
+                        },
+                        childCount: state.eatingPlan.planBlockList.length,
                       ),
                     );
                   },
