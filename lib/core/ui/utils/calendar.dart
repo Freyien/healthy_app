@@ -19,7 +19,6 @@ class CalendarUtils {
       barrierDismissible: true,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          backgroundColor: appColors.scaffold,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10.0),
@@ -34,6 +33,7 @@ class CalendarUtils {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SfDateRangePicker(
+                    backgroundColor: Colors.transparent,
                     minDate: minDate,
                     maxDate: maxDate,
                     initialDisplayDate: initialDate,

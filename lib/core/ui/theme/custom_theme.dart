@@ -14,7 +14,7 @@ class CustomTheme {
       primaryColor: DefaultColors.primary,
       appBarTheme: AppBarTheme(
         backgroundColor: LightColors.scaffold,
-        elevation: 0,
+        elevation: 3,
         iconTheme: IconThemeData(
           color: LightColors.textContrast,
         ),
@@ -77,6 +77,10 @@ class CustomTheme {
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(),
+      dialogTheme: DialogTheme(
+        backgroundColor: LightColors.scaffold,
+        elevation: 0,
+      ),
       extensions: <ThemeExtension<dynamic>>[
         AppColors(
           primary: DefaultColors.primary,
@@ -110,12 +114,13 @@ class CustomTheme {
       primaryColor: DefaultColors.primary,
       appBarTheme: AppBarTheme(
         backgroundColor: DarkColors.scaffold,
-        elevation: 0,
+        elevation: 3,
         iconTheme: const IconThemeData(
             // color: AppColors.black,
             ),
         titleTextStyle: const TextStyle(
           // color: AppColors.black,
+
           fontSize: 20,
           fontWeight: FontWeight.w500,
         ),
@@ -175,6 +180,10 @@ class CustomTheme {
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(),
+      dialogTheme: DialogTheme(
+        backgroundColor: DarkColors.scaffold,
+        elevation: 0,
+      ),
       extensions: <ThemeExtension<dynamic>>[
         AppColors(
           primary: DefaultColors.primary,

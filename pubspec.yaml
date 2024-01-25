@@ -1,6 +1,6 @@
 name: healthy_app
 description: A Very Good Project created by Very Good CLI.
-version: 1.0.8+9
+version: 1.0.9+10
 publish_to: none
 
 environment:
@@ -27,6 +27,7 @@ dependencies:
   crypto: ^3.0.3
   device_info_plus: ^9.0.3
   dio: ^5.1.1
+  easy_date_timeline: ^1.0.4
   equatable: ^2.0.5
   expandable_page_view: ^1.0.17
   firebase_analytics: ^10.4.5

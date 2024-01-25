@@ -11,61 +11,65 @@ class EatingPlanLoading extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: LayoutBuilder(builder: (context, constraints) {
-        return ListView.builder(itemBuilder: (context, index) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              VerticalSpace.small(),
-              Card(
-                color: context.appColors.loadingBackground,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                margin: EdgeInsets.zero,
-                elevation: 0,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 24, 8),
-                  child: Shimmer.fromColors(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 20,
-                            width: double.infinity,
+        return Column(
+          children: List.generate(
+            4,
+            (index) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                VerticalSpace.small(),
+                Card(
+                  color: context.appColors.loadingBackground,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  margin: EdgeInsets.zero,
+                  elevation: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 24, 8),
+                    child: Shimmer.fromColors(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 20,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          HorizontalSpace.xlarge(),
+                          Container(
+                            height: 35,
+                            width: 35,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
+                              borderRadius: BorderRadius.circular(100),
                               color: Colors.white,
                             ),
                           ),
-                        ),
-                        HorizontalSpace.xlarge(),
-                        Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      baseColor: context.appColors.loadingBase!.withOpacity(.5),
+                      highlightColor:
+                          context.appColors.loadingHighlight!.withOpacity(.5),
                     ),
-                    baseColor: context.appColors.loadingBase!.withOpacity(.5),
-                    highlightColor:
-                        context.appColors.loadingHighlight!.withOpacity(.5),
                   ),
                 ),
-              ),
-              VerticalSpace.small(),
-              Column(
-                children: List.generate(
-                  4,
-                  (index) => _Loading(),
+                VerticalSpace.small(),
+                Column(
+                  children: List.generate(
+                    4,
+                    (index) => _Loading(),
+                  ),
                 ),
-              ),
-              VerticalSpace.medium(),
-            ],
-          );
-        });
+                VerticalSpace.medium(),
+              ],
+            ),
+          ),
+        );
+        return ListView.builder(itemBuilder: (context, index) {});
       }),
     );
   }

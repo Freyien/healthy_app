@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
+import 'package:healthy_app/core/extensions/datetime.dart';
 import 'package:healthy_app/features/client/eating_plan/domain/entities/eating_plan_entity.dart';
 import 'package:healthy_app/features/client/eating_plan/domain/entities/food_block_entity.dart';
 import 'package:healthy_app/features/client/eating_plan/domain/repositories/eating_plan_repository.dart';
