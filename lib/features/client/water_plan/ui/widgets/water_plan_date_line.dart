@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/extensions/datetime.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
-import 'package:healthy_app/features/client/eating_plan/ui/bloc/eating_plan_bloc.dart';
+import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
 
-class DateTimeLine extends StatelessWidget {
-  const DateTimeLine({super.key, required this.height});
+class WaterPlanDateLine extends StatelessWidget {
+  const WaterPlanDateLine({super.key, required this.height});
 
   final double height;
 
@@ -19,7 +19,7 @@ class DateTimeLine extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        BlocConsumer<EatingPlanBloc, EatingPlanState>(
+        BlocConsumer<WaterPlanBloc, WaterPlanState>(
           listenWhen: (p, c) => p.date != c.date,
           listener: (context, state) {
             controller.animateToDate(state.date);
@@ -103,8 +103,8 @@ class DateTimeLine extends StatelessWidget {
                 showTimelineHeader: false,
                 onDateChange: (selectedDate) {
                   context
-                      .read<EatingPlanBloc>()
-                      .add(GetEatingPlanEvent(selectedDate));
+                      .read<WaterPlanBloc>()
+                      .add(GetWaterPlanEvent(selectedDate));
                 },
               );
             });

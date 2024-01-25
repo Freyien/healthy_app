@@ -22,11 +22,21 @@ class WaterConsumptionList extends StatelessWidget {
           (BuildContext context, int index) {
             final waterConsumption = waterConsumptionList[index];
 
+            if (index == 0 && waterConsumption.animate)
+              return FadeInDown(
+                key: UniqueKey(),
+                from: 20,
+                child: WaterTile(
+                  waterConsumption: waterConsumption,
+                ),
+              );
+
             return WaterTile(
               waterConsumption: waterConsumption,
             );
           },
           childCount: waterConsumptionList.length,
+          addAutomaticKeepAlives: true,
         ),
       ),
     );

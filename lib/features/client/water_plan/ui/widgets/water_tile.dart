@@ -5,7 +5,7 @@ import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/features/client/water_plan/domain/entities/water_consumption_entity.dart';
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
 
-class WaterTile extends StatelessWidget {
+class WaterTile extends StatefulWidget {
   const WaterTile({
     super.key,
     required this.waterConsumption,
@@ -14,9 +14,20 @@ class WaterTile extends StatelessWidget {
   final WaterConsumptionEntity waterConsumption;
 
   @override
+  State<WaterTile> createState() => _WaterTileState();
+}
+
+class _WaterTileState extends State<WaterTile>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
-    return _Tile(waterConsumption: waterConsumption);
+    super.build(context);
+
+    return _Tile(waterConsumption: widget.waterConsumption);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _Tile extends StatelessWidget {

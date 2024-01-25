@@ -4,8 +4,8 @@ import 'package:healthy_app/core/domain/enums/fetching_status.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/bloc/eating_plan_bloc.dart';
-import 'package:healthy_app/features/client/eating_plan/ui/widgets/date_time_line.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/widgets/eating_plan_appbar.dart';
+import 'package:healthy_app/features/client/eating_plan/ui/widgets/eating_plan_date_line.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/widgets/eating_plan_loading.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/widgets/food_option_pagination.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/widgets/plan_block_title.dart';
@@ -22,7 +22,6 @@ class EatingPlanPage extends StatelessWidget {
           sl<EatingPlanBloc>()..add(GetEatingPlanEvent(DateTime.now())),
       child: Builder(builder: (context) {
         return Scaffold(
-          // backgroundColor: context.appColors.appbar,
           appBar: AppBar(
             toolbarHeight: 50,
             title: EatingPlanAppBarTitle(),
@@ -30,6 +29,7 @@ class EatingPlanPage extends StatelessWidget {
           body: SafeArea(
             child: CustomScrollView(
               slivers: [
+                // Appbar
                 SliverAppBar(
                   toolbarHeight: dateLineHeight,
                   leadingWidth: 0,
@@ -38,7 +38,7 @@ class EatingPlanPage extends StatelessWidget {
                   snap: true,
                   floating: true,
                   stretch: false,
-                  title: DateTimeLine(height: dateLineHeight),
+                  title: EatingPlanDateLine(height: dateLineHeight),
                 ),
 
                 // Fetching builder

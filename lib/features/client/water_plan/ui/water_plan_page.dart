@@ -14,6 +14,7 @@ import 'package:healthy_app/features/client/water_plan/ui/widgets/water_containe
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_loading.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_appbar.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_buttons.dart';
+import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_date_line.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_header.dart';
 
 class WaterPlanPage extends StatelessWidget {
@@ -21,111 +22,133 @@ class WaterPlanPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateLineHeight = 76.0;
+
     return BlocProvider(
       create: (context) =>
           sl<WaterPlanBloc>()..add(GetWaterPlanEvent(DateTime.now())),
       child: Scaffold(
         appBar: AppBar(
+          toolbarHeight: 50,
           title: WaterPlanAppBarTitle(),
         ),
         body: Builder(builder: (context) {
           return SafeArea(
-            child: RefreshIndicator.adaptive(
-              onRefresh: () async {
-                final bloc = context.read<WaterPlanBloc>();
-                bloc.add(GetWaterPlanEvent(bloc.state.date));
-              },
-              child: MultiBlocListener(
-                listeners: [
-                  BlocListener<WaterPlanBloc, WaterPlanState>(
-                    listenWhen: (p, c) => p.savingStatus != c.savingStatus,
-                    listener: _savingListener,
-                  ),
-                  BlocListener<WaterPlanBloc, WaterPlanState>(
-                    listenWhen: (p, c) => p.deletingStatus != c.deletingStatus,
-                    listener: _deletingListener,
-                  ),
-                ],
-                child: BlocBuilder<WaterPlanBloc, WaterPlanState>(
-                  builder: (context, state) {
-                    // Initial
-                    if (state.fetchingStatus == FetchingStatus.initial)
-                      return WaterLoading();
-
-                    // Loading
-                    if (state.fetchingStatus == FetchingStatus.loading)
-                      return WaterLoading();
-
-                    // Failure
-                    if (state.fetchingStatus == FetchingStatus.failure)
-                      return ErrorFullScreen(onRetry: () {
-                        final bloc = context.read<WaterPlanBloc>();
-                        bloc.add(GetWaterPlanEvent(bloc.state.date));
-                      });
-
-                    // Empty
-                    if (state.waterPlan.id.isEmpty)
-                      return MessageFullScreen(
-                        widthPercent: .4,
-                        animationName: 'empty',
-                        title: 'No hay plan disponible',
-                        subtitle:
-                            'No tienes un plan de hidratación para este día, selecciona otro o acércate con tu nutriólogo/a',
-                      );
-
-                    // Success
-                    return Stack(
-                      children: [
-                        // Positioned(
-                        //   top: 0,
-                        //   left: 0,
-                        //   right: 0,
-                        //   child: LottieBuilder.asset(
-                        //     'assets/animations/confetti.json',
-                        //   ),
-                        // ),
-
-                        CustomScrollView(
-                          slivers: [
-                            SliverPadding(
-                              padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                              sliver: SliverToBoxAdapter(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // Header
-                                    WaterPlanHeader(waterPlan: state.waterPlan),
-                                    VerticalSpace.xxxlarge(),
-
-                                    // Water container
-                                    WaterContainer(waterPlan: state.waterPlan),
-                                    VerticalSpace.xxxlarge(),
-                                    VerticalSpace.large(),
-
-                                    // Buttons
-                                    WaterPlanButtons(),
-                                    VerticalSpace.xxxlarge(),
-                                    VerticalSpace.large(),
-
-                                    // Water consumption title
-                                    WaterConsumptionTitle(),
-                                    VerticalSpace.small(),
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            // Water consumption list
-                            WaterConsumptionList(
-                              waterConsumptionList:
-                                  state.waterPlan.waterConsumptionList,
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  },
+            child: MultiBlocListener(
+              listeners: [
+                BlocListener<WaterPlanBloc, WaterPlanState>(
+                  listenWhen: (p, c) => p.savingStatus != c.savingStatus,
+                  listener: _savingListener,
                 ),
+                BlocListener<WaterPlanBloc, WaterPlanState>(
+                  listenWhen: (p, c) => p.deletingStatus != c.deletingStatus,
+                  listener: _deletingListener,
+                ),
+              ],
+              child: CustomScrollView(
+                slivers: [
+                  // Appbar
+                  SliverAppBar(
+                    toolbarHeight: dateLineHeight,
+                    leadingWidth: 0,
+                    titleSpacing: 0,
+                    pinned: false,
+                    snap: true,
+                    floating: true,
+                    stretch: false,
+                    title: WaterPlanDateLine(height: dateLineHeight),
+                  ),
+
+                  // Fetching builder
+                  BlocBuilder<WaterPlanBloc, WaterPlanState>(
+                    builder: (context, state) {
+                      // Initial
+                      if (state.fetchingStatus == FetchingStatus.initial)
+                        return SliverToBoxAdapter(child: WaterLoading());
+
+                      // Loading
+                      if (state.fetchingStatus == FetchingStatus.loading)
+                        return SliverToBoxAdapter(child: WaterLoading());
+
+                      // Failure
+                      if (state.fetchingStatus == FetchingStatus.failure)
+                        return SliverFillRemaining(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: ErrorFullScreen(onRetry: () {
+                              final bloc = context.read<WaterPlanBloc>();
+                              bloc.add(GetWaterPlanEvent(bloc.state.date));
+                            }),
+                          ),
+                        );
+
+                      // Empty
+                      if (state.waterPlan.id.isEmpty)
+                        return SliverFillRemaining(
+                          child: MessageFullScreen(
+                            widthPercent: .4,
+                            animationName: 'empty',
+                            title: 'No hay plan disponible',
+                            subtitle:
+                                'No tienes un plan de hidratación para este día, selecciona otro o acércate con tu nutriólogo/a',
+                          ),
+                        );
+
+                      // Success
+                      return SliverPadding(
+                        padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                        sliver: SliverToBoxAdapter(
+                          child: Stack(
+                            children: [
+                              // Positioned(
+                              //   top: 0,
+                              //   left: 0,
+                              //   right: 0,
+                              //   child: LottieBuilder.asset(
+                              //     'assets/animations/confetti.json',
+                              //   ),
+                              // ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Header
+                                  WaterPlanHeader(waterPlan: state.waterPlan),
+                                  VerticalSpace.xxlarge(),
+
+                                  // Water container
+                                  WaterContainer(waterPlan: state.waterPlan),
+                                  VerticalSpace.xxxlarge(),
+                                  VerticalSpace.medium(),
+
+                                  // Buttons
+                                  WaterPlanButtons(),
+                                  VerticalSpace.xxxlarge(),
+                                  VerticalSpace.medium(),
+
+                                  // Water consumption title
+                                  WaterConsumptionTitle(),
+                                  VerticalSpace.small(),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+
+                  BlocBuilder<WaterPlanBloc, WaterPlanState>(
+                    builder: (context, state) {
+                      if (state.fetchingStatus != FetchingStatus.success)
+                        return SliverToBoxAdapter(child: SizedBox.shrink());
+
+                      return WaterConsumptionList(
+                        waterConsumptionList:
+                            state.waterPlan.waterConsumptionList,
+                      );
+                    },
+                  )
+                ],
               ),
             ),
           );

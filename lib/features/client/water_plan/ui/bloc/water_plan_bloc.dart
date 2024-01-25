@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:healthy_app/core/domain/enums/deleting_status.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
 import 'package:healthy_app/core/domain/enums/saving_status.dart';
+import 'package:healthy_app/core/extensions/datetime.dart';
 import 'package:healthy_app/features/client/water_plan/domain/entities/water_consumption_entity.dart';
 import 'package:healthy_app/features/client/water_plan/domain/entities/water_plan_entity.dart';
 import 'package:healthy_app/features/client/water_plan/domain/repositories/water_plan_repository.dart';
@@ -79,6 +80,15 @@ class WaterPlanBloc extends Bloc<WaterPlanEvent, WaterPlanState> {
     state.waterPlan.waterConsumptionList
         .removeWhere((e) => e.id == event.waterConsumption.id);
 
-    emit(state.copyWith(deletingStatus: DeletingStatus.success));
+    final waterConsumptionList = state.waterPlan.waterConsumptionList
+        .map((e) => e.copyWith(animate: false))
+        .toList();
+
+    emit(state.copyWith(
+      deletingStatus: DeletingStatus.success,
+      waterPlan: state.waterPlan.copyWith(
+        waterConsumptionList: waterConsumptionList,
+      ),
+    ));
   }
 }

@@ -115,8 +115,9 @@ class CustomTheme {
       hintColor: DefaultColors.primary,
       primaryColor: DefaultColors.primary,
       appBarTheme: AppBarTheme(
-        backgroundColor: DarkColors.scaffold,
-        elevation: 3,
+        backgroundColor: DarkColors.appbar,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
         iconTheme: const IconThemeData(
             // color: AppColors.black,
             ),

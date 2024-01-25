@@ -7,6 +7,8 @@ class WaterPlanState extends Equatable {
     required this.deletingStatus,
     required this.waterPlan,
     required this.date,
+    required this.minDate,
+    required this.maxDate,
   });
 
   final FetchingStatus fetchingStatus;
@@ -15,14 +17,29 @@ class WaterPlanState extends Equatable {
 
   final WaterPlanEntity waterPlan;
   final DateTime date;
+  final DateTime minDate;
+  final DateTime maxDate;
 
-  factory WaterPlanState.initial() => WaterPlanState(
+  factory WaterPlanState.initial() {
+    final now = DateTime.now();
+    final date = now.addTime(months: 2);
+    int addedDays = 0;
+
+    addedDays = date.weekday < 7 //
+        ? 6 - date.weekday
+        : 6;
+
+    final maxDate = date.addTime(days: addedDays);
+
+    return WaterPlanState(
         fetchingStatus: FetchingStatus.initial,
         savingStatus: SavingStatus.initial,
         deletingStatus: DeletingStatus.initial,
         waterPlan: WaterPlanEntity.initial(),
-        date: DateTime.now(),
-      );
+        date: now,
+        minDate: DateTime(2023, 12, 31),
+        maxDate: maxDate);
+  }
 
   WaterPlanState copyWith({
     FetchingStatus? fetchingStatus,
@@ -37,6 +54,8 @@ class WaterPlanState extends Equatable {
       deletingStatus: deletingStatus ?? this.deletingStatus,
       waterPlan: waterPlan ?? this.waterPlan,
       date: date ?? this.date,
+      minDate: this.minDate,
+      maxDate: this.maxDate,
     );
   }
 
@@ -48,6 +67,8 @@ class WaterPlanState extends Equatable {
       deletingStatus,
       waterPlan,
       date,
+      minDate,
+      maxDate,
     ];
   }
 }
