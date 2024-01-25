@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/domain/enums/deleting_status.dart';
@@ -16,6 +17,7 @@ import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_app
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_buttons.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_date_line.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_header.dart';
+import 'package:lottie/lottie.dart';
 
 class WaterPlanPage extends StatelessWidget {
   const WaterPlanPage({super.key});
@@ -95,28 +97,45 @@ class WaterPlanPage extends StatelessWidget {
                         );
 
                       // Success
+                      final waterPlan = state.waterPlan;
                       return SliverPadding(
                         padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                         sliver: SliverToBoxAdapter(
                           child: Stack(
                             children: [
-                              // Positioned(
-                              //   top: 0,
-                              //   left: 0,
-                              //   right: 0,
-                              //   child: LottieBuilder.asset(
-                              //     'assets/animations/confetti.json',
-                              //   ),
-                              // ),
+                              if (waterPlan.remainingWaterConsumption == 0)
+                                Positioned(
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: FadeIn(
+                                    duration: Duration(seconds: 1),
+                                    child: LottieBuilder.asset(
+                                      'assets/animations/confetti.json',
+                                    ),
+                                  ),
+                                ),
+                              if (waterPlan.remainingWaterConsumption == 0)
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: FadeIn(
+                                    duration: Duration(seconds: 1),
+                                    child: LottieBuilder.asset(
+                                      'assets/animations/confetti.json',
+                                    ),
+                                  ),
+                                ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // Header
-                                  WaterPlanHeader(waterPlan: state.waterPlan),
+                                  WaterPlanHeader(waterPlan: waterPlan),
                                   VerticalSpace.xxlarge(),
 
                                   // Water container
-                                  WaterContainer(waterPlan: state.waterPlan),
+                                  WaterContainer(waterPlan: waterPlan),
                                   VerticalSpace.xxxlarge(),
                                   VerticalSpace.medium(),
 
