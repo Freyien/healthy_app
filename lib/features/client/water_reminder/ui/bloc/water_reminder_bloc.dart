@@ -109,12 +109,12 @@ class WaterReminderBloc extends Bloc<WaterReminderEvent, WaterReminderState> {
     }
 
     final waterReminder = state.waterReminder.copyWith(
-      waterConsumption: response.data,
+      lastEventDate: response.data!.date,
     );
 
     // Schedule notification
     final reminderResponse = await _addWaterReminderUsecase.call(
-      waterReminder.nextScheduledDate,
+      waterReminder.scheduleDate,
     );
 
     if (reminderResponse.isFailed) {

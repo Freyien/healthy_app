@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/di/di_business.dart';
+import 'package:healthy_app/features/client/water_reminder/domain/usecases/add_water_reminder_usecase.dart';
+import 'package:healthy_app/features/client/water_reminder/domain/usecases/get_water_reminder_usecase.dart';
 import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
 import 'package:healthy_app/features/common/notifications/ui/bloc/notification_bloc.dart';
 
@@ -27,7 +29,10 @@ class DashboardNotifications extends StatelessWidget {
     );
   }
 
-  void _notificationListener(BuildContext context, NotificationState state) {
+  Future<void> _notificationListener(
+    BuildContext context,
+    NotificationState state,
+  ) async {
     switch (state.status) {
       case NotificationStatus.permissionChecked:
         if (state.requestStatus != AuthorizationStatus.authorized) return;
@@ -35,6 +40,8 @@ class DashboardNotifications extends StatelessWidget {
         return _onAutorizedPermission(context);
       case NotificationStatus.notificationTapped:
         return _onNotificationTapped(context, state.notification);
+      case NotificationStatus.notificationReceived:
+        return _onNotificationReceived(context, state.notification);
       default:
     }
   }
@@ -57,15 +64,29 @@ class DashboardNotifications extends StatelessWidget {
       case NotificationType.initial:
         return;
       case NotificationType.waterReminder:
-        return;
+        return navigationShell.goBranch(1, initialLocation: true);
       case NotificationType.eatingReminder:
         return;
-      // case NotificationType.offer:
-      //   navigationShell.goBranch(3, initialLocation: true);
-      //   context.pushNamed(
-      //     'offer_detail',
-      //     extra: notification.offer,
-      //   );
     }
+  }
+
+  Future<void> _onNotificationReceived(
+    BuildContext context,
+    NotificationEntity notification,
+  ) async {
+    switch (notification.type) {
+      case NotificationType.initial:
+        return;
+      case NotificationType.waterReminder:
+        return _scheduleWaterReminder();
+      case NotificationType.eatingReminder:
+        return;
+    }
+  }
+
+  Future<void> _scheduleWaterReminder() async {
+    final now = DateTime.now();
+    final scheduleDate = await sl<GetWaterReminderDateUsecase>().call(now);
+    await sl<AddWaterReminderUsecase>().call(scheduleDate);
   }
 }

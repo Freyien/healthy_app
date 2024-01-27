@@ -12,7 +12,7 @@ class AddWaterReminderUsecase {
     this._waterReminderRepository,
   );
 
-  Future<Response<void>> call(DateTime scheduledDate) async {
+  Future<Response<void>> call(DateTime scheduleDate) async {
     // Get pending notifications
     final pendingNotificationResponse =
         await _notificationRepository.checkPendingNotification();
@@ -29,7 +29,7 @@ class AddWaterReminderUsecase {
     // Schedule notification
     final scheduleResponse = await _notificationRepository.scheduleNotification(
       notificationResponse.data!,
-      scheduledDate,
+      scheduleDate,
     );
 
     if (scheduleResponse.isFailed) return scheduleResponse;

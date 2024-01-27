@@ -288,7 +288,8 @@ class NotificationRepositoryImpl implements NotificationRepository {
   ) async {
     try {
       initializeTimeZones();
-      final tzScheduledDate = TZDateTime.from(scheduledDate, local);
+      final tzScheduledDate =
+          TZDateTime.from(scheduledDate.subtract(Duration(seconds: 55)), local);
 
       await _flutterLocalNotificationsPlugin.zonedSchedule(
         notification.id,
