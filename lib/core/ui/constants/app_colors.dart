@@ -128,7 +128,7 @@ class LightColors {
   static const Color textContrast = Colors.black;
   static Color scaffold = Colors.grey[50]!;
   static const Color primaryText = Color(0xFF595959);
-  static const Color input = Color(0xFFEFF0F6);
+  static const Color input = Color(0xfff0f0f0);
   static Color loadingBackground = Colors.grey[200]!;
   static Color loadingBase = Colors.grey[300]!;
   static Color loadingHighlight = Colors.grey[400]!;

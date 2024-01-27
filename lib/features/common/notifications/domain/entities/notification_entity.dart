@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthy_app/core/domain/utils/enum_utils.dart';
 
 class NotificationEntity extends Equatable {
   NotificationEntity({
+    this.id = 0,
     this.messageId = '',
     this.title = '',
     this.body = '',
@@ -13,6 +16,7 @@ class NotificationEntity extends Equatable {
     this.imageUrl = '',
   });
 
+  final int id;
   final String messageId;
   final String title;
   final String body;
@@ -36,16 +40,36 @@ class NotificationEntity extends Equatable {
     );
   }
 
+  factory NotificationEntity.fromPendingNotification(
+    PendingNotificationRequest notification,
+  ) {
+    String payload = notification.payload ?? '';
+    payload = payload.isEmpty ? '{}' : payload;
+
+    final payloadDecode = jsonDecode(payload);
+    final data = Map<String, dynamic>.from(payloadDecode);
+
+    return NotificationEntity(
+      id: notification.id,
+      messageId: notification.id.toString(),
+      body: notification.body ?? '',
+      title: notification.title ?? '',
+      data: data,
+      imageUrl: data['imageUrl'] ?? '',
+    );
+  }
+
   factory NotificationEntity.fromJson(String source) =>
       NotificationEntity.fromMap(json.decode(source));
 
   factory NotificationEntity.fromMap(Map<String, dynamic> map) {
     return NotificationEntity(
+      id: map['id'] ?? UniqueKey().hashCode,
       messageId: map['message_id'] ?? '',
       title: map['title'] ?? '',
       body: map['body'] ?? '',
       data: Map<String, dynamic>.from(map['data'] ?? map),
-      imageUrl: map['imageUrl'],
+      imageUrl: map['imageUrl'] ?? '',
     );
   }
 
@@ -57,11 +81,8 @@ class NotificationEntity extends Equatable {
         NotificationType.initial;
   }
 
-  String get product => data['product'] ?? '{}';
-
-  String get offer => data['offer'] ?? '{}';
-
   NotificationEntity copyWith({
+    int? id,
     String? messageId,
     String? title,
     String? body,
@@ -69,6 +90,7 @@ class NotificationEntity extends Equatable {
     String? imageUrl,
   }) {
     return NotificationEntity(
+      id: id ?? this.id,
       messageId: messageId ?? this.messageId,
       title: title ?? this.title,
       body: body ?? this.body,
@@ -78,8 +100,9 @@ class NotificationEntity extends Equatable {
   }
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
+      id,
       messageId,
       title,
       body,
@@ -91,7 +114,6 @@ class NotificationEntity extends Equatable {
 
 enum NotificationType {
   initial,
-  offer,
-  product,
-  reward,
+  waterReminder,
+  eatingReminder,
 }

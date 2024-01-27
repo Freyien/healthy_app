@@ -40,4 +40,6 @@ extension DateTimeExtensions on DateTime {
 
   DateTime removeTime() =>
       DateTime(this.year, this.month, this.day, 0, 0, 0, 0);
+
+  bool isEqualWithOuTime(DateTime date) => this.compareTo(date) == 0;
 }

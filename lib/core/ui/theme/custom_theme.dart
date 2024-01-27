@@ -26,11 +26,11 @@ class CustomTheme {
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        fillColor: DefaultColors.flashWhite,
+        fillColor: LightColors.input,
         filled: true,
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         hintStyle: TextStyle(
-          color: LightColors.primaryText.withOpacity(.5),
+          color: LightColors.primaryText.withOpacity(.4),
         ),
         labelStyle: TextStyle(
           color: LightColors.primaryText,
@@ -134,7 +134,7 @@ class CustomTheme {
         filled: true,
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         hintStyle: TextStyle(
-          color: DarkColors.primaryText.withOpacity(.6),
+          color: DarkColors.primaryText.withOpacity(.3),
         ),
         labelStyle: TextStyle(
           color: DarkColors.primaryText,

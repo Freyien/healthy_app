@@ -17,8 +17,6 @@ class MeasureState extends Equatable {
       measureConsultation.measureList.forEach((measure) {
         final keyExists = result[measure.key] != null;
 
-        print(keyExists);
-
         // Add measure chart data if not exists
         if (!keyExists) {
           result[measure.key] = MeasureChartDataEntity(

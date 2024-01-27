@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 
 class Dropdown<T> extends StatelessWidget {
   const Dropdown({
@@ -44,7 +45,10 @@ class Dropdown<T> extends StatelessWidget {
               items: items,
               onChanged: onChanged,
               isExpanded: true,
-              icon: const Icon(Icons.keyboard_arrow_down),
+              icon: Icon(
+                Icons.keyboard_arrow_down,
+                color: context.appColors.textContrast!.withOpacity(.8),
+              ),
               validator: validator,
               decoration: InputDecoration(
                 hintText: hintText,

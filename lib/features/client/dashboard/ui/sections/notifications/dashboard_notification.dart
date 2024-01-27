@@ -56,20 +56,16 @@ class DashboardNotifications extends StatelessWidget {
     switch (notification.type) {
       case NotificationType.initial:
         return;
-      case NotificationType.offer:
-        navigationShell.goBranch(3, initialLocation: true);
-        context.pushNamed(
-          'offer_detail',
-          extra: notification.offer,
-        );
-      case NotificationType.product:
-        navigationShell.goBranch(0, initialLocation: true);
-        context.pushNamed(
-          'product_detail',
-          extra: notification.product,
-        );
-      case NotificationType.reward:
+      case NotificationType.waterReminder:
         return;
+      case NotificationType.eatingReminder:
+        return;
+      // case NotificationType.offer:
+      //   navigationShell.goBranch(3, initialLocation: true);
+      //   context.pushNamed(
+      //     'offer_detail',
+      //     extra: notification.offer,
+      //   );
     }
   }
 }

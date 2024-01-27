@@ -39,6 +39,13 @@ class Settingspage extends StatelessWidget {
                         context.pushNamed('suggestion');
                       },
                     ),
+                    AccountOption(
+                      icon: Icons.water_drop,
+                      title: 'Consumo de agua',
+                      onTap: () {
+                        context.pushNamed('water_reminder');
+                      },
+                    ),
                     NotificationOption(),
                     // Spacer(),
                     AccountOption(

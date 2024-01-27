@@ -75,13 +75,10 @@ class WaterPlanPage extends StatelessWidget {
                       // Failure
                       if (state.fetchingStatus == FetchingStatus.failure)
                         return SliverFillRemaining(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: ErrorFullScreen(onRetry: () {
-                              final bloc = context.read<WaterPlanBloc>();
-                              bloc.add(GetWaterPlanEvent(bloc.state.date));
-                            }),
-                          ),
+                          child: ErrorFullScreen(onRetry: () {
+                            final bloc = context.read<WaterPlanBloc>();
+                            bloc.add(GetWaterPlanEvent(bloc.state.date));
+                          }),
                         );
 
                       // Empty

@@ -13,6 +13,7 @@ import 'package:healthy_app/features/client/sign_in/ui/sign_in_page.dart';
 import 'package:healthy_app/features/client/sign_up/ui/sign_up_page.dart';
 import 'package:healthy_app/features/client/suggestion/ui/suggestion_page.dart';
 import 'package:healthy_app/features/client/water_plan/ui/water_plan_page.dart';
+import 'package:healthy_app/features/client/water_reminder/ui/water_reminder_page.dart';
 import 'package:healthy_app/features/common/app_update/domain/entities/app_version_status.dart';
 import 'package:healthy_app/features/common/app_update/ui/app_update_page.dart';
 import 'package:healthy_app/features/common/notifications/ui/notifications_page.dart';
@@ -135,6 +136,13 @@ class AppRouter {
                       path: 'suggestion',
                       builder: (context, state) {
                         return SuggestionPage();
+                      },
+                    ),
+                    GoRoute(
+                      name: 'water_reminder',
+                      path: 'water_reminder',
+                      builder: (context, state) {
+                        return WaterReminderPage();
                       },
                     ),
                   ],

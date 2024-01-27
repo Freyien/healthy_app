@@ -69,7 +69,6 @@ class EatingPlanLoading extends StatelessWidget {
             ),
           ),
         );
-        return ListView.builder(itemBuilder: (context, index) {});
       }),
     );
   }

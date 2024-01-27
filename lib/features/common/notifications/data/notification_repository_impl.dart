@@ -13,6 +13,8 @@ import 'package:healthy_app/features/common/notifications/domain/repositories/no
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timezone/data/latest_all.dart';
+import 'package:timezone/timezone.dart';
 
 class NotificationRepositoryImpl implements NotificationRepository {
   NotificationRepositoryImpl(this._messaging, this._functions, this._prefs);
@@ -277,6 +279,70 @@ class NotificationRepositoryImpl implements NotificationRepository {
   Future<void> _unsuscribeTopic(String topic) async {
     await _messaging.unsubscribeFromTopic(topic);
     await _prefs.setBool(topic, false);
+  }
+
+  @override
+  Future<Response<void>> scheduleNotification(
+    NotificationEntity notification,
+    DateTime scheduledDate,
+  ) async {
+    try {
+      initializeTimeZones();
+      final tzScheduledDate = TZDateTime.from(scheduledDate, local);
+
+      await _flutterLocalNotificationsPlugin.zonedSchedule(
+        notification.id,
+        notification.title,
+        notification.body,
+        tzScheduledDate,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'schedule channel id',
+            'schedule channel name',
+          ),
+        ),
+        payload: json.encode(notification.data),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dateAndTime,
+      );
+
+      return Response.success(null);
+    } catch (e) {
+      return Response.failed(UnexpectedFailure());
+    }
+  }
+
+  @override
+  Future<Response<List<NotificationEntity>>> checkPendingNotification() async {
+    try {
+      final pendingNotificationRequests =
+          await _flutterLocalNotificationsPlugin.pendingNotificationRequests();
+
+      final pendingNotificationList = List<NotificationEntity>.from(
+        pendingNotificationRequests.map(
+          (notification) {
+            return NotificationEntity.fromPendingNotification(notification);
+          },
+        ),
+      );
+
+      return Response.success(pendingNotificationList);
+    } catch (e) {
+      return Response.failed(UnexpectedFailure());
+    }
+  }
+
+  @override
+  Future<Response<void>> cancelNotification(int id) async {
+    try {
+      await _flutterLocalNotificationsPlugin.cancel(id);
+
+      return Response.success(null);
+    } catch (e) {
+      return Response.failed(UnexpectedFailure());
+    }
   }
 }
 

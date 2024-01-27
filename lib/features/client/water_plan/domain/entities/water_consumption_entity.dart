@@ -13,6 +13,13 @@ class WaterConsumptionEntity extends Equatable {
     required this.animate,
   });
 
+  factory WaterConsumptionEntity.initial() => WaterConsumptionEntity(
+        id: '',
+        quantity: 0,
+        date: DateTime.now(),
+        animate: false,
+      );
+
   WaterConsumptionEntity copyWith({
     String? id,
     int? quantity,
@@ -36,6 +43,8 @@ class WaterConsumptionEntity extends Equatable {
   }
 
   factory WaterConsumptionEntity.fromMap(Map<String, dynamic> map) {
+    if (map['id'] == null) return WaterConsumptionEntity.initial();
+
     return WaterConsumptionEntity(
       id: map['id'] as String,
       quantity: map['quantity'] as int,

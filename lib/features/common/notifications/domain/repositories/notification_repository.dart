@@ -13,6 +13,16 @@ abstract class NotificationRepository {
   Stream<RemoteMessage> onMessageOpenedApp();
   void onMessage();
   Future<void> handleMessage(RemoteMessage message);
+
+  // Topics
   Future<void> suscribeToCommonTipics();
   Future<void> unsuscribeToCommonTipics();
+
+  // Schedule
+  Future<Response<void>> scheduleNotification(
+    NotificationEntity notification,
+    DateTime scheduledDate,
+  );
+  Future<Response<List<NotificationEntity>>> checkPendingNotification();
+  Future<Response<void>> cancelNotification(int id);
 }
