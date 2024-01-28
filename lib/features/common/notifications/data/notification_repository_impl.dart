@@ -1,37 +1,42 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_settings/app_settings.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:awesome_notifications_fcm/awesome_notifications_fcm.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/material.dart';
+import 'package:healthy_app/core/constants/healthy_constants.dart';
 import 'package:healthy_app/core/domain/entities/response.dart';
 import 'package:healthy_app/core/domain/failures/failures.dart';
+import 'package:healthy_app/features/common/notifications/data/notification_controller.dart';
 import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest_all.dart';
-import 'package:timezone/timezone.dart';
 
 class NotificationRepositoryImpl implements NotificationRepository {
-  NotificationRepositoryImpl(this._messaging, this._functions, this._prefs);
+  NotificationRepositoryImpl(
+    this._notifications,
+    this._notificationsFcm,
+    this._functions,
+    this._prefs,
+  );
 
-  final FirebaseMessaging _messaging;
+  final AwesomeNotifications _notifications;
+  final AwesomeNotificationsFcm _notificationsFcm;
   final FirebaseFunctions _functions;
   final SharedPreferences _prefs;
 
-  late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
-  void Function(NotificationResponse)? _onDidReceiveNotificationResponse;
+  /* PERMISSIONS */
 
   @override
-  Future<Response<AuthorizationStatus>> checkNotificationPermission() async {
+  Future<Response<bool>> checkNotificationPermission() async {
     try {
-      final settings = await _messaging.getNotificationSettings();
+      final isGranted =
+          await _notifications.requestPermissionToSendNotifications();
 
-      return Response.success(settings.authorizationStatus);
+      return Response.success(isGranted);
     } catch (e) {
       return Response.failed(UnexpectedFailure());
     }
@@ -56,69 +61,39 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   @override
-  Stream<NotificationEntity> initForegroundNotifications() {
-    _messaging.setForegroundNotificationPresentationOptions(
-      alert: false,
-      badge: false,
-      sound: false,
-    );
-
-    final streamController = StreamController<NotificationEntity>();
-
-    _onDidReceiveNotificationResponse = (NotificationResponse notification) {
-      streamController.add(
-        NotificationEntity.fromJson(notification.payload ?? '{}'),
-      );
-    };
-
-    initLocalNotifications();
-
-    return streamController.stream;
-  }
-
-  @override
-  Future<void> initLocalNotifications() async {
-    final initializationSettings = InitializationSettings(
-      android: AndroidInitializationSettings(
-        'app_icon',
-      ),
-      iOS: DarwinInitializationSettings(),
-    );
-
-    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    await _flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
-    );
-  }
-
-  @override
-  Future<Response<AuthorizationStatus>> requestPermission() async {
+  Future<Response<bool>> requestPermission() async {
     try {
-      NotificationSettings settings = await _messaging.requestPermission(
-        alert: true,
-        announcement: false,
-        badge: true,
-        carPlay: false,
-        criticalAlert: true,
-        provisional: false,
-        sound: true,
-      );
+      final isGranted =
+          await _notifications.requestPermissionToSendNotifications();
 
-      return Response.success(settings.authorizationStatus);
+      return Response.success(isGranted);
     } catch (e) {
       return Response.failed(UnexpectedFailure());
     }
   }
 
+  /* INITIAL CONFIG */
+
+  @override
+  Future<void> initRemoteNotifications() async {
+    await _initializeRemoteNotifications();
+  }
+
+  @override
+  Future<void> initLocalNotifications() async {
+    _initializeLocalNotifications();
+  }
+
+  /* TOKENS */
+
   @override
   Future<void> savetoken() async {
     try {
-      final token = await _messaging.getToken() ?? '';
+      final token = await _notificationsFcm.requestFirebaseAppToken();
 
       await _saveToken(token);
 
-      _messaging.onTokenRefresh.listen((token) async {
+      NotificationController.streamFcmToken.stream.listen((token) async {
         await _saveToken(token);
       });
     } catch (e) {
@@ -126,128 +101,36 @@ class NotificationRepositoryImpl implements NotificationRepository {
     }
   }
 
-  Future<void> _saveToken(String token) async {
-    if (token.isEmpty) return;
-
-    final savedToken = _prefs.get('notificationToken');
-    if (savedToken.toString() == token) return;
-
-    // await Future.delayed(Duration(milliseconds: 3500));
-
-    // Save token in server
-    await _functions.httpsCallable('saveNotificationToken').call({
-      'token': token,
-    });
-
-    // Save token in local
-    await _prefs.setString('notificationToken', token);
-  }
+  /* NOTIFICATIONS */
 
   @override
   Future<Response<NotificationEntity?>> getInitialMessage() async {
     try {
-      // FCM
-      final remoteMessage = await _messaging.getInitialMessage();
+      final receivedAction = await _notifications.getInitialNotificationAction(
+        removeFromActionEvents: true,
+      );
 
-      if (remoteMessage != null) {
-        final message = NotificationEntity.fromRemoteMessage(remoteMessage);
-        return Response.success(message);
-      }
+      if (receivedAction == null) return Response.success(null);
 
-      // Local notifications
-      final notificationAppLaunch = await _flutterLocalNotificationsPlugin
-          .getNotificationAppLaunchDetails();
+      final notification =
+          NotificationEntity.fromReceivedAction(receivedAction);
 
-      if (notificationAppLaunch == null) return Response.success(null);
-
-      if (notificationAppLaunch.didNotificationLaunchApp) {
-        final notification = notificationAppLaunch.notificationResponse;
-        final payload = notification?.payload ?? '{}';
-        final message = NotificationEntity.fromJson(payload);
-
-        return Response.success(message);
-      }
-
-      return Response.success(null);
+      return Response.success(notification);
     } catch (e) {
       return Response.failed(UnexpectedFailure());
     }
   }
 
   @override
-  Stream<RemoteMessage> onMessageOpenedApp() {
-    return FirebaseMessaging.onMessageOpenedApp;
-  }
-
-  @override
-  void onMessage() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      await handleMessage(message);
-    });
-  }
-
-  @override
-  Future<void> handleMessage(RemoteMessage message) async {
-    final notification = NotificationEntity.fromRemoteMessage(message);
-    await _showLocalNotification(notification);
-  }
-
-  Future<void> _showLocalNotification(NotificationEntity notification) async {
-    List<DarwinNotificationAttachment> attachmentList = [];
-    BigPictureStyleInformation? bigPictureStyleInformation;
-    ByteArrayAndroidBitmap? imageBitMap;
-
-    if (notification.imageUrl.isNotEmpty) {
-      if (Platform.isIOS) {
-        final imagePath = await _downloadAndSaveFile(
-          notification.imageUrl,
-          'bigPicture.jpg',
-        );
-        attachmentList.add(
-          DarwinNotificationAttachment(imagePath),
-        );
-      } else if (Platform.isAndroid) {
-        imageBitMap = await _getByteArrayFromUrl(notification.imageUrl);
-        bigPictureStyleInformation = BigPictureStyleInformation(
-          imageBitMap,
-          hideExpandedLargeIcon: true,
-        );
-      }
-    }
-
-    final androidChannel = AndroidNotificationDetails(
-      'high_importance_channel',
-      'High Importance Notifications',
-      importance: Importance.max,
-      priority: Priority.max,
-      largeIcon: imageBitMap,
-      styleInformation: bigPictureStyleInformation,
+  Stream<NotificationEntity> onActionReceivedMethod() {
+    _notifications.setListeners(
+      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
     );
 
-    final notificationDetails = NotificationDetails(
-      android: androidChannel,
-      iOS: DarwinNotificationDetails(
-        interruptionLevel: InterruptionLevel.active,
-        attachments: attachmentList,
-      ),
-    );
-
-    final data = notification.data;
-
-    data.addAll({
-      'message_id': notification.hashCode.toString(),
-      'title': notification.title,
-      'body': notification.body,
-    });
-
-    await _flutterLocalNotificationsPlugin.show(
-      notification.hashCode,
-      notification.title,
-      notification.body,
-      notificationDetails,
-      payload: json.encode(data),
-    );
+    return NotificationController.streamReceivedAction.stream;
   }
+
+  /* TOPICS */
 
   @override
   Future<void> suscribeToCommonTipics() async {
@@ -267,100 +150,159 @@ class NotificationRepositoryImpl implements NotificationRepository {
     }
   }
 
+  /* SCHEDULE */
+
+  @override
+  Future<Response<void>> scheduleNotification({
+    required NotificationEntity notification,
+    required String channelKey,
+    required int interval,
+    bool repeats = true,
+  }) async {
+    try {
+      initializeTimeZones();
+      final localTimeZone = await _notifications.getLocalTimeZoneIdentifier();
+
+      // await AwesomeNotifications().createNotification(
+      //   content: NotificationContent(
+      //     id: 10,
+      //     channelKey: 'basic_channel',
+      //     actionType: ActionType.Default,
+      //     title: 'Hello World!',
+      //     body: 'This is my first notification!',
+      //   ),
+      // );
+
+      await _notifications.createNotification(
+        content: NotificationContent(
+          id: notification.id,
+          channelKey: channelKey,
+          title: notification.title,
+          body: notification.body,
+          wakeUpScreen: true,
+          category: NotificationCategory.Reminder,
+        ),
+        schedule: NotificationInterval(
+          interval: interval,
+          timeZone: localTimeZone,
+          preciseAlarm: true,
+          repeats: repeats,
+        ),
+      );
+
+      return Response.success(null);
+    } catch (e) {
+      return Response.failed(UnexpectedFailure());
+    }
+  }
+
+  @override
+  Future<Response<void>> cancelSchedulesByChannelKey(String channelKey) async {
+    try {
+      await _notifications.cancelSchedulesByChannelKey(channelKey);
+
+      return Response.success(null);
+    } catch (e) {
+      return Response.failed(UnexpectedFailure());
+    }
+  }
+
+  /* PRIVATE METHODS */
+
+  void _initializeLocalNotifications() {
+    _notifications.initialize(
+      // 'app_icon',
+      null,
+      [
+        NotificationChannel(
+          channelGroupKey: 'basic_channel_group',
+          channelKey: 'basic_channel',
+          channelName: 'Basic channel',
+          channelDescription: 'Notification channel for basic',
+          defaultColor: Colors.blue,
+          ledColor: Colors.blue,
+          importance: NotificationImportance.High,
+          playSound: true,
+        ),
+        NotificationChannel(
+          channelGroupKey: 'water_reminder_channel_group',
+          channelKey: HealthyConstants.waterReminderChannel,
+          channelName: 'Water Reminder Channel',
+          channelDescription: 'Water Reminder Channel',
+          defaultColor: Colors.blue,
+          ledColor: Colors.blue,
+          importance: NotificationImportance.High,
+          playSound: true,
+        ),
+      ],
+      channelGroups: [
+        NotificationChannelGroup(
+          channelGroupKey: 'basic_channel_group',
+          channelGroupName: 'Basic Channel Group',
+        ),
+        NotificationChannelGroup(
+          channelGroupKey: 'water_reminder_channel_group',
+          channelGroupName: 'Water Reminder Group',
+        ),
+      ],
+      debug: false,
+    );
+  }
+
+  Future<void> _initializeRemoteNotifications() async {
+    await _notificationsFcm.initialize(
+      onFcmTokenHandle: NotificationController.onFcmTokenHandle,
+      onFcmSilentDataHandle: (_) async {},
+      licenseKeys:
+          // On this example app, the app ID / Bundle Id are different
+          // for each platform, so i used the main Bundle ID + 1 variation
+          [
+        // me.carda.awesomeNotificationsFcmExample
+        '2024-01-02==kZDwJQkSR7mrjEgDk7afWDSrqYCiqW6Ao/7wn/w6v5OKOgAnoEWt'
+            'gqO0ELI1BxWNzSde2gbaW+9Ki6Tx94pU2gQRJuJxXGsvcmCRla1mB/0U/rPh'
+            'f77bxgPRG+PHn9+p9sQ5nfvY6Ytw9IvDn4NjH3ccbjoXFRrs7R/ou9aapq2a'
+            'jRHqXlIzDR1ihyQHC91Wvkviw2qTOEYDhR5hE4T2l1iHsTTpeXOqWk0XmgnC'
+            'gO18e4Hv0P5WKICCull+PCh+OXQYTK5x0UwQPNOGN20rQu5zR9C0ph0hFQxk'
+            'WLa/ft206pBZmWDf4HiyAawXPoR1AMWAh/t0cjh8gRTTNfHeog==',
+
+        // me.carda.awesome_notifications_fcm_example
+        '2024-01-02==lYUBqt9kKmObnP7UzWd2KK9FOTOySkVATX/j/CGEzSlSKsQx5y5S9'
+            'RKHG1lP1TZ5KHO6+wwkNbzxmni4uJ418WM3ywTY199bHAp5MHWxZEEgvMMG4/'
+            '/V2W0acFhSgxH6GL/6XNYvhS2RwaX7X/z4NX7Z4dgZVOn0VW3GRyg7I/zLcgl'
+            'Dhh+n9obRuGnZI+Xakw2id97PSG4QZOCw15A0LzE1lip/Fzj0cMRsqpvcAW2K'
+            'VWYZm5ZmK2yKVcop1kxiq1faZGL1fBteJCQ8YeQKpqS+aaVmexdJXmB7sJVl0'
+            '5o87ORRfijpO+Q6gmTYfjYxoiQMismHUx6NAnoB/txaLw=='
+      ],
+      debug: false,
+    );
+  }
+
+  Future<void> _saveToken(String token) async {
+    if (token.isEmpty) return;
+
+    final savedToken = _prefs.get('notificationToken');
+    if (savedToken.toString() == token) return;
+
+    // Save token in server
+    await _functions.httpsCallable('saveNotificationToken').call({
+      'token': token,
+    });
+
+    // Save token in local
+    await _prefs.setString('notificationToken', token);
+  }
+
   Future<void> _suscribeTopic(String topic) async {
     final isSuscribed = await _prefs.getBool(topic) ?? false;
 
     if (isSuscribed) return;
 
-    await _messaging.subscribeToTopic(topic);
+    await _notificationsFcm.subscribeToTopic(topic);
     await _prefs.setBool(topic, true);
   }
 
   Future<void> _unsuscribeTopic(String topic) async {
-    await _messaging.unsubscribeFromTopic(topic);
+    await _notificationsFcm.unsubscribeToTopic(topic);
     await _prefs.setBool(topic, false);
   }
-
-  @override
-  Future<Response<void>> scheduleNotification(
-    NotificationEntity notification,
-    DateTime scheduledDate,
-  ) async {
-    try {
-      initializeTimeZones();
-      final tzScheduledDate =
-          TZDateTime.from(scheduledDate.subtract(Duration(seconds: 55)), local);
-
-      await _flutterLocalNotificationsPlugin.zonedSchedule(
-        notification.id,
-        notification.title,
-        notification.body,
-        tzScheduledDate,
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'schedule channel id',
-            'schedule channel name',
-          ),
-        ),
-        payload: json.encode(notification.data),
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.dateAndTime,
-      );
-
-      return Response.success(null);
-    } catch (e) {
-      return Response.failed(UnexpectedFailure());
-    }
-  }
-
-  @override
-  Future<Response<List<NotificationEntity>>> checkPendingNotification() async {
-    try {
-      final pendingNotificationRequests =
-          await _flutterLocalNotificationsPlugin.pendingNotificationRequests();
-
-      final pendingNotificationList = List<NotificationEntity>.from(
-        pendingNotificationRequests.map(
-          (notification) {
-            return NotificationEntity.fromPendingNotification(notification);
-          },
-        ),
-      );
-
-      return Response.success(pendingNotificationList);
-    } catch (e) {
-      return Response.failed(UnexpectedFailure());
-    }
-  }
-
-  @override
-  Future<Response<void>> cancelNotification(int id) async {
-    try {
-      await _flutterLocalNotificationsPlugin.cancel(id);
-
-      return Response.success(null);
-    } catch (e) {
-      return Response.failed(UnexpectedFailure());
-    }
-  }
-}
-
-Future<ByteArrayAndroidBitmap> _getByteArrayFromUrl(String url) async {
-  final uri = Uri.parse(url);
-  final http.Response response = await http.get(uri);
-
-  return ByteArrayAndroidBitmap(
-    response.bodyBytes,
-  );
-}
-
-Future<String> _downloadAndSaveFile(String url, String fileName) async {
-  final Directory directory = await getApplicationDocumentsDirectory();
-  final String filePath = '${directory.path}/$fileName';
-  final http.Response response = await http.get(Uri.parse(url));
-  final File file = File(filePath);
-  await file.writeAsBytes(response.bodyBytes);
-  return filePath;
 }

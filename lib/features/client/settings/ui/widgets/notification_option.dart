@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
@@ -55,14 +54,14 @@ class _NotificationOptionState extends State<NotificationOption>
           c.status == NotificationStatus.permissionChecked ||
           c.status == NotificationStatus.permissionRequested,
       builder: (context, state) {
-        final requestStatus = state.requestStatus;
+        // final requestStatus = state.requestStatus;
 
-        if (requestStatus == AuthorizationStatus.authorized)
-          return AccountOption(
-            icon: Icons.notifications,
-            title: 'Configurar recordatorios',
-            onTap: () async {},
-          );
+        // if (requestStatus == AuthorizationStatus.authorized)
+        return AccountOption(
+          icon: Icons.notifications,
+          title: 'Configurar recordatorios',
+          onTap: () async {},
+        );
 
         return AccountOption(
           icon: Icons.notifications,
@@ -95,11 +94,11 @@ class _NotificationOptionState extends State<NotificationOption>
           title: 'Activar Notificationes',
           subtitle: 'Otorga el permiso para recibir notificaciones',
           onTap: () async {
-            if (requestStatus == AuthorizationStatus.notDetermined) {
-              return context
-                  .read<NotificationBloc>()
-                  .add(RequestPermissionEvent());
-            }
+            // if (requestStatus == AuthorizationStatus.notDetermined) {
+            return context
+                .read<NotificationBloc>()
+                .add(RequestPermissionEvent());
+            // }
             return context
                 .read<NotificationBloc>()
                 .add(OpenNotificationSettingsEvent());

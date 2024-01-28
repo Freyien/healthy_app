@@ -15,14 +15,14 @@ class CheckPermissionEvent extends NotificationEvent {}
 
 class OpenNotificationSettingsEvent extends NotificationEvent {}
 
-class SetupForegroundNotificationEvent extends NotificationEvent {}
+class InitRemoteNotificationsEvent extends NotificationEvent {}
+
+class InitLocalNotificationsEvent extends NotificationEvent {}
 
 class SaveTokenEvent extends NotificationEvent {}
 
 class GetInitialMessageEvent extends NotificationEvent {}
 
-class ListenOnMessageOpenedAppEvent extends NotificationEvent {}
-
-class ListenForegroundNotification extends NotificationEvent {}
+class ActionReceivedMethodEvent extends NotificationEvent {}
 
 class SuscribeToCommonTipics extends NotificationEvent {}

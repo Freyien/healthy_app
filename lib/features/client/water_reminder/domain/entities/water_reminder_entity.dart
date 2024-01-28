@@ -28,6 +28,9 @@ class WaterReminderEntity extends Equatable {
     );
   }
 
+  int get intervalToSeconds => minuteInterval * 60;
+
+  // TODO: Delete
   DateTime get reminderStart {
     final now = DateTime.now();
 

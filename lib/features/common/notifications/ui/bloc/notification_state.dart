@@ -2,13 +2,13 @@ part of 'notification_bloc.dart';
 
 class NotificationState extends Equatable {
   const NotificationState({
-    this.requestStatus = AuthorizationStatus.notDetermined,
+    this.permissionIsGranted = false,
     this.status = NotificationStatus.initial,
     required this.route,
     required this.notification,
   });
 
-  final AuthorizationStatus requestStatus;
+  final bool permissionIsGranted;
   final NotificationStatus status;
   final NotificationEntity notification;
   final InitialRouteEntity route;
@@ -21,13 +21,13 @@ class NotificationState extends Equatable {
       );
 
   NotificationState copyWith({
-    AuthorizationStatus? requestStatus,
+    bool? permissionIsGranted,
     NotificationStatus? status,
     NotificationEntity? notification,
     InitialRouteEntity? route,
   }) {
     return NotificationState(
-      requestStatus: requestStatus ?? this.requestStatus,
+      permissionIsGranted: permissionIsGranted ?? this.permissionIsGranted,
       status: status ?? this.status,
       notification: notification ?? this.notification,
       route: route ?? this.route,
@@ -35,7 +35,7 @@ class NotificationState extends Equatable {
   }
 
   @override
-  List<Object> get props => [requestStatus, status, notification, route];
+  List<Object> get props => [permissionIsGranted, status, notification, route];
 }
 
 enum NotificationStatus {

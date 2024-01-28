@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:healthy_app/core/data/network/cloud_client.dart';
 import 'package:healthy_app/core/domain/entities/response.dart';
 import 'package:healthy_app/core/domain/failures/failures.dart';
-import 'package:healthy_app/features/client/water_plan/domain/entities/water_consumption_entity.dart';
 import 'package:healthy_app/features/client/water_reminder/domain/entities/water_reminder_entity.dart';
 import 'package:healthy_app/features/client/water_reminder/domain/repositories/water_reminder_repository.dart';
 import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
@@ -29,18 +28,16 @@ class WaterReminderRepositoryImpl implements WaterReminderRepository {
   }
 
   @override
-  Future<Response<WaterConsumptionEntity>> saveWaterReminder(
+  Future<Response<void>> saveWaterReminder(
     WaterReminderEntity waterReminder,
   ) async {
     try {
-      final result = await _client.post(
+      await _client.post(
         'saveWaterReminder',
         parameters: waterReminder.toMap(),
       );
 
-      final waterConsumption = WaterConsumptionEntity.fromMap(result);
-
-      return Response.success(waterConsumption);
+      return Response.success(null);
     } catch (e) {
       return Response.failed(UnexpectedFailure());
     }

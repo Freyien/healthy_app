@@ -1,4 +1,4 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -35,7 +35,7 @@ class DashboardNotifications extends StatelessWidget {
   ) async {
     switch (state.status) {
       case NotificationStatus.permissionChecked:
-        if (state.requestStatus != AuthorizationStatus.authorized) return;
+        if (!state.permissionIsGranted) return;
 
         return _onAutorizedPermission(context);
       case NotificationStatus.notificationTapped:
@@ -48,10 +48,10 @@ class DashboardNotifications extends StatelessWidget {
 
   void _onAutorizedPermission(BuildContext context) {
     context.read<NotificationBloc>()
-      ..add(SetupForegroundNotificationEvent())
-      ..add(ListenForegroundNotification())
+      ..add(InitLocalNotificationsEvent())
+      ..add(InitRemoteNotificationsEvent())
       ..add(GetInitialMessageEvent())
-      ..add(ListenOnMessageOpenedAppEvent())
+      ..add(ActionReceivedMethodEvent())
       ..add(SuscribeToCommonTipics())
       ..add(SaveTokenEvent());
   }
@@ -86,7 +86,7 @@ class DashboardNotifications extends StatelessWidget {
 
   Future<void> _scheduleWaterReminder() async {
     final now = DateTime.now();
-    final scheduleDate = await sl<GetWaterReminderDateUsecase>().call(now);
-    await sl<AddWaterReminderUsecase>().call(scheduleDate);
+    final secondsInterval = await sl<GetWaterReminderDateUsecase>().call(now);
+    await sl<AddWaterReminderUsecase>().call(secondsInterval);
   }
 }

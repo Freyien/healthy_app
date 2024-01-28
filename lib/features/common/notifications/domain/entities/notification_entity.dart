@@ -1,9 +1,8 @@
 import 'dart:convert';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthy_app/core/domain/utils/enum_utils.dart';
 
 class NotificationEntity extends Equatable {
@@ -27,33 +26,26 @@ class NotificationEntity extends Equatable {
     return NotificationEntity();
   }
 
-  factory NotificationEntity.fromRemoteMessage(RemoteMessage message) {
-    final notification = message.notification;
-    final data = message.data;
+  // factory NotificationEntity.fromRemoteMessage(RemoteMessage message) {
+  //   final notification = message.notification;
+  //   final data = message.data;
+
+  //   return NotificationEntity(
+  //     messageId: message.messageId ?? '',
+  //     body: notification?.body ?? data['body'] ?? '',
+  //     title: notification?.title ?? data['title'] ?? '',
+  //     data: data,
+  //     imageUrl: data['imageUrl'] ?? '',
+  //   );
+  // }
+
+  factory NotificationEntity.fromReceivedAction(ReceivedAction receivedAction) {
+    final data = Map<String, dynamic>.from(receivedAction.payload ?? {});
 
     return NotificationEntity(
-      messageId: message.messageId ?? '',
-      body: notification?.body ?? data['body'] ?? '',
-      title: notification?.title ?? data['title'] ?? '',
-      data: data,
-      imageUrl: data['imageUrl'] ?? '',
-    );
-  }
-
-  factory NotificationEntity.fromPendingNotification(
-    PendingNotificationRequest notification,
-  ) {
-    String payload = notification.payload ?? '';
-    payload = payload.isEmpty ? '{}' : payload;
-
-    final payloadDecode = jsonDecode(payload);
-    final data = Map<String, dynamic>.from(payloadDecode);
-
-    return NotificationEntity(
-      id: notification.id,
-      messageId: notification.id.toString(),
-      body: notification.body ?? '',
-      title: notification.title ?? '',
+      messageId: receivedAction.id.toString(),
+      body: receivedAction.body ?? '',
+      title: receivedAction.title ?? '',
       data: data,
       imageUrl: data['imageUrl'] ?? '',
     );

@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +6,6 @@ import 'package:healthy_app/core/domain/utils/router_utils.dart';
 import 'package:healthy_app/core/ui/utils/loading.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
-import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
 import 'package:healthy_app/features/common/notifications/ui/bloc/notification_bloc.dart';
 import 'package:healthy_app/features/common/notifications/ui/widgets/notification_activate_button.dart';
 import 'package:healthy_app/features/common/notifications/ui/widgets/notification_animation.dart';
@@ -68,7 +66,7 @@ class NotificationsPage extends StatelessWidget {
       case NotificationStatus.loading:
         return LoadingUtils.show(context);
       case NotificationStatus.permissionRequested:
-        _logPermissionStatus(context, state.requestStatus);
+        // _logPermissionStatus(context, state.requestStatus);
         return _getNextRoute(context);
       case NotificationStatus.success:
       case NotificationStatus.failure:
@@ -79,14 +77,14 @@ class NotificationsPage extends StatelessWidget {
     }
   }
 
-  void _logPermissionStatus(BuildContext context, AuthorizationStatus status) {
-    context.read<AnalyticsBloc>().add(
-          LogEvent(
-            'notificationStatus',
-            parameters: {'status': status.toString()},
-          ),
-        );
-  }
+  // void _logPermissionStatus(BuildContext context, AuthorizationStatus status) {
+  //   context.read<AnalyticsBloc>().add(
+  //         LogEvent(
+  //           'notificationStatus',
+  //           parameters: {'status': status.toString()},
+  //         ),
+  //       );
+  // }
 
   void _getNextRoute(BuildContext context) {
     context.read<NotificationBloc>().add(GetNextRouteEvent());

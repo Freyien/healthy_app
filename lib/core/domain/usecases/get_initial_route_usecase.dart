@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/features/common/app_update/domain/repositories/app_update_repository.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
@@ -42,16 +41,18 @@ class GetInitialRouteUseCase {
     final res = await _notificationRepository.requestPermission();
 
     if (res.isFailed) return InitialRouteEntity();
-    final authorizationStatus = res.data!;
+    // final authorizationStatus = res.data!;
 
-    switch (authorizationStatus) {
-      case AuthorizationStatus.authorized:
-      case AuthorizationStatus.denied:
-        return InitialRouteEntity();
-      case AuthorizationStatus.notDetermined:
-      case AuthorizationStatus.provisional:
-        return InitialRouteEntity(name: InitialRoute.notification);
-    }
+    // switch (authorizationStatus) {
+    //   case AuthorizationStatus.authorized:
+    //   case AuthorizationStatus.denied:
+    //     return InitialRouteEntity();
+    //   case AuthorizationStatus.notDetermined:
+    //   case AuthorizationStatus.provisional:
+    //     return InitialRouteEntity(name: InitialRoute.notification);
+    // }
+
+    return InitialRouteEntity();
   }
 
   Future<InitialRouteEntity> _checkUpdateIsRequired() async {

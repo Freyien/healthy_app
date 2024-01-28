@@ -1,6 +1,6 @@
+import 'package:healthy_app/core/constants/healthy_constants.dart';
 import 'package:healthy_app/core/domain/entities/response.dart';
 import 'package:healthy_app/features/client/water_reminder/domain/repositories/water_reminder_repository.dart';
-import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
 
 class AddWaterReminderUsecase {
@@ -12,34 +12,26 @@ class AddWaterReminderUsecase {
     this._waterReminderRepository,
   );
 
-  Future<Response<void>> call(DateTime scheduleDate) async {
-    // Get pending notifications
-    final pendingNotificationResponse =
-        await _notificationRepository.checkPendingNotification();
-
-    if (pendingNotificationResponse.isFailed)
-      return pendingNotificationResponse;
-
+  Future<Response<void>> call(int interval) async {
     // Get random water notification
     final notificationResponse =
         await _waterReminderRepository.getWaterNotification();
 
     if (notificationResponse.isFailed) return notificationResponse;
 
+    // Cancel pending notifications
+    final channel = HealthyConstants.waterReminderChannel;
+    await _notificationRepository.cancelSchedulesByChannelKey(channel);
+
     // Schedule notification
     final scheduleResponse = await _notificationRepository.scheduleNotification(
-      notificationResponse.data!,
-      scheduleDate,
+      channelKey: channel,
+      interval: interval,
+      notification: notificationResponse.data!,
+      repeats: true,
     );
 
     if (scheduleResponse.isFailed) return scheduleResponse;
-
-    // Cancel pending notifications
-    pendingNotificationResponse.data!.forEach((notification) async {
-      if (notification.type != NotificationType.waterReminder) return;
-
-      await _notificationRepository.cancelNotification(notification.id);
-    });
 
     return Response.success(null);
   }

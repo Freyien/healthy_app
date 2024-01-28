@@ -108,22 +108,15 @@ class WaterReminderBloc extends Bloc<WaterReminderEvent, WaterReminderState> {
       return emit(state.copyWith(savingStatus: SavingStatus.failure));
     }
 
-    final waterReminder = state.waterReminder.copyWith(
-      lastEventDate: response.data!.date,
-    );
-
     // Schedule notification
     final reminderResponse = await _addWaterReminderUsecase.call(
-      waterReminder.scheduleDate,
+      state.waterReminder.intervalToSeconds,
     );
 
     if (reminderResponse.isFailed) {
       return emit(state.copyWith(savingStatus: SavingStatus.failure));
     }
 
-    emit(state.copyWith(
-      savingStatus: SavingStatus.success,
-      waterReminder: waterReminder,
-    ));
+    emit(state.copyWith(savingStatus: SavingStatus.success));
   }
 }

@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/core/domain/usecases/get_initial_route_usecase.dart';
 import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
@@ -21,11 +20,12 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<GetNextRouteEvent>(_onGetNextRouteEvent);
     on<CheckPermissionEvent>(_onCheckPermissionEvent);
     on<OpenNotificationSettingsEvent>(_onOpenNotificationSettingsEvent);
-    on<SetupForegroundNotificationEvent>(_onSetupForegroundNotificationEvent);
+
+    on<InitRemoteNotificationsEvent>(_onInitRemoteNotificationsEvent);
+    on<InitLocalNotificationsEvent>(_onInitLocalNotificationsEvent);
     on<SaveTokenEvent>(_onSaveTokenEvent);
     on<GetInitialMessageEvent>(_onGetInitialMessageEvent);
-    on<ListenOnMessageOpenedAppEvent>(_onListenOnMessageOpenedAppEvent);
-    on<ListenForegroundNotification>(_onListenForegroundNotification);
+    on<ActionReceivedMethodEvent>(_onActionReceivedMethod);
     on<SuscribeToCommonTipics>(_onSuscribeToCommonTipics);
   }
 
@@ -36,14 +36,12 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     final response = await _notificationRepository.requestPermission();
 
     if (response.isFailed) {
-      return emit(
-        state.copyWith(status: NotificationStatus.failure),
-      );
+      return emit(state.copyWith(status: NotificationStatus.failure));
     }
 
     return emit(
       state.copyWith(
-        requestStatus: response.data,
+        permissionIsGranted: response.data,
         status: NotificationStatus.permissionRequested,
       ),
     );
@@ -91,7 +89,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     return emit(
       state.copyWith(
-        requestStatus: response.data,
+        permissionIsGranted: response.data,
         status: NotificationStatus.permissionChecked,
       ),
     );
@@ -116,19 +114,18 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     );
   }
 
-  Future<void> _onSetupForegroundNotificationEvent(
-    SetupForegroundNotificationEvent event,
+  Future<void> _onInitRemoteNotificationsEvent(
+    InitRemoteNotificationsEvent event,
     Emitter<NotificationState> emit,
   ) async {
-    await emit.forEach(
-      _notificationRepository.initForegroundNotifications(),
-      onData: (notification) {
-        return state.copyWith(
-          notification: notification,
-          status: NotificationStatus.notificationTapped,
-        );
-      },
-    );
+    await _notificationRepository.initRemoteNotifications();
+  }
+
+  Future<void> _onInitLocalNotificationsEvent(
+    InitLocalNotificationsEvent event,
+    Emitter<NotificationState> emit,
+  ) async {
+    await _notificationRepository.initLocalNotifications();
   }
 
   Future<void> _onSaveTokenEvent(
@@ -160,29 +157,19 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     );
   }
 
-  Future<void> _onListenOnMessageOpenedAppEvent(
-    ListenOnMessageOpenedAppEvent event,
+  Future<void> _onActionReceivedMethod(
+    ActionReceivedMethodEvent event,
     Emitter<NotificationState> emit,
   ) async {
     await emit.forEach(
-      _notificationRepository.onMessageOpenedApp(),
-      onData: (remoteMessage) {
-        final notification =
-            NotificationEntity.fromRemoteMessage(remoteMessage);
-
+      _notificationRepository.onActionReceivedMethod(),
+      onData: (notification) {
         return state.copyWith(
           notification: notification,
           status: NotificationStatus.notificationTapped,
         );
       },
     );
-  }
-
-  Future<void> _onListenForegroundNotification(
-    ListenForegroundNotification event,
-    Emitter<NotificationState> emit,
-  ) async {
-    _notificationRepository.onMessage();
   }
 
   Future<void> _onSuscribeToCommonTipics(
