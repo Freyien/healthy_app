@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
@@ -46,6 +47,7 @@ class WaterReminderPage extends StatelessWidget {
                       content: SizedBox(
                         width: 800,
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             VerticalSpace.small(),

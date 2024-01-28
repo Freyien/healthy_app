@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:awesome_notifications_fcm/awesome_notifications_fcm.dart';
 import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
 
 class NotificationController {
@@ -27,4 +28,7 @@ class NotificationController {
 
     streamFcmToken.add(token);
   }
+
+  @pragma('vm:entry-point')
+  static Future<void> onFcmSilentDataHandle(FcmSilentData _) async {}
 }

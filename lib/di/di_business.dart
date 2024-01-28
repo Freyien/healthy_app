@@ -183,7 +183,7 @@ void _registerBlocs() {
   sl.registerFactory(() => MeasureBloc(sl()));
   sl.registerFactory(() => SettingsBloc(sl(), sl(), sl()));
   sl.registerFactory(() => SuggestionBloc(sl()));
-  sl.registerFactory(() => WaterReminderBloc(sl(), sl()));
+  sl.registerFactory(() => WaterReminderBloc(sl(), sl(), sl()));
 }
 
 // Use cases

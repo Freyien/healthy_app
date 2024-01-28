@@ -181,6 +181,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
           body: notification.body,
           wakeUpScreen: true,
           category: NotificationCategory.Reminder,
+          autoDismissible: false,
         ),
         schedule: NotificationInterval(
           interval: interval,
@@ -245,14 +246,14 @@ class NotificationRepositoryImpl implements NotificationRepository {
           channelGroupName: 'Water Reminder Group',
         ),
       ],
-      debug: false,
+      debug: true,
     );
   }
 
   Future<void> _initializeRemoteNotifications() async {
     await _notificationsFcm.initialize(
       onFcmTokenHandle: NotificationController.onFcmTokenHandle,
-      onFcmSilentDataHandle: (_) async {},
+      onFcmSilentDataHandle: NotificationController.onFcmSilentDataHandle,
       licenseKeys:
           // On this example app, the app ID / Bundle Id are different
           // for each platform, so i used the main Bundle ID + 1 variation
@@ -273,7 +274,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
             'VWYZm5ZmK2yKVcop1kxiq1faZGL1fBteJCQ8YeQKpqS+aaVmexdJXmB7sJVl0'
             '5o87ORRfijpO+Q6gmTYfjYxoiQMismHUx6NAnoB/txaLw=='
       ],
-      debug: false,
+      debug: true,
     );
   }
 
