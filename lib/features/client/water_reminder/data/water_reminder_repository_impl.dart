@@ -94,8 +94,8 @@ class WaterReminderRepositoryImpl implements WaterReminderRepository {
       );
 
       await Workmanager().registerOneOffTask(
-        HealthyConstants.waterReminderChannel,
-        HealthyConstants.waterReminderChannel,
+        HealthyConstants.waterReminderIndentifier,
+        HealthyConstants.waterReminderIndentifier,
         initialDelay: Duration(seconds: secondsDelay),
         existingWorkPolicy: existingWorkPolicy,
         inputData: waterReminder.toMap(),
