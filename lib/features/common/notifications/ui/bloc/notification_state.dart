@@ -44,7 +44,6 @@ enum NotificationStatus {
   success,
   failure,
   permissionRequested,
-  notificationReceived,
   notificationTapped,
   permissionChecked,
   settingsOpened,

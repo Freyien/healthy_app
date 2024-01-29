@@ -13,7 +13,6 @@ import 'package:healthy_app/features/common/notifications/data/notification_cont
 import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timezone/data/latest_all.dart';
 
 class NotificationRepositoryImpl implements NotificationRepository {
   NotificationRepositoryImpl(
@@ -130,6 +129,29 @@ class NotificationRepositoryImpl implements NotificationRepository {
     return NotificationController.streamReceivedAction.stream;
   }
 
+  @override
+  Future<Response<void>> showNotification({
+    required NotificationEntity notification,
+  }) async {
+    try {
+      await _notifications.createNotification(
+        content: NotificationContent(
+          channelKey: 'basic_channel',
+          id: notification.id,
+          title: notification.title,
+          body: notification.body,
+          wakeUpScreen: true,
+          category: NotificationCategory.Reminder,
+          autoDismissible: false,
+        ),
+      );
+
+      return Response.success(null);
+    } catch (e) {
+      return Response.failed(UnexpectedFailure());
+    }
+  }
+
   /* TOPICS */
 
   @override
@@ -147,64 +169,6 @@ class NotificationRepositoryImpl implements NotificationRepository {
       await _unsuscribeTopic("news");
     } catch (e) {
       print(e);
-    }
-  }
-
-  /* SCHEDULE */
-
-  @override
-  Future<Response<void>> scheduleNotification({
-    required NotificationEntity notification,
-    required String channelKey,
-    required int interval,
-    bool repeats = true,
-  }) async {
-    try {
-      initializeTimeZones();
-      final localTimeZone = await _notifications.getLocalTimeZoneIdentifier();
-
-      // await AwesomeNotifications().createNotification(
-      //   content: NotificationContent(
-      //     id: 10,
-      //     channelKey: 'basic_channel',
-      //     actionType: ActionType.Default,
-      //     title: 'Hello World!',
-      //     body: 'This is my first notification!',
-      //   ),
-      // );
-
-      await _notifications.createNotification(
-        content: NotificationContent(
-          id: notification.id,
-          channelKey: channelKey,
-          title: notification.title,
-          body: notification.body,
-          wakeUpScreen: true,
-          category: NotificationCategory.Reminder,
-          autoDismissible: false,
-        ),
-        schedule: NotificationInterval(
-          interval: interval,
-          timeZone: localTimeZone,
-          preciseAlarm: true,
-          repeats: repeats,
-        ),
-      );
-
-      return Response.success(null);
-    } catch (e) {
-      return Response.failed(UnexpectedFailure());
-    }
-  }
-
-  @override
-  Future<Response<void>> cancelSchedulesByChannelKey(String channelKey) async {
-    try {
-      await _notifications.cancelSchedulesByChannelKey(channelKey);
-
-      return Response.success(null);
-    } catch (e) {
-      return Response.failed(UnexpectedFailure());
     }
   }
 

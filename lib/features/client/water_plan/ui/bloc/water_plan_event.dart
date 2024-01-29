@@ -24,3 +24,7 @@ class DeleteWaterConsumptionEvent extends WaterPlanEvent {
 
   DeleteWaterConsumptionEvent(this.waterConsumption);
 }
+
+class AddWaterReminderEvent extends WaterPlanEvent {
+  AddWaterReminderEvent();
+}

@@ -7,17 +7,23 @@ import 'package:healthy_app/core/extensions/datetime.dart';
 import 'package:healthy_app/features/client/water_plan/domain/entities/water_consumption_entity.dart';
 import 'package:healthy_app/features/client/water_plan/domain/entities/water_plan_entity.dart';
 import 'package:healthy_app/features/client/water_plan/domain/repositories/water_plan_repository.dart';
+import 'package:healthy_app/features/client/water_reminder/domain/repositories/water_reminder_repository.dart';
 
 part 'water_plan_event.dart';
 part 'water_plan_state.dart';
 
 class WaterPlanBloc extends Bloc<WaterPlanEvent, WaterPlanState> {
   final WaterPlanRepository _repository;
+  final WaterReminderRepository _waterReminderRepository;
 
-  WaterPlanBloc(this._repository) : super(WaterPlanState.initial()) {
+  WaterPlanBloc(
+    this._repository,
+    this._waterReminderRepository,
+  ) : super(WaterPlanState.initial()) {
     on<GetWaterPlanEvent>(_onGetWaterPlanEvent);
     on<AddWaterConsumptionEvent>(_onAddWaterConsumptionEvent);
     on<DeleteWaterConsumptionEvent>(_onDeleteWaterConsumptionEvent);
+    on<AddWaterReminderEvent>(_onAddWaterReminderEvent);
   }
 
   Future<void> _onGetWaterPlanEvent(
@@ -58,9 +64,19 @@ class WaterPlanBloc extends Bloc<WaterPlanEvent, WaterPlanState> {
 
     state.waterPlan.waterConsumptionList.insert(0, response.data!);
 
-    emit(state.copyWith(
-      savingStatus: SavingStatus.success,
-    ));
+    // Get water reminder
+    final reminderResponse = await _waterReminderRepository.getWaterReminder();
+
+    if (response.isFailed) {
+      return emit(state.copyWith(deletingStatus: DeletingStatus.failure));
+    }
+
+    // Create reminder
+    await _waterReminderRepository.addLocalWaterReminder(
+      reminderResponse.data!,
+    );
+
+    emit(state.copyWith(savingStatus: SavingStatus.success));
   }
 
   Future<void> _onDeleteWaterConsumptionEvent(
@@ -91,4 +107,9 @@ class WaterPlanBloc extends Bloc<WaterPlanEvent, WaterPlanState> {
       ),
     ));
   }
+
+  Future<void> _onAddWaterReminderEvent(
+    AddWaterReminderEvent event,
+    Emitter<WaterPlanState> emit,
+  ) async {}
 }

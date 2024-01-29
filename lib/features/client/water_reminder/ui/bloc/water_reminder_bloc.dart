@@ -1,26 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:healthy_app/core/constants/healthy_constants.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
 import 'package:healthy_app/core/domain/enums/saving_status.dart';
 import 'package:healthy_app/features/client/water_reminder/domain/entities/water_reminder_entity.dart';
 import 'package:healthy_app/features/client/water_reminder/domain/repositories/water_reminder_repository.dart';
-import 'package:healthy_app/features/client/water_reminder/domain/usecases/add_water_reminder_usecase.dart';
-import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
 
 part 'water_reminder_event.dart';
 part 'water_reminder_state.dart';
 
 class WaterReminderBloc extends Bloc<WaterReminderEvent, WaterReminderState> {
   final WaterReminderRepository _repository;
-  final AddWaterReminderUsecase _addWaterReminderUsecase;
-  final NotificationRepository _notificationRepository;
 
-  WaterReminderBloc(
-    this._repository,
-    this._addWaterReminderUsecase,
-    this._notificationRepository,
-  ) : super(WaterReminderState.initial()) {
+  WaterReminderBloc(this._repository) : super(WaterReminderState.initial()) {
     on<GetWaterReminderEvent>(_onGetWaterReminderEvent);
     on<ChangeEnableEvent>(_onChangeEnableEvent);
     on<ChangeIntervalEvent>(_onChangeIntervalEvent);
@@ -105,35 +96,33 @@ class WaterReminderBloc extends Bloc<WaterReminderEvent, WaterReminderState> {
   ) async {
     emit(state.copyWith(savingStatus: SavingStatus.loading));
 
-    // Get today last water consumption
     final response = await _repository.saveWaterReminder(state.waterReminder);
 
     if (response.isFailed) {
       return emit(state.copyWith(savingStatus: SavingStatus.failure));
     }
 
-    if (!state.waterReminder.enable) {
-      final cancelResponse =
-          await _notificationRepository.cancelSchedulesByChannelKey(
-        HealthyConstants.waterReminderChannel,
+    // Edit reminder
+    if (state.waterReminder.enable) {
+      final addReminderResponse = await _repository.addLocalWaterReminder(
+        state.waterReminder,
+        replaceIfExists: true,
       );
 
-      if (cancelResponse.isFailed) {
+      if (addReminderResponse.isFailed) {
         return emit(state.copyWith(savingStatus: SavingStatus.failure));
       }
 
       return emit(state.copyWith(savingStatus: SavingStatus.success));
     }
 
-    // Schedule notification
-    final reminderResponse = await _addWaterReminderUsecase.call(
-      state.waterReminder.intervalToSeconds,
-    );
+    // Cancel reminders
+    final cancelResponse = await _repository.cancelWaterReminders();
 
-    if (reminderResponse.isFailed) {
+    if (cancelResponse.isFailed) {
       return emit(state.copyWith(savingStatus: SavingStatus.failure));
     }
 
-    emit(state.copyWith(savingStatus: SavingStatus.success));
+    return emit(state.copyWith(savingStatus: SavingStatus.success));
   }
 }

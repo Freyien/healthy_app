@@ -44,7 +44,7 @@ import 'package:healthy_app/features/client/water_plan/domain/repositories/water
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
 import 'package:healthy_app/features/client/water_reminder/data/water_reminder_repository_impl.dart';
 import 'package:healthy_app/features/client/water_reminder/domain/repositories/water_reminder_repository.dart';
-import 'package:healthy_app/features/client/water_reminder/domain/usecases/add_water_reminder_usecase.dart';
+import 'package:healthy_app/features/client/water_reminder/domain/usecases/show_water_notification_usecase.dart';
 import 'package:healthy_app/features/client/water_reminder/ui/bloc/water_reminder_bloc.dart';
 import 'package:healthy_app/features/common/analytics/data/analytics_repository_impl.dart';
 import 'package:healthy_app/features/common/analytics/domain/repositories/analytics_repository.dart';
@@ -58,6 +58,7 @@ import 'package:healthy_app/features/common/splash/data/splash_repository_impl.d
 import 'package:healthy_app/features/common/splash/domain/repositories/splash_repository.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workmanager/workmanager.dart';
 
 GetIt sl = GetIt.instance;
 bool isDIInitialized = false;
@@ -118,6 +119,9 @@ Future<void> _registerNetwork() async {
   sl.registerLazySingleton<AwesomeNotificationsFcm>(
     () => AwesomeNotificationsFcm(),
   );
+  sl.registerLazySingleton<Workmanager>(
+    () => Workmanager(),
+  );
 }
 
 // Repositories
@@ -165,7 +169,7 @@ void _registerRepositories() {
     () => SuggestionRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<WaterReminderRepository>(
-    () => WaterReminderRepositoryImpl(sl()),
+    () => WaterReminderRepositoryImpl(sl(), sl()),
   );
 }
 
@@ -179,15 +183,15 @@ void _registerBlocs() {
   sl.registerFactory(() => InitialConfigBloc(sl()));
   sl.registerFactory(() => PersonalInfoBloc(sl()));
   sl.registerFactory(() => EatingPlanBloc(sl()));
-  sl.registerFactory(() => WaterPlanBloc(sl()));
+  sl.registerFactory(() => WaterPlanBloc(sl(), sl()));
   sl.registerFactory(() => MeasureBloc(sl()));
   sl.registerFactory(() => SettingsBloc(sl(), sl(), sl()));
   sl.registerFactory(() => SuggestionBloc(sl()));
-  sl.registerFactory(() => WaterReminderBloc(sl(), sl(), sl()));
+  sl.registerFactory(() => WaterReminderBloc(sl()));
 }
 
 // Use cases
 void _registerUseCases() {
   sl.registerLazySingleton(() => GetInitialRouteUseCase(sl(), sl(), sl()));
-  sl.registerLazySingleton(() => AddWaterReminderUsecase(sl(), sl()));
+  sl.registerLazySingleton(() => ShowWaterNotificationUsecase(sl(), sl()));
 }

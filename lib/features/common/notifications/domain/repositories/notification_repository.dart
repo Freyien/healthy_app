@@ -14,19 +14,14 @@ abstract class NotificationRepository {
   // Token
   Future<void> savetoken();
 
+  // Notifications
   Future<Response<NotificationEntity?>> getInitialMessage();
   Stream<NotificationEntity?> onActionReceivedMethod();
+  Future<Response<void>> showNotification({
+    required NotificationEntity notification,
+  });
 
   // Topics
   Future<void> suscribeToCommonTipics();
   Future<void> unsuscribeToCommonTipics();
-
-  // Schedule
-  Future<Response<void>> scheduleNotification({
-    required NotificationEntity notification,
-    required String channelKey,
-    required int interval,
-    bool repeats = true,
-  });
-  Future<Response<void>> cancelSchedulesByChannelKey(String channelKey);
 }

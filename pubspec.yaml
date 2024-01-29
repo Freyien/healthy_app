@@ -1,6 +1,6 @@
 name: healthy_app
 description: A Very Good Project created by Very Good CLI.
-version: 1.0.12+13
+version: 1.0.13+14
 publish_to: none
 
 environment:
@@ -61,6 +61,7 @@ dependencies:
   timezone: ^0.9.2
   url_launcher: ^6.1.12
   wave: ^0.2.2
+  workmanager: ^0.5.2
 
   fluttertoast: ^8.2.4
 

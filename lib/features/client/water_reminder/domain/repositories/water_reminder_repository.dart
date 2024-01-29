@@ -9,4 +9,9 @@ abstract class WaterReminderRepository {
   );
 
   Future<Response<NotificationEntity>> getWaterNotification();
+  Future<Response<void>> addLocalWaterReminder(
+    WaterReminderEntity waterReminder, {
+    bool replaceIfExists = true,
+  });
+  Future<Response<void>> cancelWaterReminders();
 }

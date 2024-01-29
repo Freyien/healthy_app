@@ -6,14 +6,12 @@ class WaterReminderEntity extends Equatable {
   final DateTime start;
   final DateTime end;
   final bool enable;
-  final DateTime lastEventDate;
 
   WaterReminderEntity({
     required this.minuteInterval,
     required this.start,
     required this.end,
     required this.enable,
-    required this.lastEventDate,
   });
 
   factory WaterReminderEntity.initial() {
@@ -24,13 +22,11 @@ class WaterReminderEntity extends Equatable {
       start: now.copyWith(hour: 7, minute: 0),
       end: now.copyWith(hour: 23, minute: 0),
       enable: false,
-      lastEventDate: now,
     );
   }
 
   int get intervalToSeconds => minuteInterval * 60;
 
-  // TODO: Delete
   DateTime get reminderStart {
     final now = DateTime.now();
 
@@ -49,26 +45,21 @@ class WaterReminderEntity extends Equatable {
         );
   }
 
-  DateTime get scheduleDate {
-    DateTime date = lastEventDate.add(
-      Duration(minutes: minuteInterval),
-    );
-
-    // Sumar intervalo para que la fecha sea después de la fecha/hora actual
+  int get calculateNextSecondsReminder {
     final now = DateTime.now();
-    while (date.isBefore(now)) {
-      date = date.add(
-        Duration(minutes: minuteInterval),
-      );
-    }
 
-    // Si la hora es después de la hora límite
-    // entonces programar para mañana a la hr inicial
+    // Sumar intervalo a hr actual
+    DateTime date = now.add(Duration(minutes: minuteInterval));
+
+    // Si pasa de la hr límite entonces programar para mañana
     if (date.isAfter(reminderEnd)) {
-      date = reminderStart.add(Duration(days: 1));
+      final tomorrow = reminderStart.add(Duration(days: 1));
+
+      // Diferencia entre fecha calculada y fecha de inicio
+      return tomorrow.difference(date).inSeconds;
     }
 
-    return date;
+    return intervalToSeconds;
   }
 
   WaterReminderEntity copyWith({
@@ -76,14 +67,12 @@ class WaterReminderEntity extends Equatable {
     DateTime? start,
     DateTime? end,
     bool? enable,
-    DateTime? lastEventDate,
   }) {
     return WaterReminderEntity(
       minuteInterval: minuteInterval ?? this.minuteInterval,
       start: start ?? this.start,
       end: end ?? this.end,
       enable: enable ?? this.enable,
-      lastEventDate: lastEventDate ?? this.lastEventDate,
     );
   }
 
@@ -96,15 +85,19 @@ class WaterReminderEntity extends Equatable {
     };
   }
 
-  factory WaterReminderEntity.fromMap(Map<String, dynamic> map) {
+  factory WaterReminderEntity.fromMap(
+    Map<String, dynamic> map, {
+    bool fromTimestamp = true,
+  }) {
     if (map['minuteInterval'] == null) return WaterReminderEntity.initial();
+
+    final multiplier = fromTimestamp ? 1000 : 1;
 
     return WaterReminderEntity(
       minuteInterval: map['minuteInterval'],
-      start: DateTime.fromMillisecondsSinceEpoch(map['start'] * 1000),
-      end: DateTime.fromMillisecondsSinceEpoch(map['end'] * 1000),
+      start: DateTime.fromMillisecondsSinceEpoch(map['start'] * multiplier),
+      end: DateTime.fromMillisecondsSinceEpoch(map['end'] * multiplier),
       enable: map['enable'],
-      lastEventDate: DateTime.now(),
     );
   }
 
@@ -113,7 +106,6 @@ class WaterReminderEntity extends Equatable {
         minuteInterval,
         start,
         end,
-        lastEventDate,
         enable,
       ];
 }
