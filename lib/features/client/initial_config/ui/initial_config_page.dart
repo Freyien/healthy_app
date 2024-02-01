@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
+import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
 import 'package:healthy_app/features/client/initial_config/ui/bloc/initial_config_bloc.dart';
@@ -36,7 +37,12 @@ class InitialConfigPage extends StatelessWidget {
                   children: [
                     CircularProgressIndicator(),
                     VerticalSpace.medium(),
-                    Text('Obteniendo información...'),
+                    Text(
+                      'Obteniendo información...',
+                      style: TextStyle(
+                        color: context.appColors.textContrast,
+                      ),
+                    ),
                   ],
                 ),
               );

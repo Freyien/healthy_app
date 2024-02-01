@@ -33,6 +33,11 @@ class ReminderEndInput extends StatelessWidget {
               minDateTime: DateTime.now().removeTime(),
               maxDateTime: DateTime.now().copyWith(hour: 23, minute: 59),
               pickerTheme: DateTimePickerTheme(
+                cancelTextStyle: TextStyle(
+                  color: context.appColors.textContrast,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
                 backgroundColor: context.appColors.scaffold!,
                 itemTextStyle: TextStyle(
                   color: context.appColors.textContrast,

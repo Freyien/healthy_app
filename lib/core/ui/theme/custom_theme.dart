@@ -47,7 +47,8 @@ class CustomTheme {
           borderSide: BorderSide(color: LightColors.input),
           borderRadius: BorderRadius.circular(10),
         ),
-        iconColor: LightColors.primaryText.withOpacity(.7),
+        prefixIconColor: LightColors.textContrast.withOpacity(.7),
+        iconColor: LightColors.textContrast.withOpacity(.7),
       ),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: DefaultColors.primary,
@@ -99,6 +100,9 @@ class CustomTheme {
           shadow: LightColors.shadow,
           gainsboro: DefaultColors.gainsboro,
           appbar: LightColors.appbar,
+          water: DefaultColors.water,
+          navigationBar: LightColors.navigationBar,
+          unselectedItemColor: LightColors.unselectedItemColor,
         ),
       ],
     );
@@ -204,6 +208,9 @@ class CustomTheme {
           shadow: DarkColors.shadow,
           gainsboro: DefaultColors.gainsboro,
           appbar: DarkColors.appbar,
+          water: DefaultColors.water,
+          navigationBar: DarkColors.navigationBar,
+          unselectedItemColor: DarkColors.unselectedItemColor,
         ),
       ],
     );

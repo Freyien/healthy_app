@@ -32,7 +32,7 @@ class ReminderEnableSwitch extends StatelessWidget {
           ),
           secondary: Icon(
             Icons.notifications_active_outlined,
-            color: context.appColors.primaryText,
+            color: Theme.of(context).inputDecorationTheme.prefixIconColor,
           ),
           controlAffinity: ListTileControlAffinity.trailing,
           contentPadding: EdgeInsets.only(right: 8, left: 16),

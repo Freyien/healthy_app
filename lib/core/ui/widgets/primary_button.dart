@@ -24,7 +24,12 @@ class PrimaryButton extends StatelessWidget {
         backgroundColor: context.appColors.primary,
         foregroundColor: Colors.white,
       ),
-      child: Text(text),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }

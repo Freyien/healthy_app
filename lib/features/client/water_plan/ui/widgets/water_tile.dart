@@ -61,12 +61,13 @@ class _Tile extends StatelessWidget {
           '${waterConsumption.quantity} ML',
           style: TextStyle(
             color: context.appColors.textContrast,
+            fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
           waterConsumption.date.format('d MMMM y HH:mm'),
           style: TextStyle(
-            color: Colors.grey[600],
+            color: context.appColors.textContrast!.withOpacity(.7),
           ),
         ),
         trailing: IconButton(

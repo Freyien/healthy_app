@@ -1,8 +1,8 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
 import 'package:healthy_app/core/domain/enums/saving_status.dart';
+import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/utils/loading.dart';
 import 'package:healthy_app/core/ui/utils/toast.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
@@ -162,7 +162,11 @@ class WaterReminderPage extends StatelessWidget {
 
                               // Interval
                               Text(
-                                  'Elige el intervalo para recibir recordatorios'),
+                                'Elige el intervalo para recibir recordatorios',
+                                style: TextStyle(
+                                  color: context.appColors.textContrast,
+                                ),
+                              ),
                               ReminderIntervalDropdown(
                                 enable: enable,
                                 value: state.waterReminder.minuteInterval,
@@ -171,13 +175,21 @@ class WaterReminderPage extends StatelessWidget {
 
                               // Start
                               Text(
-                                  'Elige la hora donde recibirás el primer recordatorio'),
+                                'Elige la hora donde recibirás el primer recordatorio',
+                                style: TextStyle(
+                                  color: context.appColors.textContrast,
+                                ),
+                              ),
                               ReminderStartInput(enable: enable),
                               VerticalSpace.xlarge(),
 
                               // End
                               Text(
-                                  'Elige la hora límite para recibir recordatorios'),
+                                'Elige la hora límite para recibir recordatorios',
+                                style: TextStyle(
+                                  color: context.appColors.textContrast,
+                                ),
+                              ),
                               ReminderEndInput(enable: enable),
                               VerticalSpace.xlarge(),
                             ],

@@ -52,10 +52,10 @@ class WaterPlanDateLine extends StatelessWidget {
                   return Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: isSelected ? context.appColors.primary : null,
+                      color: isSelected ? context.appColors.water : null,
                       border: isToday
                           ? Border.all(
-                              color: context.appColors.primary!,
+                              color: context.appColors.water!,
                             )
                           : null,
                     ),
@@ -69,11 +69,13 @@ class WaterPlanDateLine extends StatelessWidget {
                             color: isSelected
                                 ? Colors.white
                                 : isSameWeekday
-                                    ? context.appColors.primary
+                                    ? context.appColors.water
                                     : context.appColors.textContrast!
                                         .withOpacity(.7),
                             fontSize: 11,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: isSameWeekday
+                                ? FontWeight.w600
+                                : FontWeight.w400,
                           ),
                         ),
                         Text(

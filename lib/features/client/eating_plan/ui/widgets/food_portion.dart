@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/features/client/eating_plan/domain/entities/food_option_entity.dart';
 
 class FoodPortion extends StatelessWidget {
@@ -20,7 +21,7 @@ class FoodPortion extends StatelessWidget {
             '${portionText} ',
             style: TextStyle(
               fontWeight: FontWeight.w400,
-              color: Colors.grey[600],
+              color: context.appColors.textContrast,
               fontSize: 14,
             ),
           ),
@@ -31,7 +32,7 @@ class FoodPortion extends StatelessWidget {
             '${portionName} ',
             style: TextStyle(
               fontWeight: FontWeight.w400,
-              color: Colors.grey[600],
+              color: context.appColors.textContrast,
               fontSize: 13,
             ),
           ),
@@ -42,7 +43,7 @@ class FoodPortion extends StatelessWidget {
             measureName,
             style: TextStyle(
               fontWeight: FontWeight.w400,
-              color: Colors.grey[600],
+              color: context.appColors.textContrast,
               fontSize: 14,
             ),
           ),

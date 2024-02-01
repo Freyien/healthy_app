@@ -69,7 +69,7 @@ class MessageFullScreen extends StatelessWidget {
               subtitle,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Colors.grey,
+                    color: context.appColors.textContrast!.withOpacity(.7),
                   ),
             ),
           ),

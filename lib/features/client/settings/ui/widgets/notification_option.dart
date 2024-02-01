@@ -58,7 +58,7 @@ class _NotificationOptionState extends State<NotificationOption>
 
         // if (requestStatus == AuthorizationStatus.authorized)
         return AccountOption(
-          icon: Icons.notifications,
+          icon: Icons.notifications_outlined,
           title: 'Configurar recordatorios',
           onTap: () async {},
         );

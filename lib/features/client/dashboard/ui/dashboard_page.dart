@@ -21,6 +21,7 @@ class DashboardPage extends StatelessWidget {
       child: Scaffold(
         body: navigationShell,
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: context.appColors.navigationBar,
           elevation: 8,
           items: [
             BottomNavigationBarItem(
@@ -54,7 +55,10 @@ class DashboardPage extends StatelessWidget {
           unselectedLabelStyle: TextStyle(
             fontSize: 11,
           ),
-          fixedColor: appColors.primary,
+          unselectedItemColor: context.appColors.unselectedItemColor,
+          fixedColor: navigationShell.currentIndex == 1
+              ? context.appColors.water
+              : context.appColors.primary,
           type: BottomNavigationBarType.fixed,
         ),
       ),

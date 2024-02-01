@@ -92,6 +92,9 @@ class InputText extends StatelessWidget {
               onTap: onTap,
               readOnly: readOnly,
               inputFormatters: inputFormatters,
+              style: TextStyle(
+                color: context.appColors.textContrast,
+              ),
               decoration: InputDecoration(
                 contentPadding: contentPadding,
                 fillColor: fillColor,

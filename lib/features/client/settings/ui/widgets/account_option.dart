@@ -41,7 +41,7 @@ class AccountOption extends StatelessWidget {
         leading: iconWidget ??
             Icon(
               icon,
-              color: appColors.primaryText!.withOpacity(.7),
+              color: appColors.textContrast!.withOpacity(.7),
             ),
         title: Text(
           title,
@@ -57,7 +57,7 @@ class AccountOption extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.keyboard_arrow_right,
-                    color: appColors.primaryText!.withOpacity(.7),
+                    color: appColors.textContrast!.withOpacity(.7),
                   ),
                 ],
               )

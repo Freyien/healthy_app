@@ -73,7 +73,9 @@ class EatingPlanDateLine extends StatelessWidget {
                                     : context.appColors.textContrast!
                                         .withOpacity(.7),
                             fontSize: 11,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: isSameWeekday
+                                ? FontWeight.w600
+                                : FontWeight.w400,
                           ),
                         ),
                         Text(

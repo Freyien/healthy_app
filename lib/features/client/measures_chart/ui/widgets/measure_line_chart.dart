@@ -75,7 +75,7 @@ class _MeasureLineChartState extends State<MeasureLineChart>
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
-                        color: Colors.grey,
+                        color: context.appColors.textContrast!.withOpacity(.7),
                       ),
                     ),
                     Text(
@@ -83,7 +83,7 @@ class _MeasureLineChartState extends State<MeasureLineChart>
                       style: TextStyle(
                         // fontWeight: FontWeight.bold,
                         fontSize: 13,
-                        color: Colors.grey,
+                        color: context.appColors.textContrast!.withOpacity(.7),
                       ),
                     ),
                   ],
@@ -93,7 +93,9 @@ class _MeasureLineChartState extends State<MeasureLineChart>
           },
         ),
         primaryXAxis: CategoryAxis(
-          labelStyle: TextStyle(),
+          labelStyle: TextStyle(
+            color: context.appColors.textContrast!.withOpacity(.7),
+          ),
           majorGridLines: MajorGridLines(
             dashArray: [4, 6],
           ),
@@ -102,7 +104,9 @@ class _MeasureLineChartState extends State<MeasureLineChart>
           labelFormat: '{value} ${widget.chartData.measure}',
           axisLine: const AxisLine(width: 0),
           majorTickLines: const MajorTickLines(size: 0),
-          labelStyle: TextStyle(),
+          labelStyle: TextStyle(
+            color: context.appColors.textContrast!.withOpacity(.7),
+          ),
           minimum: widget.chartData.minElementValue.toDouble() - 1,
           maximum: widget.chartData.maxElementValue.toDouble() + 1,
         ),
@@ -128,8 +132,9 @@ class _MeasureLineChartState extends State<MeasureLineChart>
                 return Container(
                   padding: EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: context.appColors.primary!.withOpacity(.7)),
+                    borderRadius: BorderRadius.circular(5),
+                    color: context.appColors.primary!.withOpacity(.9),
+                  ),
                   child: Text(
                     '$value ${widget.chartData.measure}',
                     style: TextStyle(

@@ -33,7 +33,7 @@ class WaterContainer extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: Colors.blue,
+                color: context.appColors.water!,
               ),
             ),
             child: ClipOval(
@@ -41,12 +41,12 @@ class WaterContainer extends StatelessWidget {
                 curve: Curves.ease,
                 duration: const Duration(seconds: 2),
                 tween: Tween<double>(begin: 1, end: heightPercent),
-                builder: (BuildContext context, dynamic value, Widget? child) {
+                builder: (BuildContext context, double value, Widget? child) {
                   return WaveWidget(
                     config: CustomConfig(
                       colors: [
-                        Colors.blue.withOpacity(.5),
-                        Colors.blue.withOpacity(.9),
+                        context.appColors.water!.withOpacity(.5),
+                        context.appColors.water!.withOpacity(.5),
                       ],
                       durations: [
                         5000,
@@ -57,7 +57,7 @@ class WaterContainer extends StatelessWidget {
                         value + .01,
                       ],
                     ),
-                    backgroundColor: Colors.blueGrey.withOpacity(.2),
+                    backgroundColor: Colors.blueGrey.withOpacity(.1),
                     size: Size(double.infinity, double.infinity),
                   );
                 },
@@ -80,7 +80,7 @@ class WaterContainer extends StatelessWidget {
                     duration: Duration(seconds: 1),
                     value: percent,
                     textStyle: TextStyle(
-                      color: context.appColors.textContrast,
+                      color: context.appColors.textContrast!.withOpacity(.8),
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
                     ),
@@ -88,7 +88,7 @@ class WaterContainer extends StatelessWidget {
                   Text(
                     '%',
                     style: TextStyle(
-                      color: context.appColors.textContrast,
+                      color: context.appColors.textContrast!.withOpacity(.8),
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
                     ),
@@ -103,7 +103,7 @@ class WaterContainer extends StatelessWidget {
                     duration: Duration(seconds: 1),
                     value: waterPlan.totalWaterConsumption,
                     textStyle: TextStyle(
-                      color: context.appColors.textContrast,
+                      color: context.appColors.textContrast!.withOpacity(.8),
                       fontSize: 20,
                       letterSpacing: 1.5,
                     ),
@@ -111,7 +111,7 @@ class WaterContainer extends StatelessWidget {
                   Text(
                     ' ml',
                     style: TextStyle(
-                      color: context.appColors.textContrast,
+                      color: context.appColors.textContrast!.withOpacity(.8),
                       fontSize: 20,
                       letterSpacing: 1.5,
                     ),

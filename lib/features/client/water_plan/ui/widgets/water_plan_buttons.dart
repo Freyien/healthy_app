@@ -94,7 +94,7 @@ class _Dialog extends StatelessWidget {
               height: 30,
               width: 30,
               decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: Colors.grey.withOpacity(.4),
                 borderRadius: BorderRadius.circular(100),
               ),
               child: IconButton(

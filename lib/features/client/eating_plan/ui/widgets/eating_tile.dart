@@ -84,7 +84,7 @@ class EatingTile extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: appColors.textContrast,
+                color: context.appColors.primary,
                 fontSize: 14,
               ),
             ),
@@ -100,7 +100,7 @@ class EatingTile extends StatelessWidget {
           ? Text(
               foodOption.comment,
               style: TextStyle(
-                color: Colors.grey[600],
+                color: context.appColors.textContrast,
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
               ),
@@ -111,7 +111,7 @@ class EatingTile extends StatelessWidget {
       controlAffinity: ListTileControlAffinity.trailing,
       shape: Border(
         bottom: BorderSide(
-          color: appColors.border!.withOpacity(.5),
+          color: appColors.border!.withOpacity(.04),
         ),
       ),
     );

@@ -28,11 +28,16 @@ class WaterButton extends StatelessWidget {
         label: Text(text),
         style: ElevatedButton.styleFrom(
           fixedSize: Size(double.infinity, 55),
-          backgroundColor: context.appColors.primary,
+          elevation: 0,
+          backgroundColor: context.appColors.water!,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
+          // side: BorderSide(
+          //   width: 1.0,
+          //   color: Colors.blue[200]!,
+          // ),
         ),
       ),
     );

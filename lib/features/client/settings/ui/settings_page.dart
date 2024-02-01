@@ -33,14 +33,14 @@ class Settingspage extends StatelessWidget {
                   children: [
                     Spacer(),
                     AccountOption(
-                      icon: Icons.message,
+                      icon: Icons.message_outlined,
                       title: 'Sugerencias',
                       onTap: () {
                         context.pushNamed('suggestion');
                       },
                     ),
                     AccountOption(
-                      icon: Icons.water_drop,
+                      icon: Icons.water_drop_outlined,
                       title: 'Consumo de agua',
                       onTap: () {
                         context.pushNamed('water_reminder');
@@ -49,7 +49,7 @@ class Settingspage extends StatelessWidget {
                     NotificationOption(),
                     // Spacer(),
                     AccountOption(
-                      icon: Icons.exit_to_app,
+                      icon: Icons.exit_to_app_outlined,
                       title: 'Cerrar sesión',
                       onTap: () async {
                         context.read<AnalyticsBloc>().add(LogEvent('signOut'));

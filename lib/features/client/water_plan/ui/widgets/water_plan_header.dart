@@ -1,5 +1,6 @@
 import 'package:animated_digit/animated_digit.dart';
 import 'package:flutter/material.dart';
+import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/features/client/water_plan/domain/entities/water_plan_entity.dart';
 
 class WaterPlanHeader extends StatelessWidget {
@@ -20,13 +21,14 @@ class WaterPlanHeader extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 25,
+                  color: context.appColors.textContrast,
                 ),
               ),
               Text(
                 'Objetivo',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey,
+                  color: context.appColors.textContrast!.withOpacity(.7),
                 ),
               ),
             ],
@@ -44,6 +46,7 @@ class WaterPlanHeader extends StatelessWidget {
                     textStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
+                          color: context.appColors.textContrast,
                         ),
                   ),
                   Text(
@@ -51,6 +54,7 @@ class WaterPlanHeader extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
+                      color: context.appColors.textContrast,
                     ),
                   ),
                 ],
@@ -59,7 +63,7 @@ class WaterPlanHeader extends StatelessWidget {
                 'Restante',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey,
+                  color: context.appColors.textContrast!.withOpacity(.7),
                 ),
               ),
             ],

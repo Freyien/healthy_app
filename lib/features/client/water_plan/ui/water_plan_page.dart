@@ -158,6 +158,9 @@ class WaterPlanPage extends StatelessWidget {
                       if (state.fetchingStatus != FetchingStatus.success)
                         return SliverToBoxAdapter(child: SizedBox.shrink());
 
+                      if (state.waterPlan.id.isEmpty)
+                        return SliverToBoxAdapter(child: SizedBox.shrink());
+
                       return WaterConsumptionList(
                         waterConsumptionList:
                             state.waterPlan.waterConsumptionList,

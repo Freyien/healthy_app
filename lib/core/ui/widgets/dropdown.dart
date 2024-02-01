@@ -50,10 +50,14 @@ class Dropdown<T> extends StatelessWidget {
                 color: context.appColors.textContrast!.withOpacity(.8),
               ),
               validator: validator,
+              style: TextStyle(
+                color: context.appColors.textContrast,
+              ),
               decoration: InputDecoration(
                 hintText: hintText,
                 prefixIcon: prefixIcon,
               ),
+              dropdownColor: context.appColors.appbar,
             ),
           ),
         ],
