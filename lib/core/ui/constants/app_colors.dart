@@ -117,56 +117,15 @@ class AppColors extends ThemeExtension<AppColors> {
   }
 }
 
-// class DefaultColors {
-//   DefaultColors();
-
-//   static const Color primary = Colors.blue;
-//   static const Color darkCharcoal = Color(0xff333333);
-//   static const Color flashWhite = Color(0xfff0f0f0);
-//   static const Color borderBold = Color(0xffCCCCCC);
-//   static const Color gainsboro = Color(0xffCCCCCC);
-//   static const Color water = Colors.blue;
-// }
-
-// class DarkColors {
-//   static const Color textContrast = Colors.white;
-//   static const Color scaffold = const Color(0xff222224);
-//   static const Color primaryText = Colors.white;
-//   static const Color input = const Color(0xFF4c4b50);
-//   static Color loadingBackground = Colors.grey[700]!;
-//   static Color loadingBase = Colors.black54;
-//   static Color loadingHighlight = Colors.grey[900]!;
-//   static const Color shadow = Colors.black54;
-//   static const Color border = Color(0xFF4c4b50);
-//   static const Color appbar = Color(0xff27252E);
-//   static const Color? navigationBar = Color(0xff27252E);
-//   static const Color? unselectedItemColor = null;
-// }
-
-// class LightColors {
-//   static const Color textContrast = Colors.black;
-//   static Color scaffold = Colors.grey[50]!;
-//   static const Color primaryText = Color(0xFF595959);
-//   static const Color input = Color(0xfff0f0f0);
-//   static Color loadingBackground = Colors.grey[200]!;
-//   static Color loadingBase = Colors.grey[300]!;
-//   static Color loadingHighlight = Colors.grey[400]!;
-//   static const Color shadow = Color(0xffDDDDDD);
-//   static const Color border = Color(0xffDDDDDD);
-//   static const Color appbar = Color(0xffE3DFEB);
-//   static const Color? navigationBar = null;
-//   static const Color? unselectedItemColor = null;
-// }
-
 class DefaultColors {
   DefaultColors();
 
-  static const Color primary = Color(0xffFFB685);
+  static const Color primary = Color(0xfffd785c);
   static const Color darkCharcoal = Color(0xff333333);
   static const Color flashWhite = Color(0xfff0f0f0);
   static const Color borderBold = Color(0xffCCCCCC);
   static const Color gainsboro = Color(0xffCCCCCC);
-  static const Color water = Color(0xff4bbad4);
+  static Color water = Color(0xff4bbad4);
 }
 
 class DarkColors {
@@ -180,24 +139,65 @@ class DarkColors {
   static const Color shadow = Colors.black54;
   static const Color border = Color(0xFF4c4b50);
   static const Color appbar = Color(0xff27252E);
-  static const Color navigationBar = Color(0xff27252E);
-  static const Color unselectedItemColor = Colors.grey;
+  static const Color? navigationBar = Color(0xff27252E);
+  static const Color? unselectedItemColor = null;
 }
 
 class LightColors {
-  static const Color textContrast = Colors.white;
-  static Color scaffold = Color(0xff4D6A67);
+  static const Color textContrast = Colors.black;
+  static Color scaffold = Colors.grey[50]!;
   static const Color primaryText = Color(0xFF595959);
-  static Color input = Color(0xff678E89);
-  static Color loadingBackground = Color(0xff678E89).withOpacity(.6);
-  static Color loadingBase = Color(0xff678E89).withOpacity(.8);
-  static Color loadingHighlight = Color(0xff678E89);
+  static const Color input = Color(0xfff0f0f0);
+  static Color loadingBackground = Colors.grey[200]!;
+  static Color loadingBase = Colors.grey[300]!;
+  static Color loadingHighlight = Colors.grey[400]!;
   static const Color shadow = Color(0xffDDDDDD);
   static const Color border = Color(0xffDDDDDD);
-  static const Color appbar = Color(0xff678E89);
-  static const Color navigationBar = Color(0xff678E89);
-  static const Color unselectedItemColor = Colors.white;
+  static const Color appbar = Color(0xffE3DFEB);
+  static const Color? navigationBar = null;
+  static const Color? unselectedItemColor = Colors.grey;
 }
+
+// class DefaultColors {
+//   DefaultColors();
+
+//   static const Color primary = Color(0xffFFB685);
+//   static const Color darkCharcoal = Color(0xff333333);
+//   static const Color flashWhite = Color(0xfff0f0f0);
+//   static const Color borderBold = Color(0xffCCCCCC);
+//   static const Color gainsboro = Color(0xffCCCCCC);
+//   static const Color water = Color(0xff4bbad4);
+// }
+
+// class DarkColors {
+//   static const Color textContrast = Colors.white;
+//   static const Color scaffold = const Color(0xff222224);
+//   static const Color primaryText = Colors.white;
+//   static const Color input = const Color(0xFF4c4b50);
+//   static Color loadingBackground = Colors.grey[700]!;
+//   static Color loadingBase = Colors.black54;
+//   static Color loadingHighlight = Colors.grey[900]!;
+//   static const Color shadow = Colors.black54;
+//   static const Color border = Color(0xFF4c4b50);
+//   static const Color appbar = Color(0xff27252E);
+//   static const Color navigationBar = Color(0xff27252E);
+//   static const Color unselectedItemColor = Colors.grey;
+// }
+
+// class LightColors {
+//   static const Color textContrast = Colors.white;
+//   static Color scaffold = Color(0xff4D6A67);
+//   static const Color primaryText = Color(0xFF595959);
+//   static Color input = Color(0xff678E89);
+//   static Color loadingBackground = Color(0xff678E89).withOpacity(.6);
+//   static Color loadingBase = Color(0xff678E89).withOpacity(.8);
+//   static Color loadingHighlight = Color(0xff678E89);
+//   static const Color shadow = Color(0xffDDDDDD);
+//   static const Color border = Color(0xffDDDDDD);
+//   static const Color appbar = Color(0xff4D6A67);
+//   static const Color navigationBar = Color(0xff678E89);
+//   static Color unselectedItemColor = Colors.white.withOpacity(.7);
+// }
 
 // class DefaultColors {
 //   DefaultColors();
@@ -235,7 +235,7 @@ class LightColors {
 //   static Color loadingHighlight = Colors.grey[400]!;
 //   static const Color shadow = Color(0xffDDDDDD);
 //   static const Color border = Color(0xffDDDDDD);
-//   static const Color appbar = Color(0xffEBF1FF);
+//   static const Color appbar = Color(0xffD6E4FF);
 //   static const Color navigationBar = Color(0xffEBF1FF);
 //   static const Color unselectedItemColor = Colors.grey;
 // }

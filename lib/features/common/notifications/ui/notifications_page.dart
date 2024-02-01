@@ -66,7 +66,6 @@ class NotificationsPage extends StatelessWidget {
       case NotificationStatus.loading:
         return LoadingUtils.show(context);
       case NotificationStatus.permissionRequested:
-        // _logPermissionStatus(context, state.requestStatus);
         return _getNextRoute(context);
       case NotificationStatus.success:
       case NotificationStatus.failure:
@@ -76,15 +75,6 @@ class NotificationsPage extends StatelessWidget {
       default:
     }
   }
-
-  // void _logPermissionStatus(BuildContext context, AuthorizationStatus status) {
-  //   context.read<AnalyticsBloc>().add(
-  //         LogEvent(
-  //           'notificationStatus',
-  //           parameters: {'status': status.toString()},
-  //         ),
-  //       );
-  // }
 
   void _getNextRoute(BuildContext context) {
     context.read<NotificationBloc>().add(GetNextRouteEvent());

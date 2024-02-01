@@ -59,7 +59,8 @@ class WaterPlanButtons extends StatelessWidget {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        backgroundColor: context.appColors.scaffold,
+        backgroundColor: context.appColors.navigationBar,
+        elevation: 0,
         isDismissible: true,
         builder: (contextModal) {
           return _Dialog(
@@ -118,6 +119,7 @@ class _Dialog extends StatelessWidget {
           inputFormatters: [mask],
           autofocus: true,
           keyboardType: TextInputType.number,
+          fillColor: context.appColors.water!.withOpacity(.4),
           prefixIcon: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Image.asset(
@@ -129,7 +131,12 @@ class _Dialog extends StatelessWidget {
           suffixIcon: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('mls'),
+              Text(
+                'mls',
+                style: TextStyle(
+                  color: context.appColors.textContrast,
+                ),
+              ),
             ],
           ),
           validator: (val) {
@@ -141,7 +148,12 @@ class _Dialog extends StatelessWidget {
             return null;
           },
         ),
-        Text('*Ingresa la cantidad en mililitros'),
+        Text(
+          '*Ingresa la cantidad en mililitros',
+          style: TextStyle(
+            color: context.appColors.textContrast,
+          ),
+        ),
         VerticalSpace.xlarge(),
         PrimaryButton(
           text: 'Aceptar',

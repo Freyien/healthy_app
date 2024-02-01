@@ -14,7 +14,6 @@ import 'package:healthy_app/features/client/water_reminder/ui/widgets/reminder_i
 import 'package:healthy_app/features/client/water_reminder/ui/widgets/reminder_save_button.dart';
 import 'package:healthy_app/features/client/water_reminder/ui/widgets/reminder_start_input.dart';
 import 'package:healthy_app/features/client/water_reminder/ui/widgets/reminder_water_loading.dart';
-import 'package:healthy_app/features/client/water_reminder/ui/widgets/water_reminter_wave.dart';
 
 class WaterReminderPage extends StatelessWidget {
   const WaterReminderPage({super.key});
@@ -133,78 +132,70 @@ class WaterReminderPage extends StatelessWidget {
               });
 
             // Success
-            return Stack(
-              children: [
-                // Wave
-                WaterReminderWave(),
+            return ScrollFillRemaining(
+              padding: EdgeInsets.zero,
+              child: PaddingFormColumn(
+                formKey: formKey,
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Builder
+                  BlocBuilder<WaterReminderBloc, WaterReminderState>(
+                    buildWhen: (p, c) =>
+                        p.waterReminder.enable != c.waterReminder.enable,
+                    builder: (context, state) {
+                      final enable = state.waterReminder.enable;
 
-                // Form
-                ScrollFillRemaining(
-                  padding: EdgeInsets.zero,
-                  child: PaddingFormColumn(
-                    formKey: formKey,
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Builder
-                      BlocBuilder<WaterReminderBloc, WaterReminderState>(
-                        buildWhen: (p, c) =>
-                            p.waterReminder.enable != c.waterReminder.enable,
-                        builder: (context, state) {
-                          final enable = state.waterReminder.enable;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Enable switch
+                          ReminderEnableSwitch(enable: enable),
+                          VerticalSpace.xxxlarge(),
 
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Enable switch
-                              ReminderEnableSwitch(enable: enable),
-                              VerticalSpace.xxxlarge(),
+                          // Interval
+                          Text(
+                            'Elige el intervalo para recibir recordatorios',
+                            style: TextStyle(
+                              color: context.appColors.textContrast,
+                            ),
+                          ),
+                          ReminderIntervalDropdown(
+                            enable: enable,
+                            value: state.waterReminder.minuteInterval,
+                          ),
+                          VerticalSpace.xlarge(),
 
-                              // Interval
-                              Text(
-                                'Elige el intervalo para recibir recordatorios',
-                                style: TextStyle(
-                                  color: context.appColors.textContrast,
-                                ),
-                              ),
-                              ReminderIntervalDropdown(
-                                enable: enable,
-                                value: state.waterReminder.minuteInterval,
-                              ),
-                              VerticalSpace.xlarge(),
+                          // Start
+                          Text(
+                            'Elige la hora donde recibirás el primer recordatorio',
+                            style: TextStyle(
+                              color: context.appColors.textContrast,
+                            ),
+                          ),
+                          ReminderStartInput(enable: enable),
+                          VerticalSpace.xlarge(),
 
-                              // Start
-                              Text(
-                                'Elige la hora donde recibirás el primer recordatorio',
-                                style: TextStyle(
-                                  color: context.appColors.textContrast,
-                                ),
-                              ),
-                              ReminderStartInput(enable: enable),
-                              VerticalSpace.xlarge(),
-
-                              // End
-                              Text(
-                                'Elige la hora límite para recibir recordatorios',
-                                style: TextStyle(
-                                  color: context.appColors.textContrast,
-                                ),
-                              ),
-                              ReminderEndInput(enable: enable),
-                              VerticalSpace.xlarge(),
-                            ],
-                          );
-                        },
-                      ),
-
-                      // Button
-                      Spacer(),
-                      ReminderSaveButton(formKey: formKey),
-                      VerticalSpace.xxxlarge(),
-                    ],
+                          // End
+                          Text(
+                            'Elige la hora límite para recibir recordatorios',
+                            style: TextStyle(
+                              color: context.appColors.textContrast,
+                            ),
+                          ),
+                          ReminderEndInput(enable: enable),
+                          VerticalSpace.xlarge(),
+                        ],
+                      );
+                    },
                   ),
-                ),
-              ],
+
+                  // Button
+                  Spacer(),
+                  ReminderSaveButton(formKey: formKey),
+                  VerticalSpace.xxxlarge(),
+                ],
+              ),
             );
           },
         ),

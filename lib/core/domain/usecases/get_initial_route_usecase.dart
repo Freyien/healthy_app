@@ -1,5 +1,6 @@
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/features/common/app_update/domain/repositories/app_update_repository.dart';
+import 'package:healthy_app/features/common/notifications/domain/entities/permision_status_entity.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
 import 'package:healthy_app/features/common/splash/domain/repositories/splash_repository.dart';
 
@@ -41,18 +42,17 @@ class GetInitialRouteUseCase {
     final res = await _notificationRepository.requestPermission();
 
     if (res.isFailed) return InitialRouteEntity();
-    // final authorizationStatus = res.data!;
 
-    // switch (authorizationStatus) {
-    //   case AuthorizationStatus.authorized:
-    //   case AuthorizationStatus.denied:
-    //     return InitialRouteEntity();
-    //   case AuthorizationStatus.notDetermined:
-    //   case AuthorizationStatus.provisional:
-    //     return InitialRouteEntity(name: InitialRoute.notification);
-    // }
+    final permissionStatus = res.data!;
 
-    return InitialRouteEntity();
+    switch (permissionStatus.status) {
+      case NotificationPermissionStatus.denied:
+      case NotificationPermissionStatus.unknow:
+        return InitialRouteEntity(name: InitialRoute.notification);
+      case NotificationPermissionStatus.granted:
+      case NotificationPermissionStatus.permanentlyDenied:
+        return InitialRouteEntity();
+    }
   }
 
   Future<InitialRouteEntity> _checkUpdateIsRequired() async {

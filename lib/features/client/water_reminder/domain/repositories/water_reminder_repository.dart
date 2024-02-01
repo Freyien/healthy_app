@@ -1,17 +1,9 @@
 import 'package:healthy_app/core/domain/entities/response.dart';
 import 'package:healthy_app/features/client/water_reminder/domain/entities/water_reminder_entity.dart';
-import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
 
 abstract class WaterReminderRepository {
   Future<Response<WaterReminderEntity>> getWaterReminder();
   Future<Response<void>> saveWaterReminder(
     WaterReminderEntity waterReminder,
   );
-
-  Future<Response<NotificationEntity>> getWaterNotification();
-  Future<Response<void>> addLocalWaterReminder(
-    WaterReminderEntity waterReminder, {
-    bool replaceIfExists = true,
-  });
-  Future<Response<void>> cancelWaterReminders();
 }

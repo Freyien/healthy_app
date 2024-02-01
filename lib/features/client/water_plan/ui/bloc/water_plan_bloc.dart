@@ -64,18 +64,6 @@ class WaterPlanBloc extends Bloc<WaterPlanEvent, WaterPlanState> {
 
     state.waterPlan.waterConsumptionList.insert(0, response.data!);
 
-    // Get water reminder
-    final reminderResponse = await _waterReminderRepository.getWaterReminder();
-
-    if (response.isFailed) {
-      return emit(state.copyWith(deletingStatus: DeletingStatus.failure));
-    }
-
-    // Create reminder
-    await _waterReminderRepository.addLocalWaterReminder(
-      reminderResponse.data!,
-    );
-
     emit(state.copyWith(savingStatus: SavingStatus.success));
   }
 

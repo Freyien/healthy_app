@@ -29,13 +29,14 @@ class AccountOption extends StatelessWidget {
     if (subtitle.isNotEmpty)
       subtitleWidget = Text(
         subtitle,
-        style: TextStyle(color: appColors.textContrast),
+        style: TextStyle(
+          color: appColors.textContrast!.withOpacity(.7),
+        ),
       );
 
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       child: ListTile(
-        minLeadingWidth: 16,
         onTap: onTap,
         dense: true,
         leading: iconWidget ??

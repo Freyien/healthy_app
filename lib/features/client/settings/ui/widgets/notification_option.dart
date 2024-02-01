@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/features/common/notifications/ui/bloc/notification_bloc.dart';
 
@@ -54,17 +55,21 @@ class _NotificationOptionState extends State<NotificationOption>
           c.status == NotificationStatus.permissionChecked ||
           c.status == NotificationStatus.permissionRequested,
       builder: (context, state) {
-        // final requestStatus = state.requestStatus;
+        final permissionIsGranted = state.permissionStatus.isgranted;
 
-        // if (requestStatus == AuthorizationStatus.authorized)
+        if (permissionIsGranted)
+          return AccountOption(
+            key: UniqueKey(),
+            icon: Icons.water_drop_outlined,
+            title: 'Recordatorios de agua',
+            onTap: () {
+              context.pushNamed('water_reminder');
+            },
+          );
+
         return AccountOption(
+          key: UniqueKey(),
           icon: Icons.notifications_outlined,
-          title: 'Configurar recordatorios',
-          onTap: () async {},
-        );
-
-        return AccountOption(
-          icon: Icons.notifications,
           iconWidget: Stack(
             children: [
               Icon(Icons.notifications),
@@ -91,14 +96,9 @@ class _NotificationOptionState extends State<NotificationOption>
               ),
             ],
           ),
-          title: 'Activar Notificationes',
-          subtitle: 'Otorga el permiso para recibir notificaciones',
+          title: 'Recordatorios de agua',
+          subtitle: 'Activa permiso para recibir notificaciones',
           onTap: () async {
-            // if (requestStatus == AuthorizationStatus.notDetermined) {
-            return context
-                .read<NotificationBloc>()
-                .add(RequestPermissionEvent());
-            // }
             return context
                 .read<NotificationBloc>()
                 .add(OpenNotificationSettingsEvent());

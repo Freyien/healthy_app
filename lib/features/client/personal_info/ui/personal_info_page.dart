@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/enums/saving_status.dart';
+import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/utils/loading.dart';
 import 'package:healthy_app/core/ui/utils/toast.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
@@ -38,7 +39,11 @@ class PersonalInfoPage extends StatelessWidget {
               padding: EdgeInsets.zero,
               children: [
                 Text(
-                    'Esta información le ayudará a tu nutriólogo a identificarte de manera más sencilla.'),
+                  'Esta información le ayudará a tu nutriólogo a identificarte de manera más sencilla.',
+                  style: TextStyle(
+                    color: context.appColors.textContrast,
+                  ),
+                ),
                 VerticalSpace.large(),
 
                 // Name

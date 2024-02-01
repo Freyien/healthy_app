@@ -44,7 +44,6 @@ import 'package:healthy_app/features/client/water_plan/domain/repositories/water
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
 import 'package:healthy_app/features/client/water_reminder/data/water_reminder_repository_impl.dart';
 import 'package:healthy_app/features/client/water_reminder/domain/repositories/water_reminder_repository.dart';
-import 'package:healthy_app/features/client/water_reminder/domain/usecases/show_water_notification_usecase.dart';
 import 'package:healthy_app/features/client/water_reminder/ui/bloc/water_reminder_bloc.dart';
 import 'package:healthy_app/features/common/analytics/data/analytics_repository_impl.dart';
 import 'package:healthy_app/features/common/analytics/domain/repositories/analytics_repository.dart';
@@ -193,5 +192,4 @@ void _registerBlocs() {
 // Use cases
 void _registerUseCases() {
   sl.registerLazySingleton(() => GetInitialRouteUseCase(sl(), sl(), sl()));
-  sl.registerLazySingleton(() => ShowWaterNotificationUsecase(sl(), sl()));
 }

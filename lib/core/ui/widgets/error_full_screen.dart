@@ -47,7 +47,7 @@ class ErrorFullScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
-                  color: Colors.grey,
+                  color: context.appColors.textContrast!.withOpacity(.7),
                 ),
               ),
             ],

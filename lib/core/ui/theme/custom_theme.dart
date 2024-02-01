@@ -30,7 +30,7 @@ class CustomTheme {
         filled: true,
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         hintStyle: TextStyle(
-          color: LightColors.primaryText.withOpacity(.4),
+          color: LightColors.textContrast.withOpacity(.5),
         ),
         labelStyle: TextStyle(
           color: LightColors.primaryText,
@@ -48,6 +48,7 @@ class CustomTheme {
           borderRadius: BorderRadius.circular(10),
         ),
         prefixIconColor: LightColors.textContrast.withOpacity(.7),
+        suffixIconColor: LightColors.textContrast.withOpacity(.7),
         iconColor: LightColors.textContrast.withOpacity(.7),
       ),
       textSelectionTheme: TextSelectionThemeData(

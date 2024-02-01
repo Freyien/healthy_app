@@ -26,19 +26,6 @@ class NotificationEntity extends Equatable {
     return NotificationEntity();
   }
 
-  // factory NotificationEntity.fromRemoteMessage(RemoteMessage message) {
-  //   final notification = message.notification;
-  //   final data = message.data;
-
-  //   return NotificationEntity(
-  //     messageId: message.messageId ?? '',
-  //     body: notification?.body ?? data['body'] ?? '',
-  //     title: notification?.title ?? data['title'] ?? '',
-  //     data: data,
-  //     imageUrl: data['imageUrl'] ?? '',
-  //   );
-  // }
-
   factory NotificationEntity.fromReceivedAction(ReceivedAction receivedAction) {
     final data = Map<String, dynamic>.from(receivedAction.payload ?? {});
 

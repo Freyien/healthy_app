@@ -13,7 +13,7 @@ class HaveAccount extends StatelessWidget {
     return RichText(
       text: TextSpan(
         text: '¿Ya tienes una cuenta? ',
-        style: TextStyle(color: appColors.primaryText),
+        style: TextStyle(color: appColors.textContrast),
         children: [
           TextSpan(
             text: 'Inicial sesión',

@@ -11,7 +11,9 @@ import 'package:healthy_app/core/domain/entities/response.dart';
 import 'package:healthy_app/core/domain/failures/failures.dart';
 import 'package:healthy_app/features/common/notifications/data/notification_controller.dart';
 import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
+import 'package:healthy_app/features/common/notifications/domain/entities/permision_status_entity.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationRepositoryImpl implements NotificationRepository {
@@ -30,12 +32,13 @@ class NotificationRepositoryImpl implements NotificationRepository {
   /* PERMISSIONS */
 
   @override
-  Future<Response<bool>> checkNotificationPermission() async {
+  Future<Response<PermissionStatusEntity>> checkNotificationPermission() async {
     try {
-      final isGranted =
-          await _notifications.requestPermissionToSendNotifications();
+      final status = await Permission.notification.status;
+      final permissionStatus =
+          PermissionStatusEntity.fromPermissionStatus(status);
 
-      return Response.success(isGranted);
+      return Response.success(permissionStatus);
     } catch (e) {
       return Response.failed(UnexpectedFailure());
     }
@@ -60,12 +63,14 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   @override
-  Future<Response<bool>> requestPermission() async {
+  Future<Response<PermissionStatusEntity>> requestPermission() async {
     try {
-      final isGranted =
-          await _notifications.requestPermissionToSendNotifications();
+      final status = await Permission.notification.request();
 
-      return Response.success(isGranted);
+      final permissionStatus =
+          PermissionStatusEntity.fromPermissionStatus(status);
+
+      return Response.success(permissionStatus);
     } catch (e) {
       return Response.failed(UnexpectedFailure());
     }

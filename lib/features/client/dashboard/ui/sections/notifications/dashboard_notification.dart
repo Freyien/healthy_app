@@ -33,7 +33,7 @@ class DashboardNotifications extends StatelessWidget {
   ) async {
     switch (state.status) {
       case NotificationStatus.permissionChecked:
-        if (!state.permissionIsGranted) return;
+        if (!state.permissionStatus.isgranted) return;
 
         return _onAutorizedPermission(context);
       case NotificationStatus.notificationTapped:

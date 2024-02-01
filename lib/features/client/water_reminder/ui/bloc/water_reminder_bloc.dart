@@ -102,27 +102,29 @@ class WaterReminderBloc extends Bloc<WaterReminderEvent, WaterReminderState> {
       return emit(state.copyWith(savingStatus: SavingStatus.failure));
     }
 
+    return emit(state.copyWith(savingStatus: SavingStatus.success));
+
     // Edit reminder
-    if (state.waterReminder.enable) {
-      final addReminderResponse = await _repository.addLocalWaterReminder(
-        state.waterReminder,
-        replaceIfExists: true,
-      );
+    // if (state.waterReminder.enable) {
+    //   final addReminderResponse = await _repository.addLocalWaterReminder(
+    //     state.waterReminder,
+    //     replaceIfExists: true,
+    //   );
 
-      if (addReminderResponse.isFailed) {
-        return emit(state.copyWith(savingStatus: SavingStatus.failure));
-      }
+    //   if (addReminderResponse.isFailed) {
+    //     return emit(state.copyWith(savingStatus: SavingStatus.failure));
+    //   }
 
-      return emit(state.copyWith(savingStatus: SavingStatus.success));
-    }
+    //   return emit(state.copyWith(savingStatus: SavingStatus.success));
+    // }
 
     // Cancel reminders
-    final cancelResponse = await _repository.cancelWaterReminders();
+    // final cancelResponse = await _repository.cancelWaterReminders();
 
-    if (cancelResponse.isFailed) {
-      return emit(state.copyWith(savingStatus: SavingStatus.failure));
-    }
+    // if (cancelResponse.isFailed) {
+    //   return emit(state.copyWith(savingStatus: SavingStatus.failure));
+    // }
 
-    return emit(state.copyWith(savingStatus: SavingStatus.success));
+    // return emit(state.copyWith(savingStatus: SavingStatus.success));
   }
 }

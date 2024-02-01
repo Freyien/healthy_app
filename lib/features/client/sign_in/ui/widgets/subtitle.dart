@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 
 class SignInSubtitle extends StatelessWidget {
   const SignInSubtitle({super.key});
@@ -8,7 +9,7 @@ class SignInSubtitle extends StatelessWidget {
     return Text(
       'Iniciemos sesión para comenzar a mejorar vidas',
       style: TextStyle(
-        color: Colors.grey,
+        color: context.appColors.textContrast,
       ),
     );
   }

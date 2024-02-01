@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/core/domain/usecases/get_initial_route_usecase.dart';
 import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
+import 'package:healthy_app/features/common/notifications/domain/entities/permision_status_entity.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
 
 part 'notification_event.dart';
@@ -41,7 +42,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     return emit(
       state.copyWith(
-        permissionIsGranted: response.data,
+        permissionStatus: response.data!,
         status: NotificationStatus.permissionRequested,
       ),
     );
@@ -89,7 +90,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     return emit(
       state.copyWith(
-        permissionIsGranted: response.data,
+        permissionStatus: response.data,
         status: NotificationStatus.permissionChecked,
       ),
     );

@@ -70,7 +70,10 @@ class InputText extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 4, left: 8),
               child: Text(
                 labelText,
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: context.appColors.textContrast,
+                ),
               ),
             ),
           _Enable(

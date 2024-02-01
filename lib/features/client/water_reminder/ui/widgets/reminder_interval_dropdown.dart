@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
@@ -21,14 +22,11 @@ class ReminderIntervalDropdown extends StatelessWidget {
       hintText: 'Intervalo',
       prefixIcon: Icon(Icons.timer_outlined),
       items: [
-        DropdownMenuItem(
-          value: 1,
-          child: Text('1 minuto'),
-        ),
-        DropdownMenuItem(
-          value: 15,
-          child: Text('15 minutos'),
-        ),
+        if (!kReleaseMode)
+          DropdownMenuItem(
+            value: 1,
+            child: Text('1 minuto'),
+          ),
         DropdownMenuItem(
           value: 30,
           child: Text('30 minutos'),
