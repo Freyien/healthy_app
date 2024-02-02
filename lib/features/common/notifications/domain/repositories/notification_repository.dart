@@ -13,7 +13,8 @@ abstract class NotificationRepository {
   Future<void> initLocalNotifications();
 
   // Token
-  Future<void> savetoken();
+  Future<void> saveToken();
+  Future<void> deleteToken();
 
   // Notifications
   Future<Response<NotificationEntity?>> getInitialMessage();

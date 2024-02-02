@@ -98,7 +98,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
   /* TOKENS */
 
   @override
-  Future<void> savetoken() async {
+  Future<void> saveToken() async {
     try {
       final token = await _notificationsFcm.requestFirebaseAppToken();
 
@@ -106,6 +106,24 @@ class NotificationRepositoryImpl implements NotificationRepository {
 
       NotificationController.streamFcmToken.stream.listen((token) async {
         await _saveToken(token);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Future<void> deleteToken() async {
+    try {
+      final token = _prefs.getString('notificationToken') ?? '';
+      if (token.isEmpty) return;
+
+      // Delete token in local
+      await _prefs.remove('notificationToken');
+
+      // Delete token in server
+      await _functions.httpsCallable('deleteNotificationToken').call({
+        'token': token,
       });
     } catch (e) {
       print(e);
@@ -257,8 +275,8 @@ class NotificationRepositoryImpl implements NotificationRepository {
   Future<void> _saveToken(String token) async {
     if (token.isEmpty) return;
 
-    final savedToken = _prefs.get('notificationToken');
-    if (savedToken.toString() == token) return;
+    final savedToken = _prefs.getString('notificationToken') ?? '';
+    if (savedToken == token) return;
 
     // Save token in server
     await _functions.httpsCallable('saveNotificationToken').call({

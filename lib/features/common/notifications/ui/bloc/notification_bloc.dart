@@ -132,7 +132,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     SaveTokenEvent event,
     Emitter<NotificationState> emit,
   ) async {
-    await _notificationRepository.savetoken();
+    await _notificationRepository.saveToken();
   }
 
   Future<void> _onGetInitialMessageEvent(

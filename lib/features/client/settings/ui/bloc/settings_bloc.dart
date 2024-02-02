@@ -34,6 +34,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     try {
       await Future.wait([
         _notificationRepository.unsuscribeToCommonTipics(),
+        _notificationRepository.deleteToken(),
       ]);
 
       await _authRepository.signOut();
@@ -43,9 +44,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       ));
     }
 
-    emit(state.copyWith(
-      signOutStatus: SignOutStatus.closed,
-    ));
+    emit(state.copyWith(signOutStatus: SignOutStatus.closed));
   }
 
   Future<void> _onFetchAppVersionEvent(
