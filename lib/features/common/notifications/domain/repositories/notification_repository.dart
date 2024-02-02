@@ -4,9 +4,9 @@ import 'package:healthy_app/features/common/notifications/domain/entities/permis
 
 abstract class NotificationRepository {
   // Permissions
-  Future<Response<PermissionStatusEntity>> checkNotificationPermission();
+  Future<Response<NotificationPermissionStatus>> checkNotificationPermission();
   Future<Response<void>> openNotificationSettings();
-  Future<Response<PermissionStatusEntity>> requestPermission();
+  Future<Response<void>> requestPermission();
 
   // Config
   Future<void> initRemoteNotifications();

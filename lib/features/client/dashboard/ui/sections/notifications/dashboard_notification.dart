@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/di/di_business.dart';
 import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
+import 'package:healthy_app/features/common/notifications/domain/entities/permision_status_entity.dart';
 import 'package:healthy_app/features/common/notifications/ui/bloc/notification_bloc.dart';
 
 class DashboardNotifications extends StatelessWidget {
@@ -33,7 +34,8 @@ class DashboardNotifications extends StatelessWidget {
   ) async {
     switch (state.status) {
       case NotificationStatus.permissionChecked:
-        if (!state.permissionStatus.isgranted) return;
+        if (state.permissionStatus != NotificationPermissionStatus.granted)
+          return;
 
         return _onAutorizedPermission(context);
       case NotificationStatus.notificationTapped:

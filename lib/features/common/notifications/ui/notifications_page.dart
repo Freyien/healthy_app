@@ -66,6 +66,8 @@ class NotificationsPage extends StatelessWidget {
       case NotificationStatus.loading:
         return LoadingUtils.show(context);
       case NotificationStatus.permissionRequested:
+        return context.read<NotificationBloc>().add(CheckPermissionEvent());
+      case NotificationStatus.permissionChecked:
         return _getNextRoute(context);
       case NotificationStatus.success:
       case NotificationStatus.failure:

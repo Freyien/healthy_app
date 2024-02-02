@@ -39,13 +39,11 @@ class GetInitialRouteUseCase {
   }
 
   Future<InitialRouteEntity> _checkNotificationPermission() async {
-    final res = await _notificationRepository.requestPermission();
+    final res = await _notificationRepository.checkNotificationPermission();
 
     if (res.isFailed) return InitialRouteEntity();
 
-    final permissionStatus = res.data!;
-
-    switch (permissionStatus.status) {
+    switch (res.data!) {
       case NotificationPermissionStatus.denied:
       case NotificationPermissionStatus.unknow:
         return InitialRouteEntity(name: InitialRoute.notification);

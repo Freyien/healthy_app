@@ -13,7 +13,7 @@ class ReminderSaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FadeInUp(
-      from: 30,
+      from: 20,
       delay: Duration(milliseconds: 100),
       child: PrimaryButton(
         text: 'Guardar',

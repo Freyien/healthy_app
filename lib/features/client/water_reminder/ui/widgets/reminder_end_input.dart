@@ -61,9 +61,21 @@ class ReminderEndInput extends StatelessWidget {
               },
             );
           },
-          validator: (value) => value.isNullOrEmpty //
-              ? 'Este campo es obligatorio'
-              : null,
+          validator: (value) {
+            if (value.isNullOrEmpty) return 'Este campo es obligatorio';
+
+            final waterReminder =
+                context.read<WaterReminderBloc>().state.waterReminder;
+
+            final endDate = waterReminder.end;
+            final startDate = waterReminder.start;
+
+            if (endDate.isBefore(startDate.add(Duration(minutes: 1)))) {
+              return 'Hora límite no puede ser menor que la hora de inicio';
+            }
+
+            return null;
+          },
         );
       },
     );

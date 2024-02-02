@@ -8,13 +8,13 @@ class NotificationState extends Equatable {
     required this.notification,
   });
 
-  final PermissionStatusEntity permissionStatus;
+  final NotificationPermissionStatus permissionStatus;
   final NotificationStatus status;
   final NotificationEntity notification;
   final InitialRouteEntity route;
 
   factory NotificationState.empty() => NotificationState(
-        permissionStatus: PermissionStatusEntity.initial(),
+        permissionStatus: NotificationPermissionStatus.denied,
         notification: NotificationEntity.empty(),
         route: InitialRouteEntity(
           name: InitialRoute.notDefined,
@@ -22,7 +22,7 @@ class NotificationState extends Equatable {
       );
 
   NotificationState copyWith({
-    PermissionStatusEntity? permissionStatus,
+    NotificationPermissionStatus? permissionStatus,
     NotificationStatus? status,
     NotificationEntity? notification,
     InitialRouteEntity? route,

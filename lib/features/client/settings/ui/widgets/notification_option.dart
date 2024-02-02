@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
+import 'package:healthy_app/features/common/notifications/domain/entities/permision_status_entity.dart';
 import 'package:healthy_app/features/common/notifications/ui/bloc/notification_bloc.dart';
 
 import 'account_option.dart';
@@ -55,9 +56,9 @@ class _NotificationOptionState extends State<NotificationOption>
           c.status == NotificationStatus.permissionChecked ||
           c.status == NotificationStatus.permissionRequested,
       builder: (context, state) {
-        final permissionIsGranted = state.permissionStatus.isgranted;
+        final status = state.permissionStatus;
 
-        if (permissionIsGranted)
+        if (status == NotificationPermissionStatus.granted)
           return AccountOption(
             key: UniqueKey(),
             icon: Icons.water_drop_outlined,

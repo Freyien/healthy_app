@@ -42,7 +42,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
     return emit(
       state.copyWith(
-        permissionStatus: response.data!,
         status: NotificationStatus.permissionRequested,
       ),
     );

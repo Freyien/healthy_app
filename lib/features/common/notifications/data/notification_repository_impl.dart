@@ -13,7 +13,6 @@ import 'package:healthy_app/features/common/notifications/data/notification_cont
 import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
 import 'package:healthy_app/features/common/notifications/domain/entities/permision_status_entity.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationRepositoryImpl implements NotificationRepository {
@@ -32,13 +31,21 @@ class NotificationRepositoryImpl implements NotificationRepository {
   /* PERMISSIONS */
 
   @override
-  Future<Response<PermissionStatusEntity>> checkNotificationPermission() async {
+  Future<Response<NotificationPermissionStatus>>
+      checkNotificationPermission() async {
     try {
-      final status = await Permission.notification.status;
-      final permissionStatus =
-          PermissionStatusEntity.fromPermissionStatus(status);
+      final permissionList = await _notifications.checkPermissionList();
 
-      return Response.success(permissionStatus);
+      if (permissionList.isNotEmpty) {
+        return Response.success(NotificationPermissionStatus.granted);
+      }
+
+      final attempts = _prefs.getInt('notificationPermissionAttempt') ?? 0;
+      final status = attempts >= 2
+          ? NotificationPermissionStatus.permanentlyDenied
+          : NotificationPermissionStatus.denied;
+
+      return Response.success(status);
     } catch (e) {
       return Response.failed(UnexpectedFailure());
     }
@@ -63,14 +70,14 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   @override
-  Future<Response<PermissionStatusEntity>> requestPermission() async {
+  Future<Response<void>> requestPermission() async {
     try {
-      final status = await Permission.notification.request();
+      await _notifications.requestPermissionToSendNotifications();
 
-      final permissionStatus =
-          PermissionStatusEntity.fromPermissionStatus(status);
+      final attempts = _prefs.getInt('notificationPermissionAttempt') ?? 0;
+      _prefs.setInt('notificationPermissionAttempt', attempts + 1);
 
-      return Response.success(permissionStatus);
+      return Response.success(null);
     } catch (e) {
       return Response.failed(UnexpectedFailure());
     }
