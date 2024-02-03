@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
@@ -48,6 +49,8 @@ class EatingPlanPage extends StatelessWidget {
                     // Initial
                     if (state.fetchingStatus == FetchingStatus.initial)
                       return SliverToBoxAdapter(child: EatingPlanLoading());
+
+                    FlutterNativeSplash.remove();
 
                     // Loading
                     if (state.fetchingStatus == FetchingStatus.loading)

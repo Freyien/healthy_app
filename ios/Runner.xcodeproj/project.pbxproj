@@ -11,6 +11,8 @@
 		1E6F485FD19D293079715555 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C0084234966E5A2DDE6544F /* GoogleService-Info.plist */; };
 		245E3804AB8B06C75E2C7AC8 /* Pods_AwesomeNotificationsServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9800C68BBFAF96E2C3870941 /* Pods_AwesomeNotificationsServiceExtension.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		645622CA2B6E2A8F00DF321C /* LaunchScreenDevelopment.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 645622C62B6E2A8F00DF321C /* LaunchScreenDevelopment.storyboard */; };
+		645622CB2B6E2A8F00DF321C /* LaunchScreenProduction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 645622C82B6E2A8F00DF321C /* LaunchScreenProduction.storyboard */; };
 		64D64D722B65BE3D002347D7 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D64D712B65BE3D002347D7 /* NotificationService.swift */; };
 		64D64D762B65BE3D002347D7 /* AwesomeNotificationsServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 64D64D6F2B65BE3D002347D7 /* AwesomeNotificationsServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -66,6 +68,8 @@
 		52A71E654CF0DB6801F53D2F /* Pods-AwesomeNotificationsServiceExtension.profile-staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeNotificationsServiceExtension.profile-staging.xcconfig"; path = "Target Support Files/Pods-AwesomeNotificationsServiceExtension/Pods-AwesomeNotificationsServiceExtension.profile-staging.xcconfig"; sourceTree = "<group>"; };
 		5350B24A286C10E3C84DAA57 /* Pods-Runner.debug-production.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-production.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-production.xcconfig"; sourceTree = "<group>"; };
 		61C84D8025BC05411F9FF595 /* Pods-AwesomeNotificationsServiceExtension.release-development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeNotificationsServiceExtension.release-development.xcconfig"; path = "Target Support Files/Pods-AwesomeNotificationsServiceExtension/Pods-AwesomeNotificationsServiceExtension.release-development.xcconfig"; sourceTree = "<group>"; };
+		645622C72B6E2A8F00DF321C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenDevelopment.storyboard; sourceTree = "<group>"; };
+		645622C92B6E2A8F00DF321C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenProduction.storyboard; sourceTree = "<group>"; };
 		649D5C632B5D1C9B0006D1C1 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		64D64D6F2B65BE3D002347D7 /* AwesomeNotificationsServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AwesomeNotificationsServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		64D64D712B65BE3D002347D7 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -174,6 +178,8 @@
 				649D5C632B5D1C9B0006D1C1 /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
+				645622C62B6E2A8F00DF321C /* LaunchScreenDevelopment.storyboard */,
+				645622C82B6E2A8F00DF321C /* LaunchScreenProduction.storyboard */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
 				97C147021CF9000F007C117D /* Info.plist */,
 				1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */,
@@ -306,8 +312,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
+				645622CB2B6E2A8F00DF321C /* LaunchScreenProduction.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
+				645622CA2B6E2A8F00DF321C /* LaunchScreenDevelopment.storyboard in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				1E6F485FD19D293079715555 /* GoogleService-Info.plist in Resources */,
 			);
@@ -462,6 +470,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		645622C62B6E2A8F00DF321C /* LaunchScreenDevelopment.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				645622C72B6E2A8F00DF321C /* Base */,
+			);
+			name = LaunchScreenDevelopment.storyboard;
+			sourceTree = "<group>";
+		};
+		645622C82B6E2A8F00DF321C /* LaunchScreenProduction.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				645622C92B6E2A8F00DF321C /* Base */,
+			);
+			name = LaunchScreenProduction.storyboard;
+			sourceTree = "<group>";
+		};
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -547,6 +571,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "Healthy App";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProduction;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1413,6 +1438,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "Healthy App";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProduction;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1442,6 +1468,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "Healthy App";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProduction;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1526,6 +1553,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Healthy App";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDevelopment;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1608,6 +1636,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Healthy App";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDevelopment;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1687,6 +1716,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Healthy App";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDevelopment;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1771,6 +1801,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Healthy App";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDevelopment;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1853,6 +1884,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Healthy App";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDevelopment;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1932,6 +1964,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Healthy App";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDevelopment;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

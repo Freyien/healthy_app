@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/features/common/app_update/domain/entities/app_version_status.dart';
 import 'package:healthy_app/features/common/app_update/ui/widgets/update_activate_button.dart';
@@ -17,6 +18,8 @@ class AppUpdatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
+
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
