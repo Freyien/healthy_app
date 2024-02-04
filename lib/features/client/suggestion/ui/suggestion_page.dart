@@ -107,8 +107,6 @@ class SuggestionPage extends StatelessWidget {
       return LoadingUtils.show(context);
     }
 
-    await Future.delayed(Duration(seconds: 2));
-
     if (state.status == SuggestionStatus.success) {
       return LoadingUtils.hide(context);
     }

@@ -248,25 +248,10 @@ class NotificationRepositoryImpl implements NotificationRepository {
     await _notificationsFcm.initialize(
       onFcmTokenHandle: NotificationController.onFcmTokenHandle,
       onFcmSilentDataHandle: NotificationController.onFcmSilentDataHandle,
-      licenseKeys:
-          // On this example app, the app ID / Bundle Id are different
-          // for each platform, so i used the main Bundle ID + 1 variation
-          [
-        // me.carda.awesomeNotificationsFcmExample
-        '2024-01-02==kZDwJQkSR7mrjEgDk7afWDSrqYCiqW6Ao/7wn/w6v5OKOgAnoEWt'
-            'gqO0ELI1BxWNzSde2gbaW+9Ki6Tx94pU2gQRJuJxXGsvcmCRla1mB/0U/rPh'
-            'f77bxgPRG+PHn9+p9sQ5nfvY6Ytw9IvDn4NjH3ccbjoXFRrs7R/ou9aapq2a'
-            'jRHqXlIzDR1ihyQHC91Wvkviw2qTOEYDhR5hE4T2l1iHsTTpeXOqWk0XmgnC'
-            'gO18e4Hv0P5WKICCull+PCh+OXQYTK5x0UwQPNOGN20rQu5zR9C0ph0hFQxk'
-            'WLa/ft206pBZmWDf4HiyAawXPoR1AMWAh/t0cjh8gRTTNfHeog==',
-
-        // me.carda.awesome_notifications_fcm_example
-        '2024-01-02==lYUBqt9kKmObnP7UzWd2KK9FOTOySkVATX/j/CGEzSlSKsQx5y5S9'
-            'RKHG1lP1TZ5KHO6+wwkNbzxmni4uJ418WM3ywTY199bHAp5MHWxZEEgvMMG4/'
-            '/V2W0acFhSgxH6GL/6XNYvhS2RwaX7X/z4NX7Z4dgZVOn0VW3GRyg7I/zLcgl'
-            'Dhh+n9obRuGnZI+Xakw2id97PSG4QZOCw15A0LzE1lip/Fzj0cMRsqpvcAW2K'
-            'VWYZm5ZmK2yKVcop1kxiq1faZGL1fBteJCQ8YeQKpqS+aaVmexdJXmB7sJVl0'
-            '5o87ORRfijpO+Q6gmTYfjYxoiQMismHUx6NAnoB/txaLw=='
+      licenseKeys: [
+        '2024-02-04==LllzEf0nRpjBft6O2DEcvEAttb66x0fdNpM4egDqn2ZJX3hVc3NvsmSuqum6Ad0dFkyIINRua90QMnMVDq/9f83TOuHlfKdJD4BuhMrC2s+DgIOzxDY+6LNNS16euiWxPeIxji3LDPghaNvpxYXTjCxcVB7Z25U9AjcLXkcu4QHVOb5/ppz3pMBakr7/8z/9aBOKpP0yseY7h8AWK6eRQ9GSwHNdLOQM9soMNMUYt4zEJkA8zcBJNf3spiZ3z+XCBIRMggYBH8uU3IXP0TYHzS4D4CKW72zlZ6bG2p4ciakSR0Aa84MBRU2y1ruQveVwKZrCN7jkxrBiyqhaKI7dpQ==',
+        '2024-02-04==lfXijWhj/TxU+ehowCX3TkNZWQ8hGO4kul4FcqEyD3pK0xCmsmQH0LTHpsLVkWlzoQVb9cLo8L5fhk14bNT1jobyXNI6ZTvik9KVFM2AbGeRmyeBYufwHJPveH/Y7jKr9Oy0bnUUuN+MORegW3+VZeFgMmxJBYaQsI7Q3ZVozVOtNPj8jmGNRU7L04/AyzjQP9bjerntH4hTGb3JANPdqvt4A2fMOQWoXoCeH3mKIxIJMQ8Ui1MRtnHo8AsrFcrvzWnoGHdBuTU3FTavcJBbjHMh7IkZBrq9LIreNw94GCrugPdZuFMu5fXdOB5RGvVpc/pjVUgolvU5pAekrUBbxw==',
+        '2024-02-04==htMC4HYUvR4n3dJ6M9racuQ9N2ni1UnXvXj7fTM2ZjYWNZ7BIq4cr1nd+q+4rW3WHMIxPFpHw2skfAoWCLwyj1AJggdm8stNiUmzNcoSyhdFez33ZWMNRux18eukiAvg3VJNhTEA/+Pga16Eex65uTKs2p2dYhfo6lBc+nmFUiq9/losE7CTVTpLezKYyl0a3vaS4Q7EYG2YdnWFAv1qB5tjmJp7swZjhhX2iGRd5/XHmd97GPjJ2hMwEcJhe3lVUjjPegCZSDTPwmFnK0XRlduxbqd+4VJd2gBR2alLqzTgWLP4z9MNjrpECinKGb5wWwSpXpaLKECrxLgn1hAa3g=='
       ],
       debug: true,
     );
