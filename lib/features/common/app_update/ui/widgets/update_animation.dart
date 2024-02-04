@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
+import 'package:healthy_app/core/ui/utils/lottie.dart';
 import 'package:lottie/lottie.dart';
 
 class UpdateAnimation extends StatelessWidget {
@@ -15,7 +16,8 @@ class UpdateAnimation extends StatelessWidget {
         borderRadius: BorderRadius.circular(700),
       ),
       child: Lottie.asset(
-        'assets/animations/rocket.json',
+        'assets/animations/rocket.lottie',
+        decoder: LottieUtils.decoder,
         width: width,
         height: width,
       ),

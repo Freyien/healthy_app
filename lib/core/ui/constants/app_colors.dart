@@ -120,7 +120,7 @@ class AppColors extends ThemeExtension<AppColors> {
 class DefaultColors {
   DefaultColors();
 
-  static const Color primary = Color(0xfffd785c);
+  static const Color primary = Color(0xffFE785B);
   static const Color darkCharcoal = Color(0xff333333);
   static const Color flashWhite = Color(0xfff0f0f0);
   static const Color borderBold = Color(0xffCCCCCC);

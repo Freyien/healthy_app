@@ -34,8 +34,9 @@ class SignInPage extends StatelessWidget {
                     const Spacer(),
 
                     // Logo
-                    FlutterLogo(
-                      size: constraints.maxHeight * .18,
+                    Image.asset(
+                      'assets/images/logo.png',
+                      height: constraints.maxHeight * .18,
                     ),
                     VerticalSpace.xxxlarge(),
 

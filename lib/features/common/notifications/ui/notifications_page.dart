@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/core/domain/utils/router_utils.dart';
@@ -19,8 +18,6 @@ class NotificationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FlutterNativeSplash.remove();
-
     return BlocProvider(
       create: (context) => sl<NotificationBloc>(),
       child: BlocListener<NotificationBloc, NotificationState>(

@@ -13,6 +13,7 @@ class CustomTheme {
       hintColor: DefaultColors.primary,
       primaryColor: DefaultColors.primary,
       appBarTheme: AppBarTheme(
+        centerTitle: true,
         backgroundColor: LightColors.appbar,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
@@ -120,6 +121,7 @@ class CustomTheme {
       hintColor: DefaultColors.primary,
       primaryColor: DefaultColors.primary,
       appBarTheme: AppBarTheme(
+        centerTitle: true,
         backgroundColor: DarkColors.appbar,
         surfaceTintColor: Colors.transparent,
         elevation: 0,

@@ -154,6 +154,9 @@ class WaterPlanPage extends StatelessWidget {
                   ),
 
                   BlocBuilder<WaterPlanBloc, WaterPlanState>(
+                    buildWhen: (p, c) =>
+                        c.deletingStatus == DeletingStatus.success ||
+                        c.savingStatus == SavingStatus.success,
                     builder: (context, state) {
                       if (state.fetchingStatus != FetchingStatus.success)
                         return SliverToBoxAdapter(child: SizedBox.shrink());

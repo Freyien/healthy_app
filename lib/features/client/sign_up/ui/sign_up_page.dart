@@ -34,8 +34,9 @@ class SignUpPage extends StatelessWidget {
                     const Spacer(),
 
                     // Logo
-                    FlutterLogo(
-                      size: constraints.maxHeight * .18,
+                    Image.asset(
+                      'assets/images/logo.png',
+                      height: constraints.maxHeight * .18,
                     ),
                     VerticalSpace.xxxlarge(),
 
@@ -49,11 +50,11 @@ class SignUpPage extends StatelessWidget {
 
                     // You have account?
                     const HaveAccount(),
-                    VerticalSpace.large(),
+                    VerticalSpace.xxlarge(),
 
                     // Or separator
                     const OrSeparator(),
-                    VerticalSpace.xxlarge(),
+                    VerticalSpace.xlarge(),
 
                     // Google Sign Up
                     const SignUpGoogleButton(),

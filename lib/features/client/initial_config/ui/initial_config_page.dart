@@ -35,12 +35,14 @@ class InitialConfigPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(),
-                    VerticalSpace.medium(),
-                    Text(
-                      'Obteniendo información...',
-                      style: TextStyle(
-                        color: context.appColors.textContrast,
+                    Loading(animationName: 'fruits_loading'),
+                    Transform.translate(
+                      offset: Offset(0, -30),
+                      child: Text(
+                        'Obteniendo configuración...',
+                        style: TextStyle(
+                          color: context.appColors.textContrast,
+                        ),
                       ),
                     ),
                   ],

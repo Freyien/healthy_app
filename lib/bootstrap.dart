@@ -7,7 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/core/domain/usecases/get_initial_route_usecase.dart';
 import 'package:healthy_app/di/di_business.dart';
@@ -32,8 +31,7 @@ class AppBlocObserver extends BlocObserver {
 Future<void> bootstrap(
     FutureOr<Widget> Function(InitialRouteEntity) builder) async {
   try {
-    WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+    WidgetsFlutterBinding.ensureInitialized();
 
     // Init Firebase
     await Firebase.initializeApp(

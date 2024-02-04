@@ -13,7 +13,7 @@ class UpdateTitle extends StatelessWidget {
         fontSize: 18,
         fontWeight: FontWeight.bold,
         color: context.appColors.textContrast,
-        letterSpacing: -.5,
+        letterSpacing: -.3,
       ),
     );
   }

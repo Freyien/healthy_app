@@ -7,7 +7,7 @@ class SignInSubtitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Iniciemos sesión para comenzar a mejorar vidas',
+      'Adopta una vida más saludable',
       style: TextStyle(
         color: context.appColors.textContrast,
       ),

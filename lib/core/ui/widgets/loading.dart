@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 class Loading extends StatelessWidget {
   const Loading({
     super.key,
-    this.animationName = 'circle_loading',
+    this.animationName = 'fruits_loading',
   });
 
   final String animationName;

@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
 import 'package:healthy_app/core/domain/enums/saving_status.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
@@ -218,7 +219,9 @@ class WaterReminderPage extends StatelessWidget {
         LoadingUtils.hide(context);
         return Toast.showError('Ha ocurrido un error inesperado.');
       case SavingStatus.success:
-        return LoadingUtils.hide(context);
+        LoadingUtils.hide(context);
+        context.pop();
+        return Toast.showSuccess('Configuración implementada');
     }
   }
 }

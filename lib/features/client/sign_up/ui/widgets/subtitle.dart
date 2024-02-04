@@ -7,7 +7,7 @@ class SignUpSubtitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Estás a unos pasos de comenzar una nueva vida',
+      'Bienestar, buena alimentación y amor propio',
       textAlign: TextAlign.center,
       style: TextStyle(
         color: context.appColors.textContrast,

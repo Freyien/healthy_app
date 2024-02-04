@@ -93,10 +93,20 @@ class WaterReminderEntity extends Equatable {
 
     final multiplier = fromTimestamp ? 1000 : 1;
 
+    final start =
+        DateTime.fromMillisecondsSinceEpoch(map['start'] * multiplier);
+    final end = DateTime.fromMillisecondsSinceEpoch(map['end'] * multiplier);
+
     return WaterReminderEntity(
       minuteInterval: map['minuteInterval'],
-      start: DateTime.fromMillisecondsSinceEpoch(map['start'] * multiplier),
-      end: DateTime.fromMillisecondsSinceEpoch(map['end'] * multiplier),
+      start: DateTime.now().removeTime().copyWith(
+            hour: start.hour,
+            minute: start.minute,
+          ),
+      end: DateTime.now().removeTime().copyWith(
+            hour: end.hour,
+            minute: end.minute,
+          ),
       enable: map['enable'],
     );
   }

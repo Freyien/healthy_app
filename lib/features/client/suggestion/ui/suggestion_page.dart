@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/utils/loading.dart';
+import 'package:healthy_app/core/ui/utils/lottie.dart';
 import 'package:healthy_app/core/ui/utils/toast.dart';
 import 'package:healthy_app/di/di_business.dart';
 import 'package:healthy_app/features/client/suggestion/domain/failures/suggestion_failure.dart';
@@ -27,24 +28,24 @@ class SuggestionPage extends StatelessWidget {
         ),
         body: BlocConsumer<SuggestionBloc, SuggestionState>(
           listener: _suggestionListener,
-          listenWhen: (_, c) => c.status != SuggestionStatus.initial,
+          listenWhen: (p, c) => c.status != p.status,
           buildWhen: (_, c) => c.status == SuggestionStatus.success,
           builder: (context, state) {
             if (state.status == SuggestionStatus.success) {
               return LayoutBuilder(builder: (context, constraints) {
-                final size = constraints.maxWidth * .5;
+                final size = constraints.maxWidth * .7;
                 return ScrollFillRemaining(
                   child: Column(
                     children: [
                       Spacer(),
                       Lottie.asset(
-                        'assets/animations/check.json',
+                        'assets/animations/check.lottie',
+                        decoder: LottieUtils.decoder,
                         fit: BoxFit.contain,
                         height: size,
                         width: size,
                         repeat: false,
                       ),
-                      Spacer(),
                       VerticalSpace.large(),
                       FadeInDown(
                         from: 30,
@@ -58,7 +59,6 @@ class SuggestionPage extends StatelessWidget {
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: appColors.textContrast,
-                                letterSpacing: -.5,
                               ),
                             ),
                             VerticalSpace.small(),
@@ -66,8 +66,7 @@ class SuggestionPage extends StatelessWidget {
                               'Agradecemos te hayas tomado el tiempo para darnos una sugerencia, la tomaremos en cuenta para mejorar nuestro servicio.',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey,
+                                color: appColors.textContrast!.withOpacity(.4),
                               ),
                             ),
                           ],
@@ -103,10 +102,12 @@ class SuggestionPage extends StatelessWidget {
     );
   }
 
-  void _suggestionListener(BuildContext context, SuggestionState state) {
+  void _suggestionListener(BuildContext context, SuggestionState state) async {
     if (state.status == SuggestionStatus.loading) {
       return LoadingUtils.show(context);
     }
+
+    await Future.delayed(Duration(seconds: 2));
 
     if (state.status == SuggestionStatus.success) {
       return LoadingUtils.hide(context);

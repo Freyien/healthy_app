@@ -6,7 +6,7 @@ class UpdateSubtitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Actualiza la app para que no te pierdas de las promociones y descuentos que tenemos para ti',
+      'Actualiza la app para que puedas disfrutar de las nuevas mejoras que tenemos para ti',
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 15,
