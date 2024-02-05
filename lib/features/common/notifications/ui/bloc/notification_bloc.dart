@@ -162,7 +162,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     Emitter<NotificationState> emit,
   ) async {
     await emit.forEach(
-      _notificationRepository.onActionReceivedMethod(),
+      _notificationRepository.onTapNotification(),
       onData: (notification) {
         return state.copyWith(
           notification: notification,

@@ -18,10 +18,8 @@ abstract class NotificationRepository {
 
   // Notifications
   Future<Response<NotificationEntity?>> getInitialMessage();
-  Stream<NotificationEntity?> onActionReceivedMethod();
-  Future<Response<void>> showNotification({
-    required NotificationEntity notification,
-  });
+  Stream<NotificationEntity?> onTapNotification();
+  Future<void> showNotification(NotificationEntity notification);
 
   // Topics
   Future<void> suscribeToCommonTipics();

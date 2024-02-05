@@ -3,13 +3,11 @@ import 'package:healthy_app/core/domain/entities/response.dart';
 import 'package:healthy_app/core/domain/failures/failures.dart';
 import 'package:healthy_app/features/client/water_reminder/domain/entities/water_reminder_entity.dart';
 import 'package:healthy_app/features/client/water_reminder/domain/repositories/water_reminder_repository.dart';
-import 'package:workmanager/workmanager.dart';
 
 class WaterReminderRepositoryImpl implements WaterReminderRepository {
   final CloudClient _client;
-  final Workmanager _workmanager;
 
-  WaterReminderRepositoryImpl(this._client, this._workmanager);
+  WaterReminderRepositoryImpl(this._client);
 
   @override
   Future<Response<WaterReminderEntity>> getWaterReminder() async {

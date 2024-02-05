@@ -1,11 +1,10 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:awesome_notifications_fcm/awesome_notifications_fcm.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:get_it/get_it.dart';
 import 'package:healthy_app/core/data/network/cloud_client.dart';
@@ -52,12 +51,12 @@ import 'package:healthy_app/features/common/app_update/data/app_update_repositor
 import 'package:healthy_app/features/common/app_update/domain/repositories/app_update_repository.dart';
 import 'package:healthy_app/features/common/notifications/data/notification_repository_impl.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
+import 'package:healthy_app/features/common/notifications/domain/usecases/show_background_notification_usecase.dart';
 import 'package:healthy_app/features/common/notifications/ui/bloc/notification_bloc.dart';
 import 'package:healthy_app/features/common/splash/data/splash_repository_impl.dart';
 import 'package:healthy_app/features/common/splash/domain/repositories/splash_repository.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:workmanager/workmanager.dart';
 
 GetIt sl = GetIt.instance;
 bool isDIInitialized = false;
@@ -98,6 +97,7 @@ Future<void> _registerNetwork() async {
     () => FirebaseCrashlytics.instance,
   );
   sl.registerLazySingleton<FirebaseFunctions>(() => FirebaseFunctions.instance);
+  sl.registerLazySingleton<FirebaseMessaging>(() => FirebaseMessaging.instance);
   sl.registerLazySingleton<FirebaseRemoteConfig>(
     () => FirebaseRemoteConfig.instance,
   );
@@ -114,13 +114,6 @@ Future<void> _registerNetwork() async {
   sl.registerLazySingleton<CloudClient>(
     () => CloudClient(sl(), sl(), sl(), sl()),
   );
-  sl.registerLazySingleton<AwesomeNotifications>(() => AwesomeNotifications());
-  sl.registerLazySingleton<AwesomeNotificationsFcm>(
-    () => AwesomeNotificationsFcm(),
-  );
-  sl.registerLazySingleton<Workmanager>(
-    () => Workmanager(),
-  );
 }
 
 // Repositories
@@ -135,7 +128,7 @@ void _registerRepositories() {
     () => AppUpdateRepositoryImpl(sl(), sl()),
   );
   sl.registerLazySingleton<NotificationRepository>(
-    () => NotificationRepositoryImpl(sl(), sl(), sl(), sl()),
+    () => NotificationRepositoryImpl(sl(), sl(), sl()),
   );
   sl.registerLazySingleton<SignInRepository>(
     () => SignInRepositoryImpl(sl(), sl(), sl()),
@@ -168,7 +161,7 @@ void _registerRepositories() {
     () => SuggestionRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<WaterReminderRepository>(
-    () => WaterReminderRepositoryImpl(sl(), sl()),
+    () => WaterReminderRepositoryImpl(sl()),
   );
 }
 
@@ -192,4 +185,5 @@ void _registerBlocs() {
 // Use cases
 void _registerUseCases() {
   sl.registerLazySingleton(() => GetInitialRouteUseCase(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => ShowBackgroundNotificationUseCase(sl()));
 }

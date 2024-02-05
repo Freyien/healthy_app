@@ -1,32 +1,34 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_settings/app_settings.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:awesome_notifications_fcm/awesome_notifications_fcm.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthy_app/core/constants/healthy_constants.dart';
 import 'package:healthy_app/core/domain/entities/response.dart';
 import 'package:healthy_app/core/domain/failures/failures.dart';
-import 'package:healthy_app/features/common/notifications/data/notification_controller.dart';
 import 'package:healthy_app/features/common/notifications/domain/entities/notification_entity.dart';
 import 'package:healthy_app/features/common/notifications/domain/entities/permision_status_entity.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationRepositoryImpl implements NotificationRepository {
   NotificationRepositoryImpl(
-    this._notifications,
-    this._notificationsFcm,
+    this._messaging,
     this._functions,
     this._prefs,
   );
 
-  final AwesomeNotifications _notifications;
-  final AwesomeNotificationsFcm _notificationsFcm;
+  final FirebaseMessaging _messaging;
   final FirebaseFunctions _functions;
   final SharedPreferences _prefs;
+
+  late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+  final streamController = StreamController<NotificationEntity>();
 
   /* PERMISSIONS */
 
@@ -34,9 +36,9 @@ class NotificationRepositoryImpl implements NotificationRepository {
   Future<Response<NotificationPermissionStatus>>
       checkNotificationPermission() async {
     try {
-      final permissionList = await _notifications.checkPermissionList();
+      final settings = await _messaging.getNotificationSettings();
 
-      if (permissionList.isNotEmpty) {
+      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
         return Response.success(NotificationPermissionStatus.granted);
       }
 
@@ -72,10 +74,15 @@ class NotificationRepositoryImpl implements NotificationRepository {
   @override
   Future<Response<void>> requestPermission() async {
     try {
-      await _notifications.requestPermissionToSendNotifications();
-
-      final attempts = _prefs.getInt('notificationPermissionAttempt') ?? 0;
-      _prefs.setInt('notificationPermissionAttempt', attempts + 1);
+      await _messaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: true,
+        provisional: false,
+        sound: true,
+      );
 
       return Response.success(null);
     } catch (e) {
@@ -92,7 +99,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
 
   @override
   Future<void> initLocalNotifications() async {
-    _initializeLocalNotifications();
+    await _initializeLocalNotifications();
   }
 
   /* TOKENS */
@@ -100,11 +107,11 @@ class NotificationRepositoryImpl implements NotificationRepository {
   @override
   Future<void> saveToken() async {
     try {
-      final token = await _notificationsFcm.requestFirebaseAppToken();
+      final token = await _messaging.getToken() ?? '';
 
       await _saveToken(token);
 
-      NotificationController.streamFcmToken.stream.listen((token) async {
+      _messaging.onTokenRefresh.listen((token) async {
         await _saveToken(token);
       });
     } catch (e) {
@@ -135,51 +142,48 @@ class NotificationRepositoryImpl implements NotificationRepository {
   @override
   Future<Response<NotificationEntity?>> getInitialMessage() async {
     try {
-      final receivedAction = await _notifications.getInitialNotificationAction(
-        removeFromActionEvents: true,
-      );
+      // FCM
+      final remoteMessage = await _messaging.getInitialMessage();
 
-      if (receivedAction == null) return Response.success(null);
+      if (remoteMessage != null) {
+        final message = NotificationEntity.fromRemoteMessage(remoteMessage);
+        return Response.success(message);
+      }
 
-      final notification =
-          NotificationEntity.fromReceivedAction(receivedAction);
+      // Local notifications
+      final notificationAppLaunch = await _flutterLocalNotificationsPlugin
+          .getNotificationAppLaunchDetails();
 
-      return Response.success(notification);
-    } catch (e) {
-      return Response.failed(UnexpectedFailure());
-    }
-  }
+      if (notificationAppLaunch == null) return Response.success(null);
 
-  @override
-  Stream<NotificationEntity> onActionReceivedMethod() {
-    _notifications.setListeners(
-      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
-    );
+      if (notificationAppLaunch.didNotificationLaunchApp) {
+        final notification = notificationAppLaunch.notificationResponse;
+        final payload = notification?.payload ?? '{}';
+        final message = NotificationEntity.fromJson(payload);
 
-    return NotificationController.streamReceivedAction.stream;
-  }
-
-  @override
-  Future<Response<void>> showNotification({
-    required NotificationEntity notification,
-  }) async {
-    try {
-      await _notifications.createNotification(
-        content: NotificationContent(
-          channelKey: 'basic_channel',
-          id: notification.id,
-          title: notification.title,
-          body: notification.body,
-          wakeUpScreen: true,
-          category: NotificationCategory.Reminder,
-          autoDismissible: false,
-        ),
-      );
+        return Response.success(message);
+      }
 
       return Response.success(null);
     } catch (e) {
       return Response.failed(UnexpectedFailure());
     }
+  }
+
+  @override
+  Stream<NotificationEntity> onTapNotification() {
+    FirebaseMessaging.onMessageOpenedApp.listen((remoteMessage) {
+      final notification = NotificationEntity.fromRemoteMessage(remoteMessage);
+
+      streamController.add(notification);
+    });
+
+    return streamController.stream;
+  }
+
+  @override
+  Future<void> showNotification(notification) async {
+    _showLocalNotification(notification);
   }
 
   /* TOPICS */
@@ -204,56 +208,40 @@ class NotificationRepositoryImpl implements NotificationRepository {
 
   /* PRIVATE METHODS */
 
-  void _initializeLocalNotifications() {
-    _notifications.initialize(
-      'resource://drawable/app_icon',
-      [
-        NotificationChannel(
-          channelGroupKey: 'basic_channel_group',
-          channelKey: 'basic_channel',
-          channelName: 'Basic channel',
-          channelDescription: 'Notification channel for basic',
-          defaultColor: HealthyConstants.primaryColor,
-          ledColor: HealthyConstants.primaryColor,
-          importance: NotificationImportance.High,
-          playSound: true,
-        ),
-        NotificationChannel(
-          channelGroupKey: 'water_reminder_channel_group',
-          channelKey: HealthyConstants.waterReminderChannel,
-          channelName: 'Water Reminder Channel',
-          channelDescription: 'Water Reminder Channel',
-          defaultColor: HealthyConstants.primaryColor,
-          ledColor: HealthyConstants.primaryColor,
-          importance: NotificationImportance.High,
-          playSound: true,
-        ),
-      ],
-      channelGroups: [
-        NotificationChannelGroup(
-          channelGroupKey: 'basic_channel_group',
-          channelGroupName: 'Basic Channel Group',
-        ),
-        NotificationChannelGroup(
-          channelGroupKey: 'water_reminder_channel_group',
-          channelGroupName: 'Water Reminder Group',
-        ),
-      ],
-      debug: kDebugMode,
+  Future<void> _initializeLocalNotifications() async {
+    final _onDidReceiveNotification = (NotificationResponse notification) {
+      streamController.add(
+        NotificationEntity.fromJson(notification.payload ?? '{}'),
+      );
+    };
+
+    final initializationSettings = InitializationSettings(
+      android: AndroidInitializationSettings(
+        'app_icon',
+      ),
+      iOS: DarwinInitializationSettings(),
+    );
+
+    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    await _flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: _onDidReceiveNotification,
     );
   }
 
   Future<void> _initializeRemoteNotifications() async {
-    await _notificationsFcm.initialize(
-      onFcmTokenHandle: NotificationController.onFcmTokenHandle,
-      onFcmSilentDataHandle: NotificationController.onFcmSilentDataHandle,
-      licenseKeys: [
-        '2024-02-04==LllzEf0nRpjBft6O2DEcvEAttb66x0fdNpM4egDqn2ZJX3hVc3NvsmSuqum6Ad0dFkyIINRua90QMnMVDq/9f83TOuHlfKdJD4BuhMrC2s+DgIOzxDY+6LNNS16euiWxPeIxji3LDPghaNvpxYXTjCxcVB7Z25U9AjcLXkcu4QHVOb5/ppz3pMBakr7/8z/9aBOKpP0yseY7h8AWK6eRQ9GSwHNdLOQM9soMNMUYt4zEJkA8zcBJNf3spiZ3z+XCBIRMggYBH8uU3IXP0TYHzS4D4CKW72zlZ6bG2p4ciakSR0Aa84MBRU2y1ruQveVwKZrCN7jkxrBiyqhaKI7dpQ==',
-        '2024-02-04==lfXijWhj/TxU+ehowCX3TkNZWQ8hGO4kul4FcqEyD3pK0xCmsmQH0LTHpsLVkWlzoQVb9cLo8L5fhk14bNT1jobyXNI6ZTvik9KVFM2AbGeRmyeBYufwHJPveH/Y7jKr9Oy0bnUUuN+MORegW3+VZeFgMmxJBYaQsI7Q3ZVozVOtNPj8jmGNRU7L04/AyzjQP9bjerntH4hTGb3JANPdqvt4A2fMOQWoXoCeH3mKIxIJMQ8Ui1MRtnHo8AsrFcrvzWnoGHdBuTU3FTavcJBbjHMh7IkZBrq9LIreNw94GCrugPdZuFMu5fXdOB5RGvVpc/pjVUgolvU5pAekrUBbxw==',
-        '2024-02-04==htMC4HYUvR4n3dJ6M9racuQ9N2ni1UnXvXj7fTM2ZjYWNZ7BIq4cr1nd+q+4rW3WHMIxPFpHw2skfAoWCLwyj1AJggdm8stNiUmzNcoSyhdFez33ZWMNRux18eukiAvg3VJNhTEA/+Pga16Eex65uTKs2p2dYhfo6lBc+nmFUiq9/losE7CTVTpLezKYyl0a3vaS4Q7EYG2YdnWFAv1qB5tjmJp7swZjhhX2iGRd5/XHmd97GPjJ2hMwEcJhe3lVUjjPegCZSDTPwmFnK0XRlduxbqd+4VJd2gBR2alLqzTgWLP4z9MNjrpECinKGb5wWwSpXpaLKECrxLgn1hAa3g=='
-      ],
-      debug: kDebugMode,
+    _messaging.setForegroundNotificationPresentationOptions(
+      alert: false,
+      badge: false,
+      sound: false,
     );
+
+    // Notifications from FCM in foreground
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      final notification = NotificationEntity.fromRemoteMessage(message);
+
+      _showLocalNotification(notification);
+    });
   }
 
   Future<void> _saveToken(String token) async {
@@ -271,17 +259,94 @@ class NotificationRepositoryImpl implements NotificationRepository {
     await _prefs.setString('notificationToken', token);
   }
 
+  Future<void> _showLocalNotification(NotificationEntity notification) async {
+    List<DarwinNotificationAttachment> attachmentList = [];
+    BigPictureStyleInformation? bigPictureStyleInformation;
+    ByteArrayAndroidBitmap? imageBitMap;
+
+    if (notification.imageUrl.isNotEmpty) {
+      if (Platform.isIOS) {
+        final imagePath = await _downloadAndSaveFile(
+          notification.imageUrl,
+          'bigPicture.jpg',
+        );
+        attachmentList.add(
+          DarwinNotificationAttachment(imagePath),
+        );
+      } else if (Platform.isAndroid) {
+        imageBitMap = await _getByteArrayFromUrl(notification.imageUrl);
+        bigPictureStyleInformation = BigPictureStyleInformation(
+          imageBitMap,
+          hideExpandedLargeIcon: true,
+        );
+      }
+    }
+
+    final androidChannel = AndroidNotificationDetails(
+      'luma_channel',
+      'LuMa Notifications',
+      importance: Importance.max,
+      priority: Priority.max,
+      largeIcon: imageBitMap,
+      styleInformation: bigPictureStyleInformation,
+      color: HealthyConstants.primaryColor,
+      colorized: false,
+    );
+
+    final notificationDetails = NotificationDetails(
+      android: androidChannel,
+      iOS: DarwinNotificationDetails(
+        interruptionLevel: InterruptionLevel.active,
+        attachments: attachmentList,
+      ),
+    );
+
+    final data = notification.data;
+
+    data.addAll({
+      'message_id': notification.hashCode.toString(),
+      'title': notification.title,
+      'body': notification.body,
+    });
+
+    await _flutterLocalNotificationsPlugin.show(
+      notification.hashCode,
+      notification.title,
+      notification.body,
+      notificationDetails,
+      payload: json.encode(data),
+    );
+  }
+
   Future<void> _suscribeTopic(String topic) async {
     final isSuscribed = await _prefs.getBool(topic) ?? false;
 
     if (isSuscribed) return;
 
-    await _notificationsFcm.subscribeToTopic(topic);
+    await _messaging.subscribeToTopic(topic);
     await _prefs.setBool(topic, true);
   }
 
   Future<void> _unsuscribeTopic(String topic) async {
-    await _notificationsFcm.unsubscribeToTopic(topic);
+    await _messaging.unsubscribeFromTopic(topic);
     await _prefs.setBool(topic, false);
   }
+}
+
+Future<ByteArrayAndroidBitmap> _getByteArrayFromUrl(String url) async {
+  final uri = Uri.parse(url);
+  final http.Response response = await http.get(uri);
+
+  return ByteArrayAndroidBitmap(
+    response.bodyBytes,
+  );
+}
+
+Future<String> _downloadAndSaveFile(String url, String fileName) async {
+  final Directory directory = await getApplicationDocumentsDirectory();
+  final String filePath = '${directory.path}/$fileName';
+  final http.Response response = await http.get(Uri.parse(url));
+  final File file = File(filePath);
+  await file.writeAsBytes(response.bodyBytes);
+  return filePath;
 }
