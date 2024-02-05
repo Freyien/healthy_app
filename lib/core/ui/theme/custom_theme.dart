@@ -159,6 +159,7 @@ class CustomTheme {
           borderRadius: BorderRadius.circular(10),
         ),
         prefixIconColor: DarkColors.primaryText.withOpacity(.7),
+        suffixIconColor: DarkColors.primaryText.withOpacity(.7),
       ),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: DefaultColors.primary,

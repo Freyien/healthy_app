@@ -43,6 +43,22 @@ class ReminderIntervalDropdown extends StatelessWidget {
           value: 120,
           child: Text('2 horas'),
         ),
+        DropdownMenuItem(
+          value: 150,
+          child: Text('2 horas 30 minutos'),
+        ),
+        DropdownMenuItem(
+          value: 180,
+          child: Text('3 horas'),
+        ),
+        DropdownMenuItem(
+          value: 210,
+          child: Text('3 horas 30 minutos'),
+        ),
+        DropdownMenuItem(
+          value: 240,
+          child: Text('4 horas'),
+        ),
       ],
       validator: (value) {
         return value == null ? 'Este campo es obligatorio' : null;
