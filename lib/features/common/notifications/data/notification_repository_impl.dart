@@ -5,7 +5,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:awesome_notifications_fcm/awesome_notifications_fcm.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:healthy_app/core/constants/healthy_constants.dart';
 import 'package:healthy_app/core/domain/entities/response.dart';
 import 'package:healthy_app/core/domain/failures/failures.dart';
@@ -206,16 +206,15 @@ class NotificationRepositoryImpl implements NotificationRepository {
 
   void _initializeLocalNotifications() {
     _notifications.initialize(
-      // 'app_icon',
-      null,
+      'resource://drawable/app_icon',
       [
         NotificationChannel(
           channelGroupKey: 'basic_channel_group',
           channelKey: 'basic_channel',
           channelName: 'Basic channel',
           channelDescription: 'Notification channel for basic',
-          defaultColor: Colors.blue,
-          ledColor: Colors.blue,
+          defaultColor: HealthyConstants.primaryColor,
+          ledColor: HealthyConstants.primaryColor,
           importance: NotificationImportance.High,
           playSound: true,
         ),
@@ -224,8 +223,8 @@ class NotificationRepositoryImpl implements NotificationRepository {
           channelKey: HealthyConstants.waterReminderChannel,
           channelName: 'Water Reminder Channel',
           channelDescription: 'Water Reminder Channel',
-          defaultColor: Colors.blue,
-          ledColor: Colors.blue,
+          defaultColor: HealthyConstants.primaryColor,
+          ledColor: HealthyConstants.primaryColor,
           importance: NotificationImportance.High,
           playSound: true,
         ),
@@ -240,7 +239,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
           channelGroupName: 'Water Reminder Group',
         ),
       ],
-      debug: true,
+      debug: kDebugMode,
     );
   }
 
@@ -253,7 +252,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
         '2024-02-04==lfXijWhj/TxU+ehowCX3TkNZWQ8hGO4kul4FcqEyD3pK0xCmsmQH0LTHpsLVkWlzoQVb9cLo8L5fhk14bNT1jobyXNI6ZTvik9KVFM2AbGeRmyeBYufwHJPveH/Y7jKr9Oy0bnUUuN+MORegW3+VZeFgMmxJBYaQsI7Q3ZVozVOtNPj8jmGNRU7L04/AyzjQP9bjerntH4hTGb3JANPdqvt4A2fMOQWoXoCeH3mKIxIJMQ8Ui1MRtnHo8AsrFcrvzWnoGHdBuTU3FTavcJBbjHMh7IkZBrq9LIreNw94GCrugPdZuFMu5fXdOB5RGvVpc/pjVUgolvU5pAekrUBbxw==',
         '2024-02-04==htMC4HYUvR4n3dJ6M9racuQ9N2ni1UnXvXj7fTM2ZjYWNZ7BIq4cr1nd+q+4rW3WHMIxPFpHw2skfAoWCLwyj1AJggdm8stNiUmzNcoSyhdFez33ZWMNRux18eukiAvg3VJNhTEA/+Pga16Eex65uTKs2p2dYhfo6lBc+nmFUiq9/losE7CTVTpLezKYyl0a3vaS4Q7EYG2YdnWFAv1qB5tjmJp7swZjhhX2iGRd5/XHmd97GPjJ2hMwEcJhe3lVUjjPegCZSDTPwmFnK0XRlduxbqd+4VJd2gBR2alLqzTgWLP4z9MNjrpECinKGb5wWwSpXpaLKECrxLgn1hAa3g=='
       ],
-      debug: true,
+      debug: kDebugMode,
     );
   }
 
