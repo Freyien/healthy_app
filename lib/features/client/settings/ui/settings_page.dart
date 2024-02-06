@@ -22,6 +22,21 @@ class Settingspage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Configuración'),
+          actions: [
+            PopupMenuButton(
+              initialValue: null,
+              onSelected: (name) {
+                context.pushNamed(name);
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                PopupMenuItem(
+                  value: 'delete_account',
+                  child: Text('Eliminar cuenta (1/3)'),
+                ),
+              ],
+              icon: Icon(Icons.more_vert_rounded),
+            ),
+          ],
         ),
         body: SafeArea(
           child: Builder(builder: (context) {

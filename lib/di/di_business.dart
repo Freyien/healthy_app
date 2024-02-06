@@ -11,6 +11,9 @@ import 'package:healthy_app/core/data/network/cloud_client.dart';
 import 'package:healthy_app/core/domain/usecases/get_initial_route_usecase.dart';
 import 'package:healthy_app/core/ui/constants/app_colors.dart';
 import 'package:healthy_app/di/config/remote_config.dart';
+import 'package:healthy_app/features/client/delete_account/data/delete_account_repository_impl.dart';
+import 'package:healthy_app/features/client/delete_account/domain/repositories/delete_account_repository.dart';
+import 'package:healthy_app/features/client/delete_account/ui/bloc/delete_account_bloc.dart';
 import 'package:healthy_app/features/client/doctor_code/data/doctor_code_repository_impl.dart';
 import 'package:healthy_app/features/client/doctor_code/domain/repositories/doctor_code_repository.dart';
 import 'package:healthy_app/features/client/doctor_code/ui/bloc/doctor_code_bloc.dart';
@@ -163,6 +166,9 @@ void _registerRepositories() {
   sl.registerLazySingleton<WaterReminderRepository>(
     () => WaterReminderRepositoryImpl(sl()),
   );
+  sl.registerLazySingleton<DeleteAccountRepository>(
+    () => DeleteAccountRepositoryImpl(sl()),
+  );
 }
 
 // Blocs
@@ -180,6 +186,7 @@ void _registerBlocs() {
   sl.registerFactory(() => SettingsBloc(sl(), sl(), sl()));
   sl.registerFactory(() => SuggestionBloc(sl()));
   sl.registerFactory(() => WaterReminderBloc(sl()));
+  sl.registerFactory(() => DeleteAccountBloc(sl(), sl()));
 }
 
 // Use cases

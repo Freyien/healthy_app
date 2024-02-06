@@ -125,16 +125,31 @@ class CustomTheme {
         backgroundColor: DarkColors.appbar,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
-        iconTheme: const IconThemeData(
-            // color: AppColors.black,
-            ),
+        iconTheme: const IconThemeData(),
         titleTextStyle: const TextStyle(
-          // color: AppColors.black,
-
           fontSize: 20,
           fontWeight: FontWeight.w500,
         ),
-        // surfaceTintColor: Colors.transparent,
+      ),
+      popupMenuTheme: PopupMenuThemeData(
+        color: DarkColors.appbar,
+        textStyle: TextStyle(
+          color: DarkColors.textContrast,
+        ),
+        labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return TextStyle(
+                color: DarkColors.textContrast.withOpacity(.3),
+                fontWeight: FontWeight.w600,
+              );
+            }
+            return TextStyle(
+              color: DarkColors.textContrast,
+              fontWeight: FontWeight.w600,
+            );
+          },
+        ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         fillColor: DarkColors.input,

@@ -22,7 +22,13 @@ class AdaptiveAction extends StatelessWidget {
         return TextButton(onPressed: onPressed, child: child);
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        return CupertinoDialogAction(onPressed: onPressed, child: child);
+        return CupertinoDialogAction(
+          onPressed: onPressed,
+          child: child,
+          textStyle: TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        );
     }
   }
 }

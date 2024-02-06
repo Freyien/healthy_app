@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
 import 'package:healthy_app/core/domain/utils/router_utils.dart';
 import 'package:healthy_app/features/client/dashboard/ui/dashboard_page.dart';
+import 'package:healthy_app/features/client/delete_account/ui/delete_account_page.dart';
 import 'package:healthy_app/features/client/doctor_code/ui/doctor_code_page.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/eating_plan_page.dart';
 import 'package:healthy_app/features/client/initial_config/ui/initial_config_page.dart';
@@ -143,6 +144,13 @@ class AppRouter {
                       path: 'water_reminder',
                       builder: (context, state) {
                         return WaterReminderPage();
+                      },
+                    ),
+                    GoRoute(
+                      name: 'delete_account',
+                      path: 'delete_account',
+                      builder: (context, state) {
+                        return DeleteAccountPage();
                       },
                     ),
                   ],
