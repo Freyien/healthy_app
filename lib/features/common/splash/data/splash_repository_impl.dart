@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:healthy_app/core/domain/entities/response.dart';
@@ -9,6 +12,21 @@ class SplashRepositoryImpl implements SplashRepository {
 
   final FirebaseAuth _firebaseAuth;
   final FirebaseCrashlytics _crashlytics;
+
+  @override
+  Future<void> trackingTransparencyRequest() async {
+    try {
+      if (!Platform.isIOS) return;
+
+      final status = await AppTrackingTransparency.trackingAuthorizationStatus;
+
+      if (status == TrackingStatus.notDetermined) {
+        await AppTrackingTransparency.requestTrackingAuthorization();
+      }
+    } catch (e, s) {
+      await _crashlytics.recordError(e, s);
+    }
+  }
 
   @override
   Future<Response<bool>> isUserloggedIn() async {

@@ -61,5 +61,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Sus datos serán usados para enviarle publicidad personalizada</string>
 </dict>
 </plist>

@@ -19,6 +19,8 @@ class GetInitialRouteUseCase {
     bool checkNotifications = true,
     bool checkUpdateVersion = true,
   }) async {
+    await _splashRepository.trackingTransparencyRequest();
+
     // Notifications
     if (checkNotifications) {
       final notificationRoute = await _checkNotificationPermission();
