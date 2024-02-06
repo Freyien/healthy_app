@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:healthy_app/core/constants/healthy_constants.dart';
 import 'package:healthy_app/core/domain/entities/response.dart';
@@ -248,6 +250,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
     if (token.isEmpty) return;
 
     final savedToken = _prefs.getString('notificationToken') ?? '';
+    if (kDebugMode) log('[FCM Token]: $savedToken');
     if (savedToken == token) return;
 
     // Save token in server

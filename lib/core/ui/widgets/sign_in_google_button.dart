@@ -1,17 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 
-class SignInAppleButton extends StatelessWidget {
-  const SignInAppleButton({super.key, required this.onPressed});
+class SignInGoogleButton extends StatelessWidget {
+  const SignInGoogleButton({super.key, required this.onPressed});
 
   final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
-    if (!Platform.isIOS) return SizedBox.shrink();
-
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
@@ -22,10 +17,9 @@ class SignInAppleButton extends StatelessWidget {
         padding: EdgeInsets.zero,
         elevation: 0,
       ),
-      child: Icon(
-        Icons.apple,
-        color: context.appColors.textContrast,
-        size: 35,
+      child: Image.asset(
+        'assets/images/google_icon.png',
+        width: 25,
       ),
     );
   }

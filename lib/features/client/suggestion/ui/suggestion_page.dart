@@ -82,11 +82,13 @@ class SuggestionPage extends StatelessWidget {
             return ScrollFillRemaining(
               child: Column(
                 children: [
-                  Text(
-                    'Tomará un poco de tiempo, pero ten por seguro que leeremos cada sugerencia que envíes.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: appColors.textContrast,
+                  FadeInDown(
+                    from: 10,
+                    child: Text(
+                      'Tomará un poco de tiempo, pero ten por seguro que leeremos cada sugerencia que envíes.',
+                      style: TextStyle(
+                        color: appColors.textContrast,
+                      ),
                     ),
                   ),
                   VerticalSpace.large(),

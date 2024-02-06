@@ -15,5 +15,6 @@ export 'outlined_button.dart';
 export 'padding_form_column.dart';
 export 'primary_button.dart';
 export 'scroll_fill_remaining.dart';
+export 'sign_in_google_button.dart';
 export 'tile_info.dart';
 export 'vertical_space.dart';

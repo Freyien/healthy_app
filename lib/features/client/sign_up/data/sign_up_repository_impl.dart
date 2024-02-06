@@ -47,7 +47,8 @@ class SignUpRepositoryImpl implements SignUpRepository {
         return Response.failed(AccountAlreadyExistsFailure());
       }
       return Response.failed(UnexpectedFailure());
-    } catch (e) {
+    } catch (e, s) {
+      await _crashlytics.recordError(e, s);
       return Response.failed(UnexpectedFailure());
     }
   }
@@ -84,7 +85,8 @@ class SignUpRepositoryImpl implements SignUpRepository {
       _crashlytics.setUserIdentifier(currentUser.uid);
 
       return Response.success(user);
-    } catch (e) {
+    } catch (e, s) {
+      await _crashlytics.recordError(e, s);
       return Response.failed(UnexpectedFailure());
     }
   }
@@ -125,7 +127,8 @@ class SignUpRepositoryImpl implements SignUpRepository {
         return Response.failed(SocialMediaCanceledFailure());
 
       return Response.failed(UnexpectedFailure());
-    } catch (e) {
+    } catch (e, s) {
+      await _crashlytics.recordError(e, s);
       return Response.failed(UnexpectedFailure());
     }
   }

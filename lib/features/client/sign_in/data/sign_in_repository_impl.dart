@@ -45,10 +45,13 @@ class SignInRepositoryImpl implements SignInRepository {
         return Response.failed(UserNotFoundFailure());
       } else if (e.code == 'wrong-password') {
         return Response.failed(InvalidCredentialsFailure());
+      } else if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+        return Response.failed(InvalidCredentialsFailure());
       }
 
       return Response.failed(UnexpectedFailure());
-    } catch (e) {
+    } catch (e, s) {
+      await _crashlytics.recordError(e, s);
       return Response.failed(UnexpectedFailure());
     }
   }
@@ -127,7 +130,8 @@ class SignInRepositoryImpl implements SignInRepository {
         return Response.failed(SocialMediaCanceledFailure());
 
       return Response.failed(UnexpectedFailure());
-    } catch (e) {
+    } catch (e, s) {
+      await _crashlytics.recordError(e, s);
       return Response.failed(UnexpectedFailure());
     }
   }

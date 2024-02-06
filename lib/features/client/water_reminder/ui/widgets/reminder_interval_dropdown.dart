@@ -28,10 +28,6 @@ class ReminderIntervalDropdown extends StatelessWidget {
             child: Text('1 minuto'),
           ),
         DropdownMenuItem(
-          value: 30,
-          child: Text('30 minutos'),
-        ),
-        DropdownMenuItem(
           value: 60,
           child: Text('1 hora'),
         ),

@@ -3,15 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/ui/utils/loading.dart';
 import 'package:healthy_app/core/ui/utils/toast.dart';
-import 'package:healthy_app/core/ui/widgets/scroll_fill_remaining.dart';
+import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/core/ui/widgets/sign_in_apple_button.dart';
-import 'package:healthy_app/core/ui/widgets/vertical_space.dart';
 import 'package:healthy_app/di/di_business.dart';
-import 'package:healthy_app/features/client/sign_in/ui/widgets/or_separator.dart';
 import 'package:healthy_app/features/client/sign_up/ui/bloc/sign_up_bloc.dart';
 import 'package:healthy_app/features/client/sign_up/ui/widgets/form.dart';
 import 'package:healthy_app/features/client/sign_up/ui/widgets/have_account.dart';
-import 'package:healthy_app/features/client/sign_up/ui/widgets/sign_up_google_button.dart';
 import 'package:healthy_app/features/client/sign_up/ui/widgets/subtitle.dart';
 import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
 
@@ -57,14 +54,23 @@ class SignUpPage extends StatelessWidget {
                     VerticalSpace.xlarge(),
 
                     // Google Sign Up
-                    const SignUpGoogleButton(),
-                    VerticalSpace.small(),
+                    // Buttons
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Google button
+                        SignInGoogleButton(
+                          onPressed: () => _onGoogleSignIn(context),
+                        ),
 
-                    // Apple Sign Up
-                    SignUpAppleButton(
-                      onPressed: () {
-                        context.read<SignUpBloc>().add(SignUpwithAppleEvent());
-                      },
+                        // Apple button
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: SignInAppleButton(
+                            onPressed: () => _onAppleSignIn(context),
+                          ),
+                        ),
+                      ],
                     ),
                     const Spacer(),
                   ],
@@ -75,6 +81,18 @@ class SignUpPage extends StatelessWidget {
         );
       }),
     );
+  }
+
+  void _onGoogleSignIn(BuildContext context) {
+    context.read<AnalyticsBloc>().add(LogEvent('GoogleSignUpButtonPressed'));
+
+    context.read<SignUpBloc>().add(SignUpwithGoogleEvent());
+  }
+
+  void _onAppleSignIn(BuildContext context) {
+    context.read<AnalyticsBloc>().add(LogEvent('AppleSignUpButtonPressed'));
+
+    context.read<SignUpBloc>().add(SignUpwithAppleEvent());
   }
 
   void _signUpListener(BuildContext context, SignUpState state) {
