@@ -134,10 +134,10 @@ void _registerRepositories() {
     () => NotificationRepositoryImpl(sl(), sl(), sl()),
   );
   sl.registerLazySingleton<SignInRepository>(
-    () => SignInRepositoryImpl(sl(), sl(), sl()),
+    () => SignInRepositoryImpl(sl(), sl(), sl(), sl()),
   );
   sl.registerLazySingleton<SignUpRepository>(
-    () => SignUpRepositoryImpl(sl(), sl()),
+    () => SignUpRepositoryImpl(sl(), sl(), sl()),
   );
   sl.registerLazySingleton<DoctorCodeRepository>(
     () => DoctorCodeRepositoryImpl(sl()),

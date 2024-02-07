@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:healthy_app/core/domain/enums/fetching_status.dart';
 import 'package:healthy_app/core/domain/enums/saving_status.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/utils/loading.dart';
@@ -22,7 +23,7 @@ class PersonalInfoPage extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
 
     return BlocProvider(
-      create: (context) => sl<PersonalInfoBloc>(),
+      create: (context) => sl<PersonalInfoBloc>()..add(GetPersonalInfoEvent()),
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(
@@ -30,41 +31,57 @@ class PersonalInfoPage extends StatelessWidget {
           ),
           title: Text('Información personal'),
         ),
-        body: BlocListener<PersonalInfoBloc, PersonalInfoState>(
+        body: BlocConsumer<PersonalInfoBloc, PersonalInfoState>(
           listenWhen: (p, c) => p.savingStatus != c.savingStatus,
           listener: _personalInfoListener,
-          child: ScrollFillRemaining(
-            child: PaddingFormColumn(
-              formKey: formKey,
-              padding: EdgeInsets.zero,
-              children: [
-                Text(
-                  'Esta información le ayudará a tu nutriólogo a identificarte de manera más sencilla.',
-                  style: TextStyle(
-                    color: context.appColors.textContrast,
+          buildWhen: (p, c) => p.fetchingStatus != c.fetchingStatus,
+          builder: (context, state) {
+            if (state.fetchingStatus == FetchingStatus.initial)
+              return Center(child: Loading());
+
+            if (state.fetchingStatus == FetchingStatus.loading)
+              return Center(child: Loading());
+
+            if (state.fetchingStatus == FetchingStatus.failure)
+              return ErrorFullScreen(
+                onRetry: () {
+                  context.read<PersonalInfoBloc>().add(GetPersonalInfoEvent());
+                },
+              );
+
+            return ScrollFillRemaining(
+              child: PaddingFormColumn(
+                formKey: formKey,
+                padding: EdgeInsets.zero,
+                children: [
+                  Text(
+                    'Esta información le ayudará a tu nutriólogo a identificarte de manera más sencilla.',
+                    style: TextStyle(
+                      color: context.appColors.textContrast,
+                    ),
                   ),
-                ),
-                VerticalSpace.large(),
+                  VerticalSpace.large(),
 
-                // Name
-                NameInput(),
+                  // Name
+                  NameInput(),
 
-                // Firstname
-                FirstnameInput(),
+                  // Firstname
+                  FirstnameInput(),
 
-                // Secondname
-                SecondnameInput(),
+                  // Secondname
+                  SecondnameInput(),
 
-                // Born date
-                BornDateInput(),
-                Spacer(),
+                  // Born date
+                  BornDateInput(),
+                  Spacer(),
 
-                // Button
-                VerticalSpace.large(),
-                PersonalInfoButton(formKey: formKey),
-              ],
-            ),
-          ),
+                  // Button
+                  VerticalSpace.large(),
+                  PersonalInfoButton(formKey: formKey),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

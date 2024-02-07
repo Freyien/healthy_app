@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:healthy_app/core/domain/enums/fetching_status.dart';
 import 'package:healthy_app/core/domain/enums/saving_status.dart';
 import 'package:healthy_app/features/client/personal_info/domain/entities/personal_info_entity.dart';
 import 'package:healthy_app/features/client/personal_info/domain/repositories/personal_info_repository.dart';
@@ -11,11 +12,29 @@ class PersonalInfoBloc extends Bloc<PersonalInfoEvent, PersonalInfoState> {
   final PersonalInfoRepository _repository;
 
   PersonalInfoBloc(this._repository) : super(PersonalInfoState.initial()) {
+    on<GetPersonalInfoEvent>(_onGetPersonalInfoEvent);
     on<ChangeNameEvent>(_onChangeNameEvent);
     on<ChangeFirstnameEvent>(_onChangeFirstnameEvent);
     on<ChangeSecondname>(_onChangeSecondname);
     on<ChangeBornDateEvent>(_onChangeBornDateEvent);
     on<SaveEvent>(_onSaveEvent);
+  }
+
+  Future<void> _onGetPersonalInfoEvent(
+    GetPersonalInfoEvent event,
+    Emitter<PersonalInfoState> emit,
+  ) async {
+    emit(state.copyWith(fetchingStatus: FetchingStatus.loading));
+
+    final response = await _repository.getPersonalInfo();
+
+    if (response.isSuccess)
+      return emit(state.copyWith(
+        fetchingStatus: FetchingStatus.success,
+        personalInfo: response.data,
+      ));
+
+    emit(state.copyWith(fetchingStatus: FetchingStatus.failure));
   }
 
   void _onChangeNameEvent(

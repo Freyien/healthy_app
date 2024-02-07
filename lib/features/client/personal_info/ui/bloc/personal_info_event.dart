@@ -7,6 +7,8 @@ sealed class PersonalInfoEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class GetPersonalInfoEvent extends PersonalInfoEvent {}
+
 class ChangeNameEvent extends PersonalInfoEvent {
   final String value;
 

@@ -5,6 +5,7 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:healthy_app/core/data/network/cloud_client.dart';
 import 'package:healthy_app/core/domain/entities/response.dart';
 import 'package:healthy_app/core/domain/entities/user_entity.dart';
 import 'package:healthy_app/core/domain/failures/failures.dart';
@@ -13,10 +14,11 @@ import 'package:healthy_app/features/client/sign_up/domain/repositories/sign_up_
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class SignUpRepositoryImpl implements SignUpRepository {
-  SignUpRepositoryImpl(this._firebaseAuth, this._crashlytics);
+  SignUpRepositoryImpl(this._firebaseAuth, this._crashlytics, this._client);
 
   final FirebaseAuth _firebaseAuth;
   final FirebaseCrashlytics _crashlytics;
+  final CloudClient _client;
 
   @override
   Future<Response<UserEntity>> signUpWithEmail(
@@ -118,6 +120,11 @@ class SignUpRepositoryImpl implements SignUpRepository {
         email: currentUser.email ?? '',
         name: currentUser.displayName ?? '',
       );
+
+      await _client.post('saveSignInCredentials', parameters: {
+        'name': appleCredential.givenName ?? '',
+        'firstname': appleCredential.familyName ?? '',
+      });
 
       _crashlytics.setUserIdentifier(currentUser.uid);
 

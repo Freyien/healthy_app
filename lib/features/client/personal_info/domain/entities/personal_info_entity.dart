@@ -44,9 +44,9 @@ class PersonalInfoEntity extends Equatable {
 
   factory PersonalInfoEntity.fromMap(Map<String, dynamic> map) {
     return PersonalInfoEntity(
-      name: map['name'] as String,
-      firstname: map['firstname'] as String,
-      secondname: map['secondname'] as String,
+      name: map['name'] ?? '',
+      firstname: map['firstname'] ?? '',
+      secondname: map['secondname'] ?? '',
       bornDate: map['bornDate'] != null //
           ? DateTime.fromMillisecondsSinceEpoch(map['bornDate'] as int)
           : null,

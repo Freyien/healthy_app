@@ -12,6 +12,19 @@ class PersonalInfoRepositoryImpl implements PersonalInfoRepository {
   PersonalInfoRepositoryImpl(this._client, this._auth);
 
   @override
+  Future<Response<PersonalInfoEntity>> getPersonalInfo() async {
+    try {
+      final result = await _client.get('getClientByAuth', useCache: false);
+
+      final personalInfo = PersonalInfoEntity.fromMap(result);
+
+      return Response.success(personalInfo);
+    } catch (e) {
+      return Response.failed(UnexpectedFailure());
+    }
+  }
+
+  @override
   Future<Response<void>> savePersonalInfo(
     PersonalInfoEntity personalInfo,
   ) async {
