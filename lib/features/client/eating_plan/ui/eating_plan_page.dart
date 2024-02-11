@@ -113,6 +113,7 @@ class EatingPlanPage extends StatelessWidget {
                           );
                         },
                         childCount: state.eatingPlan.planBlockList.length,
+                        addAutomaticKeepAlives: true,
                       ),
                     );
                   },
