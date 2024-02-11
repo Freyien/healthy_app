@@ -63,13 +63,13 @@ class PersonalInfoPage extends StatelessWidget {
                   VerticalSpace.large(),
 
                   // Name
-                  NameInput(),
+                  NameInput(name: state.personalInfo.name),
 
                   // Firstname
-                  FirstnameInput(),
+                  FirstnameInput(firstname: state.personalInfo.firstname),
 
                   // Secondname
-                  SecondnameInput(),
+                  SecondnameInput(secondname: state.personalInfo.secondname),
 
                   // Born date
                   BornDateInput(),
