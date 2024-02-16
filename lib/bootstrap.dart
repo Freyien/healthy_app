@@ -70,23 +70,29 @@ Future<void> bootstrap(
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  /* From background */
-  if (isDIInitialized) {
-    await sl<ShowBackgroundNotificationUseCase>().showNotification(message);
-    return;
+  if (message.notification != null) return;
+
+  try {
+    /* From background */
+    if (isDIInitialized) {
+      await sl<ShowBackgroundNotificationUseCase>().showNotification(message);
+      return;
+    }
+
+    /* From terminated */
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    if (!isDIBInitialized) {
+      await diBackgroundNotifications();
+    }
+
+    await slb<ShowBackgroundNotificationUseCase>().initLocalNotifications();
+    await slb<ShowBackgroundNotificationUseCase>().showNotification(message);
+  } catch (e, s) {
+    await FirebaseCrashlytics.instance.recordError(e, s);
   }
-
-  /* From terminated */
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  if (!isDIBInitialized) {
-    await diBackgroundNotifications();
-  }
-
-  await slb<ShowBackgroundNotificationUseCase>().initLocalNotifications();
-  await slb<ShowBackgroundNotificationUseCase>().showNotification(message);
 }
 
 Future<void> _reportError() async {
