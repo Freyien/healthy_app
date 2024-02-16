@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 
 class WaterButton extends StatelessWidget {
@@ -21,8 +22,8 @@ class WaterButton extends StatelessWidget {
       width: width,
       child: ElevatedButton.icon(
         onPressed: onPressed,
-        icon: Image.asset(
-          'assets/images/$imageName.png',
+        icon: SvgPicture.asset(
+          'assets/svg/$imageName.svg',
           height: 25,
         ),
         label: Text(text),

@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/utils/keyboard.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
@@ -24,7 +25,11 @@ class DoctorCodeForm extends StatelessWidget {
             Spacer(),
 
             // Image
-            Image.asset('assets/images/doctor.png', width: 128, height: 128),
+            SvgPicture.asset(
+              'assets/svg/doctor.svg',
+              width: 128,
+              height: 128,
+            ),
             VerticalSpace.large(),
 
             // Title

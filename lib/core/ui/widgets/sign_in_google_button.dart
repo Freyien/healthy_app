@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SignInGoogleButton extends StatelessWidget {
   const SignInGoogleButton({super.key, required this.onPressed});
@@ -17,8 +18,8 @@ class SignInGoogleButton extends StatelessWidget {
         padding: EdgeInsets.zero,
         elevation: 0,
       ),
-      child: Image.asset(
-        'assets/images/google_icon.png',
+      child: SvgPicture.asset(
+        'assets/svg/google.svg',
         width: 25,
       ),
     );

@@ -30,7 +30,10 @@ class EatingTile extends StatelessWidget {
       onChanged: onChanged,
       activeColor: appColors.primary,
       secondary: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          if (dotsLength == 1) VerticalSpace.xsmall(),
+
           // Image
           CachedNetworkImage(
             imageUrl: foodOption.imageUrl,
@@ -47,7 +50,8 @@ class EatingTile extends StatelessWidget {
               );
             },
           ),
-          VerticalSpace.xsmall(),
+
+          if (dotsLength > 1) VerticalSpace.xsmall(),
 
           // Dots
           if (dotsLength > 1)
