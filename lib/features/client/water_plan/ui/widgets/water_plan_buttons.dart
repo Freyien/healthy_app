@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
+import 'package:healthy_app/features/client/water_plan/ui/widgets/trophy_button.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_button.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
@@ -11,43 +12,50 @@ class WaterPlanButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final buttonWidth = constraints.maxWidth * .5 - 8;
+    return Column(
+      children: [
+        // Trophy button
+        TrophyButton(),
 
-        return Wrap(
-          alignment: WrapAlignment.start,
-          crossAxisAlignment: WrapCrossAlignment.start,
-          runSpacing: 16,
-          spacing: 16,
-          children: [
-            WaterButton(
-              width: buttonWidth,
-              onPressed: () => _addWaterConsumption(context, 250),
-              imageName: 'vaso',
-              text: '250 ml',
-            ),
-            WaterButton(
-              width: buttonWidth,
-              onPressed: () => _addWaterConsumption(context, 500),
-              imageName: 'agua',
-              text: '500 ml',
-            ),
-            WaterButton(
-              width: buttonWidth,
-              onPressed: () => _addWaterConsumption(context, 600),
-              imageName: 'agua',
-              text: '600 ml',
-            ),
-            WaterButton(
-              width: buttonWidth,
-              onPressed: () => _showDialog(context),
-              imageName: 'gota-de-agua',
-              text: 'otro',
-            ),
-          ],
-        );
-      },
+        LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final buttonWidth = constraints.maxWidth * .5 - 8;
+
+            return Wrap(
+              alignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.start,
+              runSpacing: 16,
+              spacing: 16,
+              children: [
+                WaterButton(
+                  width: buttonWidth,
+                  onPressed: () => _addWaterConsumption(context, 250),
+                  imageName: 'vaso',
+                  text: '250 ml',
+                ),
+                WaterButton(
+                  width: buttonWidth,
+                  onPressed: () => _addWaterConsumption(context, 500),
+                  imageName: 'agua',
+                  text: '500 ml',
+                ),
+                WaterButton(
+                  width: buttonWidth,
+                  onPressed: () => _addWaterConsumption(context, 600),
+                  imageName: 'agua',
+                  text: '600 ml',
+                ),
+                WaterButton(
+                  width: buttonWidth,
+                  onPressed: () => _showDialog(context),
+                  imageName: 'gota-de-agua',
+                  text: 'otro',
+                ),
+              ],
+            );
+          },
+        ),
+      ],
     );
   }
 

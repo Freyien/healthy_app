@@ -106,6 +106,7 @@ class WaterPlanPage extends StatelessWidget {
                                   left: 0,
                                   right: 0,
                                   child: FadeIn(
+                                    delay: Duration(milliseconds: 850),
                                     duration: Duration(seconds: 1),
                                     child: LottieBuilder.asset(
                                       'assets/animations/confetti.json',
@@ -118,6 +119,7 @@ class WaterPlanPage extends StatelessWidget {
                                   left: 0,
                                   right: 0,
                                   child: FadeIn(
+                                    delay: Duration(milliseconds: 850),
                                     duration: Duration(seconds: 1),
                                     child: LottieBuilder.asset(
                                       'assets/animations/confetti.json',
@@ -129,12 +131,11 @@ class WaterPlanPage extends StatelessWidget {
                                 children: [
                                   // Header
                                   WaterPlanHeader(waterPlan: waterPlan),
-                                  VerticalSpace.xxlarge(),
+                                  VerticalSpace.large(),
 
                                   // Water container
                                   WaterContainer(waterPlan: waterPlan),
-                                  VerticalSpace.xxxlarge(),
-                                  VerticalSpace.medium(),
+                                  VerticalSpace.xxlarge(),
 
                                   // Buttons
                                   WaterPlanButtons(),
