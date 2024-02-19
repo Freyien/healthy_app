@@ -59,7 +59,10 @@ class MeasuresChartPage extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     final chartData = state.chartDataList[index];
 
-                    return MeasureLineChart(chartData: chartData);
+                    return Card(
+                      margin: EdgeInsets.only(bottom: 24),
+                      child: MeasureLineChart(chartData: chartData),
+                    );
                   },
                 );
 

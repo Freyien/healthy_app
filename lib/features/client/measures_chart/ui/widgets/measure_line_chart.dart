@@ -27,72 +27,85 @@ class _MeasureLineChartState extends State<MeasureLineChart>
       child: SfCartesianChart(
         plotAreaBorderWidth: 0,
         legend: Legend(
+          itemPadding: 0,
           isVisible: true,
           overflowMode: LegendItemOverflowMode.wrap,
+          toggleSeriesVisibility: false,
           textStyle: TextStyle(
             color: context.appColors.textContrast,
           ),
           legendItemBuilder: (legendText, series, point, seriesIndex) {
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: widget.chartData.imageUrl,
-                      width: 24,
-                      height: 24,
-                      placeholder: (context, url) {
-                        return Container(
-                          height: 24,
-                          width: 24,
-                          decoration: BoxDecoration(
-                            color: context.appColors.loadingBackground,
-                            shape: BoxShape.circle,
-                          ),
-                        );
-                      },
+            return AppBar(
+              forceMaterialTransparency: true,
+              // leading: IconButton(
+              //   onPressed: () {},
+              //   icon: Icon(CupertinoIcons.fullscreen),
+              // ),
+              leading: IconButton(
+                onPressed: null,
+                icon: CachedNetworkImage(
+                  imageUrl: widget.chartData.imageUrl,
+                  width: 28,
+                  height: 28,
+                  placeholder: (context, url) {
+                    return Container(
+                      height: 28,
+                      width: 28,
+                      decoration: BoxDecoration(
+                        color: context.appColors.loadingBackground,
+                        shape: BoxShape.circle,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              title: Column(
+                children: [
+                  Text(
+                    legendText,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: context.appColors.textContrast,
                     ),
-                    HorizontalSpace.medium(),
-                    Flexible(
-                      child: Text(
-                        legendText,
-                        overflow: TextOverflow.ellipsis,
+                  ),
+                  VerticalSpace.xsmall(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Medida: ',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                          color: context.appColors.textContrast,
+                          fontSize: 14,
+                          color:
+                              context.appColors.textContrast!.withOpacity(.7),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Medida: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                        color: context.appColors.textContrast!.withOpacity(.7),
+                      Text(
+                        widget.chartData.measure,
+                        style: TextStyle(
+                          // fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color:
+                              context.appColors.textContrast!.withOpacity(.7),
+                        ),
                       ),
-                    ),
-                    Text(
-                      widget.chartData.measure,
-                      style: TextStyle(
-                        // fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                        color: context.appColors.textContrast!.withOpacity(.7),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
+                ],
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.share),
                 ),
               ],
             );
           },
         ),
+        onLegendTapped: null,
         primaryXAxis: CategoryAxis(
           labelStyle: TextStyle(
             color: context.appColors.textContrast!.withOpacity(.7),
