@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -102,11 +104,13 @@ class _TrophyButtonState extends State<TrophyButton>
     final imageName = 'trophy-$dayOfWeek';
     final subtitle = '$water lts';
 
-    context.goNamed('water_success', extra: {
-      'date': date,
+    final extra = {
+      'date': date.millisecondsSinceEpoch,
       'imageName': imageName,
       'message': message,
       'subtitle': subtitle,
-    });
+    };
+
+    context.goNamed('water_success', extra: json.encode(extra));
   }
 }

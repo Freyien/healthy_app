@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/entities/initial_route_entity.dart';
@@ -115,10 +117,13 @@ class AppRouter {
                       name: 'water_success',
                       path: 'water_success',
                       builder: (context, state) {
-                        final extra = state.extra as Map<String, dynamic>;
+                        final extra = json.decode(state.extra as String);
+                        final milliseconds = extra['date'] as int;
 
                         return WaterSuccessPage(
-                          date: extra['date'],
+                          date: DateTime.fromMillisecondsSinceEpoch(
+                            milliseconds,
+                          ),
                           imageName: extra['imageName'],
                           message: extra['message'],
                           subtitle: extra['subtitle'],
