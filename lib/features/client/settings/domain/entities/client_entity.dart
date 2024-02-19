@@ -2,42 +2,49 @@ import 'package:equatable/equatable.dart';
 
 class ClientEntity extends Equatable {
   final String id;
-  final String doctorId;
+  final String email;
+  final String fullName;
 
-  ClientEntity({
+  const ClientEntity({
     required this.id,
-    required this.doctorId,
+    required this.email,
+    required this.fullName,
   });
 
   factory ClientEntity.initial() => ClientEntity(
         id: '',
-        doctorId: '',
+        email: '',
+        fullName: '',
       );
 
   ClientEntity copyWith({
     String? id,
-    String? doctorId,
+    String? email,
+    String? fullName,
   }) {
     return ClientEntity(
       id: id ?? this.id,
-      doctorId: doctorId ?? this.doctorId,
+      email: email ?? this.email,
+      fullName: fullName ?? this.fullName,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'doctorId': doctorId,
+      'email': email,
+      'fullName': fullName,
     };
   }
 
   factory ClientEntity.fromMap(Map<String, dynamic> map) {
     return ClientEntity(
       id: map['id'] ?? '',
-      doctorId: map['doctorId'] ?? '',
+      email: map['email'] ?? '',
+      fullName: map['fullName'] ?? '',
     );
   }
 
   @override
-  List<Object> get props => [id, doctorId];
+  List<Object> get props => [id, email, fullName];
 }

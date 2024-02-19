@@ -37,8 +37,8 @@ class DashboardPage extends StatelessWidget {
               label: "Medidas",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: "Configuración",
+              icon: Icon(Icons.person),
+              label: "Cuenta",
             ),
           ],
           currentIndex: navigationShell.currentIndex,

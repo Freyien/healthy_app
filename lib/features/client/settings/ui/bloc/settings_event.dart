@@ -10,3 +10,5 @@ sealed class SettingsEvent extends Equatable {
 class SignOutEvent extends SettingsEvent {}
 
 class FetchAppVersionEvent extends SettingsEvent {}
+
+class GetClientEvent extends SettingsEvent {}

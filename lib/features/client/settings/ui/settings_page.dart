@@ -9,6 +9,7 @@ import 'package:healthy_app/di/di_business.dart';
 import 'package:healthy_app/features/client/settings/ui/bloc/settings_bloc.dart';
 import 'package:healthy_app/features/client/settings/ui/widgets/account_option.dart';
 import 'package:healthy_app/features/client/settings/ui/widgets/app_version.dart';
+import 'package:healthy_app/features/client/settings/ui/widgets/client_info.dart';
 import 'package:healthy_app/features/client/settings/ui/widgets/notification_option.dart';
 import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
 
@@ -18,10 +19,12 @@ class Settingspage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<SettingsBloc>()..add(FetchAppVersionEvent()),
+      create: (context) => sl<SettingsBloc>()
+        ..add(FetchAppVersionEvent())
+        ..add(GetClientEvent()),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Configuración'),
+          title: Text('Cuenta'),
           actions: [
             PopupMenuButton(
               initialValue: null,
@@ -44,8 +47,11 @@ class Settingspage extends StatelessWidget {
               listener: _settingsListener,
               child: ScrollFillRemaining(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    VerticalSpace.xsmall(),
+                    ClientInfo(),
+                    VerticalSpace.large(),
                     Spacer(),
                     AccountOption(
                       icon: Icons.message_outlined,

@@ -158,7 +158,7 @@ void _registerRepositories() {
     () => MeasureRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<SettingsRepository>(
-    () => SettingsRepositoryImpl(sl()),
+    () => SettingsRepositoryImpl(sl(), sl()),
   );
   sl.registerLazySingleton<SuggestionRepository>(
     () => SuggestionRepositoryImpl(sl()),
