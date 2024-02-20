@@ -67,6 +67,7 @@ dependencies:
 
 dependency_overrides:
   intl: ^0.18.0
+  syncfusion_flutter_datepicker: ^24.1.46
 
 dev_dependencies:
   bloc_test: ^9.1.2
