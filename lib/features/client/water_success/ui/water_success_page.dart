@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:healthy_app/core/extensions/datetime.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
+import 'package:healthy_app/core/ui/utils/loading.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -158,6 +159,7 @@ class _WaterSuccessPageState extends State<WaterSuccessPage> {
   }
 
   Future<void> _share() async {
+    LoadingUtils.show(context);
     final tempDir = await getTemporaryDirectory();
     final path = tempDir.path;
     String fileName = DateTime.now().microsecondsSinceEpoch.toString() + '.png';
@@ -166,6 +168,8 @@ class _WaterSuccessPageState extends State<WaterSuccessPage> {
       path,
       fileName: fileName,
     );
+
+    LoadingUtils.hide(context);
 
     await Share.shareXFiles(
       [

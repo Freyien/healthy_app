@@ -36,7 +36,7 @@ class WaterPlanPage extends StatelessWidget {
           title: WaterPlanCurrentDay(),
           actions: [
             WaterPlanCalendarButton(),
-            HorizontalSpace.small(),
+            HorizontalSpace.custom(6),
           ],
         ),
         body: Builder(builder: (context) {

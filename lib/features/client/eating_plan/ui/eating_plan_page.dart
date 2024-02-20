@@ -31,7 +31,7 @@ class EatingPlanPage extends StatelessWidget {
             title: EatingCurrentDay(),
             actions: [
               EatingCalendarButton(),
-              HorizontalSpace.small(),
+              HorizontalSpace.custom(6),
             ],
           ),
           body: SafeArea(

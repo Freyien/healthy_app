@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:go_router/go_router.dart';
+import 'package:healthy_app/core/extensions/datetime.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class CalendarUtils {
   static showCalendarDatePicker(
@@ -10,9 +12,10 @@ class CalendarUtils {
     required DateTime maxDate,
     required Function(DateTime) onConfirm,
     required DateTime initialDate,
-    DateRangePickerView view = DateRangePickerView.month,
   }) {
     final appColors = context.appColors;
+
+    DateTime selectedDate = initialDate;
 
     return showDialog<void>(
       context: context,
@@ -24,7 +27,7 @@ class CalendarUtils {
               Radius.circular(10.0),
             ),
           ),
-          contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 4),
+          contentPadding: EdgeInsets.fromLTRB(4, 0, 4, 0),
           content: SizedBox(
             width: 400,
             child: ClipRRect(
@@ -32,72 +35,132 @@ class CalendarUtils {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SfDateRangePicker(
-                    backgroundColor: Colors.transparent,
-                    minDate: minDate,
-                    maxDate: maxDate,
-                    initialDisplayDate: initialDate,
-                    initialSelectedDate: initialDate,
-                    initialSelectedDates: [initialDate],
-                    view: view,
-                    allowViewNavigation: true,
-                    enablePastDates: true,
-                    showNavigationArrow: true,
-                    showActionButtons: true,
-                    monthViewSettings: DateRangePickerMonthViewSettings(
-                      showTrailingAndLeadingDates: true,
-                      viewHeaderStyle: DateRangePickerViewHeaderStyle(
-                        textStyle: TextStyle(
+                  StatefulBuilder(builder: (context, setState) {
+                    return TableCalendar(
+                      firstDay: minDate,
+                      lastDay: maxDate,
+                      focusedDay: selectedDate,
+                      currentDay: selectedDate,
+                      weekendDays: [],
+                      locale: 'es_Mx',
+                      onDaySelected: (selectedDay, focusedDay) {
+                        setState(() {
+                          selectedDate = selectedDay;
+                        });
+                      },
+                      headerStyle: HeaderStyle(
+                        titleCentered: true,
+                        formatButtonVisible: false,
+                      ),
+                      rowHeight: 40,
+                      calendarStyle: CalendarStyle(
+                        todayDecoration: BoxDecoration(
+                          color: appColors.primary,
+                          shape: BoxShape.circle,
+                        ),
+                        defaultTextStyle: TextStyle(
                           color: appColors.textContrast,
-                          fontWeight: FontWeight.bold,
+                        ),
+                        outsideTextStyle: TextStyle(
+                          color: appColors.textContrast!.withOpacity(.5),
                         ),
                       ),
-                    ),
-                    headerStyle: DateRangePickerHeaderStyle(
-                      textStyle: TextStyle(
-                        color: appColors.textContrast,
-                        // fontWeight: FontWeight.w600,
+                      calendarBuilders: CalendarBuilders(
+                        defaultBuilder: (context, day, focusedDay) {
+                          final now = DateTime.now().removeTime();
+
+                          if (day.removeTime() == now)
+                            return Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: appColors.primary!,
+                                  width: 2,
+                                ),
+                              ),
+                              child: Text(
+                                day.day.toString(),
+                                style: TextStyle(
+                                  color: appColors.primary,
+                                ),
+                              ),
+                            );
+
+                          return Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              day.day.toString(),
+                            ),
+                          );
+                        },
+                        todayBuilder: (context, day, focusedDay) {
+                          return Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: appColors.primary!,
+                            ),
+                            child: Text(
+                              day.day.toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          );
+                        },
+                        dowBuilder: (context, day) {
+                          final now = DateTime.now();
+                          final name =
+                              day.format('EEEE').toUpperCase().substring(0, 3);
+
+                          final color = now.weekday == day.weekday
+                              ? appColors.primary
+                              : appColors.textContrast;
+
+                          return Text(
+                            name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: color,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                            ),
+                          );
+                        },
                       ),
-                    ),
-                    yearCellStyle: DateRangePickerYearCellStyle(
-                      textStyle: TextStyle(
-                        color: appColors.textContrast,
-                      ),
-                      disabledDatesTextStyle: TextStyle(
-                        color: Colors.grey,
-                      ),
-                      leadingDatesTextStyle: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    monthCellStyle: DateRangePickerMonthCellStyle(
-                      textStyle: TextStyle(
-                        color: appColors.textContrast,
-                      ),
-                      leadingDatesTextStyle: TextStyle(
-                        color: Colors.grey[500],
-                      ),
-                      trailingDatesTextStyle: TextStyle(
-                        color: Colors.grey[500],
-                      ),
-                      disabledDatesTextStyle: TextStyle(
-                        color: Colors.transparent,
-                      ),
-                    ),
-                    selectionColor: appColors.primary,
-                    todayHighlightColor: appColors.primary,
-                    onSubmit: (value) {
-                      onConfirm(value as DateTime);
-                      Navigator.pop(dialogContext);
-                    },
-                    onCancel: () => Navigator.pop(dialogContext),
-                    cancelText: 'CANCELAR',
-                    confirmText: 'CONFIRMAR',
-                  ),
+                    );
+                  }),
                 ],
               ),
             ),
           ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => context.pop(),
+              child: Text(
+                'CANCELAR',
+                style: TextStyle(
+                  color: appColors.textContrast!.withOpacity(.5),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                context.pop();
+                onConfirm(selectedDate);
+              },
+              child: Text(
+                'ACEPTAR',
+                style: TextStyle(
+                  color: appColors.primary,
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
