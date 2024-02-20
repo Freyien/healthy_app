@@ -30,7 +30,8 @@ class NotificationRepositoryImpl implements NotificationRepository {
   final SharedPreferences _prefs;
 
   late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
-  final streamController = StreamController<NotificationEntity>();
+  late StreamController<NotificationEntity> streamController;
+  late StreamSubscription streamSub;
 
   /* PERMISSIONS */
 
@@ -208,9 +209,20 @@ class NotificationRepositoryImpl implements NotificationRepository {
     }
   }
 
+  @override
+  Future<void> closeStreams() async {
+    try {
+      await streamSub.cancel();
+      await streamController.close();
+    } catch (e) {
+      print('HOLA MUNDO MUNDIAL');
+    }
+  }
+
   /* PRIVATE METHODS */
 
   Future<void> _initializeLocalNotifications() async {
+    streamController = StreamController<NotificationEntity>();
     final _onDidReceiveNotification = (NotificationResponse notification) {
       streamController.add(
         NotificationEntity.fromJson(notification.payload ?? '{}'),
@@ -239,7 +251,8 @@ class NotificationRepositoryImpl implements NotificationRepository {
     );
 
     // Notifications from FCM in foreground
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    streamSub =
+        FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       final notification = NotificationEntity.fromRemoteMessage(message);
 
       _showLocalNotification(notification);

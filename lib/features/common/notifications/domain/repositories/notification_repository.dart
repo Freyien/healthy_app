@@ -24,4 +24,6 @@ abstract class NotificationRepository {
   // Topics
   Future<void> suscribeToCommonTipics();
   Future<void> unsuscribeToCommonTipics();
+
+  Future<void> closeStreams();
 }

@@ -35,6 +35,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     try {
       await Future.wait([
+        _notificationRepository.closeStreams(),
         _notificationRepository.unsuscribeToCommonTipics(),
         _notificationRepository.deleteToken(),
       ]);
