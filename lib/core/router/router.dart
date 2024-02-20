@@ -101,6 +101,25 @@ class AppRouter {
                   builder: (context, state) {
                     return EatingPlanPage();
                   },
+                  routes: [
+                    GoRoute(
+                      name: 'eating_success',
+                      path: 'eating_success',
+                      builder: (context, state) {
+                        final extra = json.decode(state.extra as String);
+                        final milliseconds = extra['date'] as int;
+
+                        return WaterSuccessPage(
+                          date: DateTime.fromMillisecondsSinceEpoch(
+                            milliseconds,
+                          ),
+                          imageName: extra['imageName'],
+                          message: extra['message'],
+                          subtitle: extra['subtitle'],
+                        );
+                      },
+                    )
+                  ],
                 ),
               ],
             ),

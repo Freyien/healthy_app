@@ -7,7 +7,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:healthy_app/core/extensions/datetime.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
-import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -74,8 +73,11 @@ class _WaterSuccessPageState extends State<WaterSuccessPage> {
                   child: Stack(
                     children: [
                       // _Confetti
-                      _Confetti(Alignment.topCenter),
-                      _Confetti(Alignment.bottomCenter),
+                      ConfettiBackground(
+                        showConfetti: true,
+                        delay: Duration(milliseconds: 1600),
+                        opacity: .4,
+                      ),
 
                       Padding(
                         padding: const EdgeInsets.all(16),
@@ -165,41 +167,10 @@ class _WaterSuccessPageState extends State<WaterSuccessPage> {
       fileName: fileName,
     );
 
-    final result = await Share.shareXFiles(
+    await Share.shareXFiles(
       [
         XFile(filePath!),
       ],
-    );
-
-    print('==== result ====');
-    print(result);
-
-    // await AppinioSocialShare().shareToSystem(
-    //   '',
-    //   '',
-    //   filePaths: [filePath],
-    // );
-  }
-}
-
-class _Confetti extends StatelessWidget {
-  const _Confetti(this.alignment);
-
-  final AlignmentGeometry alignment;
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeIn(
-      delay: Duration(milliseconds: 1600),
-      child: Opacity(
-        opacity: .4,
-        child: Align(
-          alignment: alignment,
-          child: LottieBuilder.asset(
-            'assets/animations/confetti.json',
-          ),
-        ),
-      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 export 'adaptive_action.dart';
 export 'circle_icon_button.dart';
+export 'confetti_background.dart';
 export 'custom_outlined_button.dart';
 export 'draggable_scroll_sheet.dart';
 export 'dropdown.dart';
@@ -17,4 +18,5 @@ export 'primary_button.dart';
 export 'scroll_fill_remaining.dart';
 export 'sign_in_google_button.dart';
 export 'tile_info.dart';
+export 'trophy_button.dart';
 export 'vertical_space.dart';

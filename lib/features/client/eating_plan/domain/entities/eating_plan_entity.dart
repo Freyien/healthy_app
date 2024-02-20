@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:healthy_app/features/client/eating_plan/domain/entities/food_block_entity.dart';
 import 'package:healthy_app/features/client/eating_plan/domain/entities/food_checked_entity.dart';
@@ -22,6 +23,24 @@ class EatingPlanEntity extends Equatable {
         planBlockList: [],
         foodChecked: FoodCheckedEntity.initial(),
       );
+
+  bool get isPlanComplete {
+    if (planBlockList.isEmpty) return false;
+
+    // Find plan block with uncheck food block
+    final isComplete = planBlockList.firstWhereOrNull(
+      (planBlock) {
+        // Find uncheck food block
+        final uncheckFood = planBlock.foodBlockList.firstWhereOrNull(
+          (foodBlock) => foodBlock.checked == false,
+        );
+
+        return uncheckFood != null;
+      },
+    );
+
+    return isComplete == null;
+  }
 
   EatingPlanEntity copyWith({
     String? id,

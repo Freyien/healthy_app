@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/domain/enums/deleting_status.dart';
@@ -9,15 +8,16 @@ import 'package:healthy_app/core/ui/utils/toast.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
+import 'package:healthy_app/features/client/water_plan/ui/widgets/appbar/water_plan_calendar_button.dart';
+import 'package:healthy_app/features/client/water_plan/ui/widgets/appbar/water_plan_current_day.dart';
+import 'package:healthy_app/features/client/water_plan/ui/widgets/appbar/water_plan_trophy_button.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_consumption_list.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_consumption_title.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_container.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_loading.dart';
-import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_appbar.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_buttons.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_date_line.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_plan_header.dart';
-import 'package:lottie/lottie.dart';
 
 class WaterPlanPage extends StatelessWidget {
   const WaterPlanPage({super.key});
@@ -32,7 +32,12 @@ class WaterPlanPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 50,
-          title: WaterPlanAppBarTitle(),
+          leading: WaterPlanTrophyButton(),
+          title: WaterPlanCurrentDay(),
+          actions: [
+            WaterPlanCalendarButton(),
+            HorizontalSpace.small(),
+          ],
         ),
         body: Builder(builder: (context) {
           return SafeArea(
@@ -100,32 +105,16 @@ class WaterPlanPage extends StatelessWidget {
                         sliver: SliverToBoxAdapter(
                           child: Stack(
                             children: [
-                              if (waterPlan.remainingWaterConsumption == 0)
-                                Positioned(
-                                  top: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: FadeIn(
-                                    delay: Duration(milliseconds: 850),
-                                    duration: Duration(seconds: 1),
-                                    child: LottieBuilder.asset(
-                                      'assets/animations/confetti.json',
-                                    ),
-                                  ),
+                              // Confetti
+                              Positioned.fill(
+                                child: ConfettiBackground(
+                                  showConfetti:
+                                      waterPlan.remainingWaterConsumption == 0,
+                                  delay: Duration(milliseconds: 850),
+                                  opacity: .4,
                                 ),
-                              if (waterPlan.remainingWaterConsumption == 0)
-                                Positioned(
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: FadeIn(
-                                    delay: Duration(milliseconds: 850),
-                                    duration: Duration(seconds: 1),
-                                    child: LottieBuilder.asset(
-                                      'assets/animations/confetti.json',
-                                    ),
-                                  ),
-                                ),
+                              ),
+
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
