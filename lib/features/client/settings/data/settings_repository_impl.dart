@@ -15,8 +15,8 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<Response<ClientEntity>> getClient() async {
     try {
       final result = await _client.get(
-        'getClientByAuth',
-        useCache: false,
+        'getClientByAccount',
+        useCache: true,
       );
 
       final client = ClientEntity.fromMap(result);
