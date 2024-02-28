@@ -65,7 +65,7 @@ class _EmailInput extends StatelessWidget {
         final bloc = context.read<SignUpBloc>();
         final email = bloc.state.signUpForm.email;
 
-        if (email.valid) return null;
+        if (email.isValid) return null;
 
         switch (email.error!) {
           case EmailValidationError.invalid:
@@ -108,7 +108,7 @@ class _PasswordInput extends StatelessWidget {
           },
           validator: (_) {
             final password = bloc.state.signUpForm.password;
-            if (password.valid) return null;
+            if (password.isValid) return null;
 
             switch (password.error!) {
               case PasswordError.empty:

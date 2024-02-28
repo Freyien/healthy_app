@@ -29,7 +29,7 @@ class App extends StatelessWidget {
 
         return GlobalLoaderOverlay(
           useDefaultLoading: false,
-          overlayWidget: const Loading(),
+          overlayWidgetBuilder: (_) => Loading(),
           overlayColor: Colors.black54,
           child: MaterialApp.router(
             theme: CustomTheme.dolceTheme,

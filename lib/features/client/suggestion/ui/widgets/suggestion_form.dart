@@ -28,7 +28,7 @@ class SuggestionForm extends StatelessWidget {
                 final bloc = context.read<SuggestionBloc>();
                 final suggestion = bloc.state.form.suggestion;
 
-                if (suggestion.valid) return null;
+                if (suggestion.isValid) return null;
 
                 switch (suggestion.error!) {
                   case SuggestionValidationError.empty:
