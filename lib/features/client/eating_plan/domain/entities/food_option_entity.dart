@@ -100,4 +100,4 @@ enum PortionFraction {
   twoThrids
 }
 
-enum PortionMeasure { cup, mls, grs, piece }
+enum PortionMeasure { cup, mls, grs, piece, tablespoon, teaspoonful }

@@ -90,6 +90,10 @@ class FoodPortion extends StatelessWidget {
         return isSingular ? 'pieza' : 'piezas';
       case PortionMeasure.cup:
         return isSingular ? 'taza' : 'tazas';
+      case PortionMeasure.tablespoon:
+        return isSingular ? 'cucharada' : 'cucharadas';
+      case PortionMeasure.teaspoonful:
+        return isSingular ? 'cucharadita' : 'cucharaditas';
     }
   }
 }

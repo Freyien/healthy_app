@@ -113,9 +113,10 @@ class CustomTheme {
   static ThemeData get dolceDarkTheme {
     return ThemeData.dark().copyWith(
       scaffoldBackgroundColor: DarkColors.scaffold,
-      colorScheme: ThemeData().colorScheme.copyWith(
+      colorScheme: ThemeData.dark().colorScheme.copyWith(
             primary: DefaultColors.primary, // TextFormField focus color icon
             secondary: DefaultColors.primary,
+            error: Colors.red,
           ),
       focusColor: DefaultColors.primary,
       hintColor: DefaultColors.primary,
