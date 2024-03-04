@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/constants/healthy_constants.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/bloc/eating_plan_bloc.dart';
+import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
 import 'package:intl/intl.dart';
 
 class EatingTrophyButton extends StatelessWidget {
@@ -27,6 +28,8 @@ class EatingTrophyButton extends StatelessWidget {
   }
 
   void _goToWaterSuccess(BuildContext context) {
+    context.read<AnalyticsBloc>().add(LogEvent('eatingSuccessButtonPressed'));
+
     final state = context.read<EatingPlanBloc>().state;
     final date = state.date;
     final dayOfWeek = 367 - int.parse(DateFormat('D').format(date));

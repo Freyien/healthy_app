@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/constants/healthy_constants.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
+import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
 import 'package:intl/intl.dart';
 
 class WaterPlanTrophyButton extends StatelessWidget {
@@ -30,6 +31,8 @@ class WaterPlanTrophyButton extends StatelessWidget {
   }
 
   void _goToWaterSuccess(BuildContext context) {
+    context.read<AnalyticsBloc>().add(LogEvent('waterSuccessButtonPressed'));
+
     final state = context.read<WaterPlanBloc>().state;
     final date = state.date;
     final water = state.waterPlan.water / 1000;

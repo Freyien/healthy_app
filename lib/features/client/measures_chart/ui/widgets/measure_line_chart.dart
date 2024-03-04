@@ -2,12 +2,14 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthy_app/core/extensions/datetime.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/utils/loading.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/features/client/measures_chart/domain/entities/measure_chart_data_entity.dart';
 import 'package:healthy_app/features/client/measures_chart/domain/entities/measure_chart_element_entity.dart';
+import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -197,6 +199,8 @@ class _MeasureLineChartState extends State<MeasureLineChart>
   bool get wantKeepAlive => true;
 
   Future<void> _share() async {
+    context.read<AnalyticsBloc>().add(LogEvent('shareMeasureButtonPressed'));
+
     LoadingUtils.show(context);
     final tempDir = await getTemporaryDirectory();
     final path = tempDir.path;
@@ -209,10 +213,21 @@ class _MeasureLineChartState extends State<MeasureLineChart>
 
     LoadingUtils.hide(context);
 
-    await Share.shareXFiles(
+    final shareResult = await Share.shareXFiles(
       [
         XFile(filePath!),
       ],
     );
+
+    context.read<AnalyticsBloc>().add(
+          LogEvent(
+            'shareWaterSuccessResult',
+            parameters: {
+              'status': shareResult.status.name,
+              'raw': shareResult.raw,
+              'type': 'measure',
+            },
+          ),
+        );
   }
 }

@@ -124,6 +124,7 @@ class AppRouter {
                           imageName: extra['imageName'],
                           message: extra['message'],
                           subtitle: extra['subtitle'],
+                          type: 'eating',
                         );
                       },
                     )
@@ -154,6 +155,7 @@ class AppRouter {
                           imageName: extra['imageName'],
                           message: extra['message'],
                           subtitle: extra['subtitle'],
+                          type: 'water',
                         );
                       },
                     )

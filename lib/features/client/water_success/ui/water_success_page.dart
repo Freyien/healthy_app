@@ -3,11 +3,13 @@ import 'dart:typed_data';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:healthy_app/core/extensions/datetime.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/utils/loading.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
+import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -19,12 +21,14 @@ class WaterSuccessPage extends StatefulWidget {
     required this.message,
     required this.subtitle,
     required this.date,
+    required this.type,
   });
 
   final String imageName;
   final String message;
   final String subtitle;
   final DateTime date;
+  final String type;
 
   @override
   State<WaterSuccessPage> createState() => _WaterSuccessPageState();
@@ -159,6 +163,10 @@ class _WaterSuccessPageState extends State<WaterSuccessPage> {
   }
 
   Future<void> _share() async {
+    context
+        .read<AnalyticsBloc>()
+        .add(LogEvent('shareWaterSuccessButtonPressed'));
+
     LoadingUtils.show(context);
     final tempDir = await getTemporaryDirectory();
     final path = tempDir.path;
@@ -171,10 +179,21 @@ class _WaterSuccessPageState extends State<WaterSuccessPage> {
 
     LoadingUtils.hide(context);
 
-    await Share.shareXFiles(
+    final shareResult = await Share.shareXFiles(
       [
         XFile(filePath!),
       ],
     );
+
+    context.read<AnalyticsBloc>().add(
+          LogEvent(
+            'shareWaterSuccessResult',
+            parameters: {
+              'status': shareResult.status.name,
+              'raw': shareResult.raw,
+              'type': widget.type,
+            },
+          ),
+        );
   }
 }

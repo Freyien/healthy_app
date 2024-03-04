@@ -4,6 +4,7 @@ import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
 import 'package:healthy_app/features/client/water_plan/ui/widgets/water_button.dart';
+import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class WaterPlanButtons extends StatelessWidget {
@@ -52,6 +53,11 @@ class WaterPlanButtons extends StatelessWidget {
   }
 
   void _addWaterConsumption(BuildContext context, int quantity) {
+    context
+        .read<AnalyticsBloc>()
+        .add(LogEvent('addWaterConsumption', parameters: {
+          'quantity': quantity,
+        }));
     context.read<WaterPlanBloc>().add(AddWaterConsumptionEvent(quantity));
   }
 
