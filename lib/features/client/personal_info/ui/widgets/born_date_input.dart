@@ -52,7 +52,7 @@ class BornDateInput extends StatelessWidget {
                   ),
                 ),
               ),
-              dateFormat: 'dd|MMMM,yyyy',
+              dateFormat: 'yyyy|MMMM|dd',
               onConfirm: (date, _) {
                 context.read<PersonalInfoBloc>().add(ChangeBornDateEvent(date));
               },

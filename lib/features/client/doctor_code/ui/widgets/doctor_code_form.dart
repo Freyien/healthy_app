@@ -64,7 +64,9 @@ class DoctorCodeForm extends StatelessWidget {
               textInputAction: TextInputAction.done,
               prefixIcon: Icon(Icons.abc),
               onChanged: (value) {
-                context.read<DoctorCodeBloc>().add(ChangeCodeEvent(value));
+                context
+                    .read<DoctorCodeBloc>()
+                    .add(ChangeCodeEvent(value.trim()));
               },
               onFieldSubmitted: (_) {
                 if (!keyForm.currentState!.validate()) return;

@@ -23,7 +23,7 @@ class _CounterState extends State<Counter> {
   }
 
   void runCounter() {
-    counter = 30;
+    counter = 60;
     debouncer.periodic(() {
       counter--;
 

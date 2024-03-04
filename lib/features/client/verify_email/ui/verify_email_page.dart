@@ -97,8 +97,7 @@ class __ContentState extends State<_Content> with TickerProviderStateMixin {
                   context.read<VerifyEmailBloc>().add(GetEmailEvent());
                 });
 
-              return Padding(
-                padding: const EdgeInsets.all(16),
+              return ScrollFillRemaining(
                 child: Column(
                   children: [
                     // Animation

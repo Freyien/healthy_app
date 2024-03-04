@@ -35,9 +35,9 @@ class PersonalInfoEntity extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'name': name,
-      'firstname': firstname,
-      'secondname': secondname,
+      'name': name.trim(),
+      'firstname': firstname.trim(),
+      'secondname': secondname.trim(),
       'bornDate': bornDate?.millisecondsSinceEpoch,
     };
   }

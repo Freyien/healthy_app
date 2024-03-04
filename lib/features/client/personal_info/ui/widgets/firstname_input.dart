@@ -21,6 +21,8 @@ class FirstnameInput extends StatelessWidget {
           ? 'Este campo es obligatorio'
           : null,
       prefixIcon: Icon(Icons.person),
+      textCapitalization: TextCapitalization.words,
+      keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
     );
   }
