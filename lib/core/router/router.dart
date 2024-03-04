@@ -15,6 +15,7 @@ import 'package:healthy_app/features/client/settings/ui/settings_page.dart';
 import 'package:healthy_app/features/client/sign_in/ui/sign_in_page.dart';
 import 'package:healthy_app/features/client/sign_up/ui/sign_up_page.dart';
 import 'package:healthy_app/features/client/suggestion/ui/suggestion_page.dart';
+import 'package:healthy_app/features/client/verify_email/ui/verify_email_page.dart';
 import 'package:healthy_app/features/client/water_plan/ui/water_plan_page.dart';
 import 'package:healthy_app/features/client/water_reminder/ui/water_reminder_page.dart';
 import 'package:healthy_app/features/client/water_success/ui/water_success_page.dart';
@@ -79,6 +80,13 @@ class AppRouter {
           path: '/personal_info',
           builder: (context, state) {
             return PersonalInfoPage();
+          },
+        ),
+        GoRoute(
+          name: 'verify_email',
+          path: '/verify_email',
+          builder: (context, state) {
+            return VerifyEmailPage();
           },
         ),
         GoRoute(

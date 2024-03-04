@@ -58,6 +58,9 @@ class InitialConfigPage extends StatelessWidget {
   void _initialConfigListener(BuildContext context, InitialConfigState state) {
     if (state.fetchingStatus != FetchingStatus.success) return;
 
+    if (!state.initialConfig.emailVerified) //
+      return context.goNamed('verify_email');
+
     if (!state.initialConfig.personalInfo) //
       return context.goNamed('personal_info');
 

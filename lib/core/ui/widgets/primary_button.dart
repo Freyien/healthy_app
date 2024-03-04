@@ -9,7 +9,7 @@ class PrimaryButton extends StatelessWidget {
   });
 
   final String text;
-  final void Function() onPressed;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {

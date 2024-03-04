@@ -41,6 +41,9 @@ import 'package:healthy_app/features/client/sign_up/ui/bloc/sign_up_bloc.dart';
 import 'package:healthy_app/features/client/suggestion/data/suggestion_repository_impl.dart';
 import 'package:healthy_app/features/client/suggestion/domain/repositories/suggestion_repository.dart';
 import 'package:healthy_app/features/client/suggestion/ui/bloc/suggestion_bloc.dart';
+import 'package:healthy_app/features/client/verify_email/data/verify_email_repository_impl.dart';
+import 'package:healthy_app/features/client/verify_email/domain/repositories/verify_email_repository.dart';
+import 'package:healthy_app/features/client/verify_email/ui/bloc/verify_email_bloc.dart';
 import 'package:healthy_app/features/client/water_plan/data/water_plan_repository_impl.dart';
 import 'package:healthy_app/features/client/water_plan/domain/repositories/water_plan_repository.dart';
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
@@ -143,7 +146,7 @@ void _registerRepositories() {
     () => DoctorCodeRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<InitialConfigRepository>(
-    () => InitialConfigRepositoryImpl(sl()),
+    () => InitialConfigRepositoryImpl(sl(), sl()),
   );
   sl.registerLazySingleton<PersonalInfoRepository>(
     () => PersonalInfoRepositoryImpl(sl(), sl()),
@@ -169,6 +172,9 @@ void _registerRepositories() {
   sl.registerLazySingleton<DeleteAccountRepository>(
     () => DeleteAccountRepositoryImpl(sl()),
   );
+  sl.registerLazySingleton<VerifyEmailRepository>(
+    () => VerifyEmailRepositoryImpl(sl(), sl()),
+  );
 }
 
 // Blocs
@@ -187,6 +193,7 @@ void _registerBlocs() {
   sl.registerFactory(() => SuggestionBloc(sl()));
   sl.registerFactory(() => WaterReminderBloc(sl()));
   sl.registerFactory(() => DeleteAccountBloc(sl(), sl()));
+  sl.registerFactory(() => VerifyEmailBloc(sl()));
 }
 
 // Use cases

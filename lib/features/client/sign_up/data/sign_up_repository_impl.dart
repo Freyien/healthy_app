@@ -33,13 +33,17 @@ class SignUpRepositoryImpl implements SignUpRepository {
       );
 
       // Register user collection
-      final uid = _firebaseAuth.currentUser!.uid;
+      final currentUser = _firebaseAuth.currentUser;
+      final uid = currentUser?.uid ?? '';
       final user = UserEntity(
         uid: uid,
         email: email,
       );
 
-      _crashlytics.setUserIdentifier(uid);
+      await Future.wait([
+        _crashlytics.setUserIdentifier(uid),
+        currentUser!.sendEmailVerification(),
+      ]);
 
       return Response.success(user);
     } on FirebaseAuthException catch (e) {
