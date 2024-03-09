@@ -7,4 +7,6 @@ sealed class InitialConfigEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class CheckEmailVerifiedEvent extends InitialConfigEvent {}
+
 class GetInitialConfigEvent extends InitialConfigEvent {}

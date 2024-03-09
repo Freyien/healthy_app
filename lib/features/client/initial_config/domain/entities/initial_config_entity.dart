@@ -1,31 +1,31 @@
 import 'package:equatable/equatable.dart';
 
 class InitialConfigEntity extends Equatable {
-  final bool emailVerified;
   final bool personalInfo;
   final bool doctorCode;
+  final int eatingPlanVersion;
 
   InitialConfigEntity({
-    required this.emailVerified,
     required this.personalInfo,
     required this.doctorCode,
+    required this.eatingPlanVersion,
   });
 
   factory InitialConfigEntity.initial() => InitialConfigEntity(
-        emailVerified: true,
         personalInfo: false,
         doctorCode: false,
+        eatingPlanVersion: 0,
       );
 
   InitialConfigEntity copyWith({
-    bool? emailVerified,
     bool? personalInfo,
     bool? doctorCode,
+    int? eatingPlanVersion,
   }) {
     return InitialConfigEntity(
-      emailVerified: emailVerified ?? this.emailVerified,
       personalInfo: personalInfo ?? this.personalInfo,
       doctorCode: doctorCode ?? this.doctorCode,
+      eatingPlanVersion: eatingPlanVersion ?? this.eatingPlanVersion,
     );
   }
 
@@ -38,12 +38,16 @@ class InitialConfigEntity extends Equatable {
 
   factory InitialConfigEntity.fromMap(Map<String, dynamic> map) {
     return InitialConfigEntity(
-      emailVerified: map['emailVerified'] ?? true,
       personalInfo: map['personalInfo'] ?? false,
       doctorCode: map['doctorCode'] ?? false,
+      eatingPlanVersion: map['eatingPlanVersion'] ?? 0,
     );
   }
 
   @override
-  List<Object> get props => [emailVerified, personalInfo, doctorCode];
+  List<Object> get props => [
+        personalInfo,
+        doctorCode,
+        eatingPlanVersion,
+      ];
 }

@@ -14,52 +14,71 @@ class InitialConfigPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          sl<InitialConfigBloc>()..add(GetInitialConfigEvent()),
+          sl<InitialConfigBloc>()..add(CheckEmailVerifiedEvent()),
       child: Scaffold(
         body: SafeArea(
-          child: BlocConsumer<InitialConfigBloc, InitialConfigState>(
-            listener: _initialConfigListener,
-            builder: (context, state) {
-              // Failure
-              if (state.fetchingStatus == FetchingStatus.failure)
-                return ErrorFullScreen(
-                  onRetry: () {
-                    context
-                        .read<InitialConfigBloc>()
-                        .add(GetInitialConfigEvent());
-                  },
-                );
+          child: MultiBlocListener(
+            listeners: [
+              BlocListener<InitialConfigBloc, InitialConfigState>(
+                listenWhen: (p, c) =>
+                    p.emailVerifyStatus != c.emailVerifyStatus,
+                listener: _emailVerifyListener,
+              ),
+              BlocListener<InitialConfigBloc, InitialConfigState>(
+                listenWhen: (p, c) =>
+                    p.initialConfigStatus != c.initialConfigStatus,
+                listener: _initialConfigListener,
+              ),
+            ],
+            child: BlocBuilder<InitialConfigBloc, InitialConfigState>(
+              builder: (context, state) {
+                // Failure
+                if (state.initialConfigStatus == FetchingStatus.failure)
+                  return ErrorFullScreen(
+                    onRetry: () {
+                      context
+                          .read<InitialConfigBloc>()
+                          .add(CheckEmailVerifiedEvent());
+                    },
+                  );
 
-              // Loading
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Loading(animationName: 'fruits_loading'),
-                    Transform.translate(
-                      offset: Offset(0, -30),
-                      child: Text(
-                        'Obteniendo configuración...',
-                        style: TextStyle(
-                          color: context.appColors.textContrast,
+                // Loading
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Loading(animationName: 'fruits_loading'),
+                      Transform.translate(
+                        offset: Offset(0, -30),
+                        child: Text(
+                          'Obteniendo configuración...',
+                          style: TextStyle(
+                            color: context.appColors.textContrast,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),
     );
   }
 
-  void _initialConfigListener(BuildContext context, InitialConfigState state) {
-    if (state.fetchingStatus != FetchingStatus.success) return;
+  void _emailVerifyListener(BuildContext context, InitialConfigState state) {
+    if (state.emailVerifyStatus != FetchingStatus.success) return;
 
-    if (!state.initialConfig.emailVerified) //
+    if (!state.emailVerified) //
       return context.goNamed('verify_email');
+
+    context.read<InitialConfigBloc>().add(GetInitialConfigEvent());
+  }
+
+  void _initialConfigListener(BuildContext context, InitialConfigState state) {
+    if (state.initialConfigStatus != FetchingStatus.success) return;
 
     if (!state.initialConfig.personalInfo) //
       return context.goNamed('personal_info');

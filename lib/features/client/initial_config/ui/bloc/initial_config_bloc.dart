@@ -11,26 +11,41 @@ class InitialConfigBloc extends Bloc<InitialConfigEvent, InitialConfigState> {
   final InitialConfigRepository _repository;
 
   InitialConfigBloc(this._repository) : super(InitialConfigState.initial()) {
+    on<CheckEmailVerifiedEvent>(_onCheckEmailVerifiedEvent);
     on<GetInitialConfigEvent>(_onGetInitialConfigEvent);
+  }
+
+  Future<void> _onCheckEmailVerifiedEvent(
+    CheckEmailVerifiedEvent event,
+    Emitter<InitialConfigState> emit,
+  ) async {
+    emit(state.copyWith(emailVerifyStatus: FetchingStatus.loading));
+
+    final response = await _repository.checkEmailVerified();
+
+    return emit(state.copyWith(
+      emailVerified: response.data,
+      emailVerifyStatus: FetchingStatus.success,
+    ));
   }
 
   Future<void> _onGetInitialConfigEvent(
     GetInitialConfigEvent event,
     Emitter<InitialConfigState> emit,
   ) async {
-    emit(state.copyWith(fetchingStatus: FetchingStatus.loading));
+    emit(state.copyWith(initialConfigStatus: FetchingStatus.loading));
 
     final response = await _repository.getInitialConfig();
 
     if (response.isSuccess) {
       return emit(state.copyWith(
         initialConfig: response.data,
-        fetchingStatus: FetchingStatus.success,
+        initialConfigStatus: FetchingStatus.success,
       ));
     }
 
     emit(state.copyWith(
-      fetchingStatus: FetchingStatus.failure,
+      initialConfigStatus: FetchingStatus.failure,
     ));
   }
 }

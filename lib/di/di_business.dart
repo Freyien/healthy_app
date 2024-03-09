@@ -20,6 +20,9 @@ import 'package:healthy_app/features/client/doctor_code/ui/bloc/doctor_code_bloc
 import 'package:healthy_app/features/client/eating_plan/data/eating_plan_repository_impl.dart';
 import 'package:healthy_app/features/client/eating_plan/domain/repositories/eating_plan_repository.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/bloc/eating_plan_bloc.dart';
+import 'package:healthy_app/features/client/initial_config/data/datasource/initial_config_datasource.dart';
+import 'package:healthy_app/features/client/initial_config/data/datasource/initial_config_firebase_datasource.dart';
+import 'package:healthy_app/features/client/initial_config/data/datasource/initial_config_server_datasource.dart';
 import 'package:healthy_app/features/client/initial_config/data/initial_config_repository_impl.dart';
 import 'package:healthy_app/features/client/initial_config/domain/repositories/initial_config_repository.dart';
 import 'package:healthy_app/features/client/initial_config/ui/bloc/initial_config_bloc.dart';
@@ -68,11 +71,15 @@ GetIt sl = GetIt.instance;
 bool isDIInitialized = false;
 
 Future<void> diBusinessInit() async {
+  sl.allowReassignment = true;
+
   _registerUtilities();
 
   await _registerLocal();
 
   await _registerNetwork();
+
+  _registerDatasources();
 
   _registerRepositories();
 
@@ -122,6 +129,17 @@ Future<void> _registerNetwork() async {
   );
 }
 
+// Datasources
+void _registerDatasources() {
+  sl.registerLazySingleton<InitialConfigDatasource>(
+    () => InitialConfigFirebaseDatasource(sl(), sl()),
+  );
+
+  sl.registerLazySingleton<InitialConfigDatasource>(
+    () => InitialConfigServerDatasource(sl()),
+  );
+}
+
 // Repositories
 void _registerRepositories() {
   sl.registerLazySingleton<AnalyticsRepository>(
@@ -146,7 +164,7 @@ void _registerRepositories() {
     () => DoctorCodeRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<InitialConfigRepository>(
-    () => InitialConfigRepositoryImpl(sl(), sl()),
+    () => InitialConfigRepositoryImpl(sl(), sl(), sl()),
   );
   sl.registerLazySingleton<PersonalInfoRepository>(
     () => PersonalInfoRepositoryImpl(sl(), sl()),
