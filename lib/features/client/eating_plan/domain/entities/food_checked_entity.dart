@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class FoodCheckedEntity extends Equatable {
@@ -37,9 +38,13 @@ class FoodCheckedEntity extends Equatable {
   }
 
   factory FoodCheckedEntity.fromMap(Map<String, dynamic> map) {
+    final date = map['date'] is Timestamp
+        ? (map['date'] as Timestamp).toDate()
+        : DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000);
+
     return FoodCheckedEntity(
       id: map['id'] as String,
-      date: DateTime.fromMillisecondsSinceEpoch(map['date'] * 1000),
+      date: date,
       checked: Map<String, bool>.from(map['foodChecked']),
     );
   }

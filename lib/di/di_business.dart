@@ -17,10 +17,11 @@ import 'package:healthy_app/features/client/delete_account/ui/bloc/delete_accoun
 import 'package:healthy_app/features/client/doctor_code/data/doctor_code_repository_impl.dart';
 import 'package:healthy_app/features/client/doctor_code/domain/repositories/doctor_code_repository.dart';
 import 'package:healthy_app/features/client/doctor_code/ui/bloc/doctor_code_bloc.dart';
+import 'package:healthy_app/features/client/eating_plan/data/datasource/eating_plan_firebase_datasource.dart';
+import 'package:healthy_app/features/client/eating_plan/data/datasource/eating_plan_server_datasource.dart';
 import 'package:healthy_app/features/client/eating_plan/data/eating_plan_repository_impl.dart';
 import 'package:healthy_app/features/client/eating_plan/domain/repositories/eating_plan_repository.dart';
 import 'package:healthy_app/features/client/eating_plan/ui/bloc/eating_plan_bloc.dart';
-import 'package:healthy_app/features/client/initial_config/data/datasource/initial_config_datasource.dart';
 import 'package:healthy_app/features/client/initial_config/data/datasource/initial_config_firebase_datasource.dart';
 import 'package:healthy_app/features/client/initial_config/data/datasource/initial_config_server_datasource.dart';
 import 'package:healthy_app/features/client/initial_config/data/initial_config_repository_impl.dart';
@@ -131,12 +132,19 @@ Future<void> _registerNetwork() async {
 
 // Datasources
 void _registerDatasources() {
-  sl.registerLazySingleton<InitialConfigDatasource>(
+  sl.registerLazySingleton<InitialConfigFirebaseDatasource>(
     () => InitialConfigFirebaseDatasource(sl(), sl()),
   );
 
-  sl.registerLazySingleton<InitialConfigDatasource>(
+  sl.registerLazySingleton<InitialConfigServerDatasource>(
     () => InitialConfigServerDatasource(sl()),
+  );
+
+  sl.registerLazySingleton<EatingPlanFirebaseDatasource>(
+    () => EatingPlanFirebaseDatasource(sl(), sl()),
+  );
+  sl.registerLazySingleton<EatingPlanServerDatasource>(
+    () => EatingPlanServerDatasource(sl()),
   );
 }
 
@@ -170,7 +178,7 @@ void _registerRepositories() {
     () => PersonalInfoRepositoryImpl(sl(), sl()),
   );
   sl.registerLazySingleton<EatingPlanRepository>(
-    () => EatingPlanRepositoryImpl(sl()),
+    () => EatingPlanRepositoryImpl(sl(), sl()),
   );
   sl.registerLazySingleton<WaterPlanRepository>(
     () => WaterPlanRepositoryImpl(sl()),
