@@ -33,8 +33,6 @@ class SplashRepositoryImpl implements SplashRepository {
     try {
       final user = _firebaseAuth.currentUser;
 
-      user?.reload();
-
       final isUserloggedIn = user != null;
       if (isUserloggedIn) {
         _crashlytics.setUserIdentifier(user.uid);

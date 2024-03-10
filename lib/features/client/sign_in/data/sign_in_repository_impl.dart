@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healthy_app/core/data/network/cloud_client.dart';
 import 'package:healthy_app/core/domain/entities/response.dart';
@@ -95,6 +96,11 @@ class SignInRepositoryImpl implements SignInRepository {
       _crashlytics.setUserIdentifier(currentUser.uid);
 
       return Response.success(user);
+    } on PlatformException catch (e, s) {
+      if (e.code != 'network_error') {
+        await _crashlytics.recordError(e, s);
+      }
+      return Response.failed(UnexpectedFailure());
     } catch (e, s) {
       await _crashlytics.recordError(e, s);
       return Response.failed(UnexpectedFailure());

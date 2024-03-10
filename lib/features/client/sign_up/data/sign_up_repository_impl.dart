@@ -91,6 +91,11 @@ class SignUpRepositoryImpl implements SignUpRepository {
       _crashlytics.setUserIdentifier(currentUser.uid);
 
       return Response.success(user);
+    } on SignInWithAppleAuthorizationException catch (e) {
+      if (e.code == AuthorizationErrorCode.canceled)
+        return Response.failed(SocialMediaCanceledFailure());
+
+      return Response.failed(UnexpectedFailure());
     } catch (e, s) {
       await _crashlytics.recordError(e, s);
       return Response.failed(UnexpectedFailure());
