@@ -125,7 +125,7 @@ class _Dialog extends StatelessWidget {
           inputFormatters: [mask],
           autofocus: true,
           keyboardType: TextInputType.number,
-          fillColor: context.appColors.water!.withOpacity(.4),
+          fillColor: context.appColors.water!.withOpacity(.1),
           prefixIcon: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Image.asset(
@@ -162,6 +162,7 @@ class _Dialog extends StatelessWidget {
         ),
         VerticalSpace.xlarge(),
         PrimaryButton(
+          backgroundColor: context.appColors.water,
           text: 'Aceptar',
           onPressed: () {
             if (!formKey.currentState!.validate()) return;

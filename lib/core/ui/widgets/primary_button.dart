@@ -6,10 +6,12 @@ class PrimaryButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
+    this.backgroundColor,
   });
 
   final String text;
   final void Function()? onPressed;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class PrimaryButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         elevation: 0,
-        backgroundColor: context.appColors.primary,
+        backgroundColor: backgroundColor ?? context.appColors.primary,
         foregroundColor: Colors.white,
       ),
       child: Text(
