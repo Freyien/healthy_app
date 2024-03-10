@@ -56,6 +56,18 @@ class EatingPlanFirebaseDatasource implements EatingPlanDatasource {
     FoodBlockEntity foodBlock,
     bool checked,
   ) async {
-    throw UnimplementedError();
+    try {
+      final Map<String, dynamic> update = {};
+      update['foodChecked.${foodBlock.id}'] = checked;
+
+      // Get eating plan checked
+      await _firestore
+          .collection("eating_plan_checked")
+          .doc(foodCheckedId)
+          .update(update);
+    } catch (e, s) {
+      await _crashlytics.recordError(e, s);
+      throw e;
+    }
   }
 }
