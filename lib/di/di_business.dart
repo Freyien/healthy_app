@@ -48,6 +48,8 @@ import 'package:healthy_app/features/client/suggestion/ui/bloc/suggestion_bloc.d
 import 'package:healthy_app/features/client/verify_email/data/verify_email_repository_impl.dart';
 import 'package:healthy_app/features/client/verify_email/domain/repositories/verify_email_repository.dart';
 import 'package:healthy_app/features/client/verify_email/ui/bloc/verify_email_bloc.dart';
+import 'package:healthy_app/features/client/water_plan/data/datasource/water_plan_firebase_datasource.dart';
+import 'package:healthy_app/features/client/water_plan/data/datasource/water_plan_server_datasource.dart';
 import 'package:healthy_app/features/client/water_plan/data/water_plan_repository_impl.dart';
 import 'package:healthy_app/features/client/water_plan/domain/repositories/water_plan_repository.dart';
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
@@ -133,7 +135,7 @@ Future<void> _registerNetwork() async {
 // Datasources
 void _registerDatasources() {
   sl.registerLazySingleton<InitialConfigFirebaseDatasource>(
-    () => InitialConfigFirebaseDatasource(sl(), sl()),
+    () => InitialConfigFirebaseDatasource(sl(), sl(), sl()),
   );
 
   sl.registerLazySingleton<InitialConfigServerDatasource>(
@@ -141,10 +143,19 @@ void _registerDatasources() {
   );
 
   sl.registerLazySingleton<EatingPlanFirebaseDatasource>(
-    () => EatingPlanFirebaseDatasource(sl(), sl()),
+    () => EatingPlanFirebaseDatasource(sl(), sl(), sl()),
   );
+
   sl.registerLazySingleton<EatingPlanServerDatasource>(
     () => EatingPlanServerDatasource(sl()),
+  );
+
+  sl.registerLazySingleton<WaterPlanFirebaseDatasource>(
+    () => WaterPlanFirebaseDatasource(sl(), sl(), sl()),
+  );
+
+  sl.registerLazySingleton<WaterPlanServerDatasource>(
+    () => WaterPlanServerDatasource(sl()),
   );
 }
 

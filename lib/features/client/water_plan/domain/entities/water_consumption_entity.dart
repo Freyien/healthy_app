@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class WaterConsumptionEntity extends Equatable {
@@ -45,10 +46,14 @@ class WaterConsumptionEntity extends Equatable {
   factory WaterConsumptionEntity.fromMap(Map<String, dynamic> map) {
     if (map['id'] == null) return WaterConsumptionEntity.initial();
 
+    final date = map['createdAt'] is Timestamp
+        ? (map['createdAt'] as Timestamp).toDate()
+        : DateTime.fromMillisecondsSinceEpoch(map['createdAt'] * 1000);
+
     return WaterConsumptionEntity(
       id: map['id'] as String,
       quantity: map['quantity'] as int,
-      date: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] * 1000),
+      date: date,
       animate: true,
     );
   }
