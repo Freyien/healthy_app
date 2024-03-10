@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:healthy_app/features/client/measures_chart/domain/entities/measure_entity.dart';
 
@@ -32,9 +33,13 @@ class MeasureConsultationEntity extends Equatable {
   }
 
   factory MeasureConsultationEntity.fromMap(Map<String, dynamic> map) {
+    final createdAt = map['createdAt'] is Timestamp
+        ? (map['createdAt'] as Timestamp).toDate()
+        : DateTime.fromMillisecondsSinceEpoch(map['createdAt'] * 1000);
+
     return MeasureConsultationEntity(
       id: map['id'] as String,
-      date: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] * 1000),
+      date: createdAt,
       measureList: List<MeasureEntity>.from(
         (map['measureList']).map<MeasureEntity>(
           (x) => MeasureEntity.fromMap(Map<String, dynamic>.from(x)),

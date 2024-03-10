@@ -27,6 +27,7 @@ import 'package:healthy_app/features/client/initial_config/data/datasource/initi
 import 'package:healthy_app/features/client/initial_config/data/initial_config_repository_impl.dart';
 import 'package:healthy_app/features/client/initial_config/domain/repositories/initial_config_repository.dart';
 import 'package:healthy_app/features/client/initial_config/ui/bloc/initial_config_bloc.dart';
+import 'package:healthy_app/features/client/measures_chart/data/datasource/measure_chart_firebase_datasource.dart';
 import 'package:healthy_app/features/client/measures_chart/data/measure_repository_impl.dart';
 import 'package:healthy_app/features/client/measures_chart/domain/repositories/measure_repository.dart';
 import 'package:healthy_app/features/client/measures_chart/ui/bloc/measure_bloc.dart';
@@ -156,6 +157,10 @@ void _registerDatasources() {
 
   sl.registerLazySingleton<WaterPlanServerDatasource>(
     () => WaterPlanServerDatasource(sl()),
+  );
+
+  sl.registerLazySingleton<MeasureChartFirebaseDatasource>(
+    () => MeasureChartFirebaseDatasource(sl(), sl(), sl()),
   );
 }
 
