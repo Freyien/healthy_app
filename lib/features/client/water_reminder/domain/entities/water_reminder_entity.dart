@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:healthy_app/core/extensions/datetime.dart';
 
@@ -85,17 +86,16 @@ class WaterReminderEntity extends Equatable {
     };
   }
 
-  factory WaterReminderEntity.fromMap(
-    Map<String, dynamic> map, {
-    bool fromTimestamp = true,
-  }) {
+  factory WaterReminderEntity.fromMap(Map<String, dynamic> map) {
     if (map['minuteInterval'] == null) return WaterReminderEntity.initial();
 
-    final multiplier = fromTimestamp ? 1000 : 1;
+    final start = map['start'] is Timestamp
+        ? (map['start'] as Timestamp).toDate()
+        : DateTime.fromMillisecondsSinceEpoch(map['start'] * 1000);
 
-    final start =
-        DateTime.fromMillisecondsSinceEpoch(map['start'] * multiplier);
-    final end = DateTime.fromMillisecondsSinceEpoch(map['end'] * multiplier);
+    final end = map['end'] is Timestamp
+        ? (map['end'] as Timestamp).toDate()
+        : DateTime.fromMillisecondsSinceEpoch(map['end'] * 1000);
 
     return WaterReminderEntity(
       minuteInterval: map['minuteInterval'],

@@ -198,7 +198,6 @@ class WaterReminderPage extends StatelessWidget {
                   // Button
                   Spacer(),
                   ReminderSaveButton(formKey: formKey),
-                  VerticalSpace.xxxlarge(),
                 ],
               ),
             );

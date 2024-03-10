@@ -54,6 +54,8 @@ import 'package:healthy_app/features/client/water_plan/data/datasource/water_pla
 import 'package:healthy_app/features/client/water_plan/data/water_plan_repository_impl.dart';
 import 'package:healthy_app/features/client/water_plan/domain/repositories/water_plan_repository.dart';
 import 'package:healthy_app/features/client/water_plan/ui/bloc/water_plan_bloc.dart';
+import 'package:healthy_app/features/client/water_reminder/data/datasource/water_reminder_firebase_datasource.dart';
+import 'package:healthy_app/features/client/water_reminder/data/datasource/water_reminder_server_datasource.dart';
 import 'package:healthy_app/features/client/water_reminder/data/water_reminder_repository_impl.dart';
 import 'package:healthy_app/features/client/water_reminder/domain/repositories/water_reminder_repository.dart';
 import 'package:healthy_app/features/client/water_reminder/ui/bloc/water_reminder_bloc.dart';
@@ -162,6 +164,14 @@ void _registerDatasources() {
   sl.registerLazySingleton<MeasureChartFirebaseDatasource>(
     () => MeasureChartFirebaseDatasource(sl(), sl(), sl()),
   );
+
+  sl.registerLazySingleton<WaterReminderFirebaseDatasource>(
+    () => WaterReminderFirebaseDatasource(sl(), sl(), sl()),
+  );
+
+  sl.registerLazySingleton<WaterReminderServerDatasource>(
+    () => WaterReminderServerDatasource(sl()),
+  );
 }
 
 // Repositories
@@ -209,7 +219,7 @@ void _registerRepositories() {
     () => SuggestionRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<WaterReminderRepository>(
-    () => WaterReminderRepositoryImpl(sl()),
+    () => WaterReminderRepositoryImpl(sl(), sl()),
   );
   sl.registerLazySingleton<DeleteAccountRepository>(
     () => DeleteAccountRepositoryImpl(sl()),
