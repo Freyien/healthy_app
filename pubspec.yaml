@@ -1,6 +1,6 @@
 name: healthy_app
 description: A Very Good Project created by Very Good CLI.
-version: 1.0.37+38
+version: 1.0.38+39
 publish_to: none
 
 environment:
