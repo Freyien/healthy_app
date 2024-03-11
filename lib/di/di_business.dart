@@ -68,8 +68,12 @@ import 'package:healthy_app/features/common/notifications/data/notification_repo
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
 import 'package:healthy_app/features/common/notifications/domain/usecases/show_background_notification_usecase.dart';
 import 'package:healthy_app/features/common/notifications/ui/bloc/notification_bloc.dart';
+import 'package:healthy_app/features/common/rate/data/rate_repository_impl.dart';
+import 'package:healthy_app/features/common/rate/domain/repositories/rate_repository.dart';
+import 'package:healthy_app/features/common/rate/ui/bloc/rate_bloc.dart';
 import 'package:healthy_app/features/common/splash/data/splash_repository_impl.dart';
 import 'package:healthy_app/features/common/splash/domain/repositories/splash_repository.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -132,6 +136,10 @@ Future<void> _registerNetwork() async {
 
   sl.registerLazySingleton<CloudClient>(
     () => CloudClient(sl(), sl(), sl(), sl()),
+  );
+
+  sl.registerLazySingleton<InAppReview>(
+    () => InAppReview.instance,
   );
 }
 
@@ -227,6 +235,9 @@ void _registerRepositories() {
   sl.registerLazySingleton<VerifyEmailRepository>(
     () => VerifyEmailRepositoryImpl(sl(), sl()),
   );
+  sl.registerLazySingleton<RateRepository>(
+    () => RateRepositoryImpl(sl(), sl()),
+  );
 }
 
 // Blocs
@@ -246,6 +257,7 @@ void _registerBlocs() {
   sl.registerFactory(() => WaterReminderBloc(sl()));
   sl.registerFactory(() => DeleteAccountBloc(sl(), sl()));
   sl.registerFactory(() => VerifyEmailBloc(sl()));
+  sl.registerFactory(() => RateBloc(sl()));
 }
 
 // Use cases

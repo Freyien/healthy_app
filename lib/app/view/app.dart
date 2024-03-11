@@ -7,6 +7,7 @@ import 'package:healthy_app/core/ui/theme/custom_theme.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
 import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
+import 'package:healthy_app/features/common/rate/ui/bloc/rate_bloc.dart';
 import 'package:healthy_app/l10n/l10n.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -19,11 +20,18 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<AnalyticsBloc>()
-        ..add(
-          SetDefaultParametersEvent(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<AnalyticsBloc>()
+            ..add(
+              SetDefaultParametersEvent(),
+            ),
         ),
+        BlocProvider(
+          create: (context) => sl<RateBloc>(),
+        ),
+      ],
       child: Builder(builder: (context) {
         context.read<AnalyticsBloc>();
 

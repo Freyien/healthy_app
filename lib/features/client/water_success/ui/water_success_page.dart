@@ -10,6 +10,7 @@ import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/utils/loading.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
+import 'package:healthy_app/features/common/rate/ui/bloc/rate_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -180,9 +181,7 @@ class _WaterSuccessPageState extends State<WaterSuccessPage> {
     LoadingUtils.hide(context);
 
     final shareResult = await Share.shareXFiles(
-      [
-        XFile(filePath!),
-      ],
+      [XFile(filePath!)],
     );
 
     context.read<AnalyticsBloc>().add(
@@ -195,5 +194,9 @@ class _WaterSuccessPageState extends State<WaterSuccessPage> {
             },
           ),
         );
+
+    if (shareResult.status == ShareResultStatus.success) {
+      context.read<RateBloc>().add(RequestReviewEvent());
+    }
   }
 }
