@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -26,19 +28,20 @@ class Settingspage extends StatelessWidget {
         appBar: AppBar(
           title: Text('Cuenta'),
           actions: [
-            PopupMenuButton(
-              initialValue: null,
-              onSelected: (name) {
-                context.pushNamed(name);
-              },
-              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                PopupMenuItem(
-                  value: 'delete_account',
-                  child: Text('Eliminar cuenta (1/3)'),
-                ),
-              ],
-              icon: Icon(Icons.more_vert_rounded),
-            ),
+            if (Platform.isIOS)
+              PopupMenuButton(
+                initialValue: null,
+                onSelected: (name) {
+                  context.pushNamed(name);
+                },
+                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                  PopupMenuItem(
+                    value: 'delete_account',
+                    child: Text('Eliminar cuenta (1/3)'),
+                  ),
+                ],
+                icon: Icon(Icons.more_vert_rounded),
+              ),
           ],
         ),
         body: SafeArea(
