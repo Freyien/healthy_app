@@ -25,4 +25,11 @@ class InitialRouteEntity extends Equatable {
   List<Object> get props => [name, params];
 }
 
-enum InitialRoute { signIn, notification, appUpdate, initialConfig, notDefined }
+enum InitialRoute {
+  signIn,
+  notification,
+  appUpdate,
+  initialConfig,
+  home,
+  notDefined,
+}

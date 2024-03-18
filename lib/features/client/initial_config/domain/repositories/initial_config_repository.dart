@@ -4,4 +4,5 @@ import 'package:healthy_app/features/client/initial_config/domain/entities/initi
 abstract class InitialConfigRepository {
   Future<Response<bool>> checkEmailVerified();
   Future<Response<InitialConfigEntity>> getInitialConfig();
+  Future<Response<void>> completeOnboarding();
 }

@@ -37,7 +37,9 @@ class GetInitialRouteUseCase {
     final loggedRoute = await _checkUserIsLoggedIn();
     if (loggedRoute.isValid) return loggedRoute;
 
-    return InitialRouteEntity(name: InitialRoute.signIn);
+    // Onboarding completed
+    final onboardingRoute = await _checkOnboardingCompleted();
+    return onboardingRoute;
   }
 
   Future<InitialRouteEntity> _checkNotificationPermission() async {
@@ -73,11 +75,23 @@ class GetInitialRouteUseCase {
 
   Future<InitialRouteEntity> _checkUserIsLoggedIn() async {
     final response = await _splashRepository.isUserloggedIn();
-    if (response.isFailed) return InitialRouteEntity();
+    if (response.isFailed) return InitialRouteEntity(name: InitialRoute.signIn);
 
     final isUserloggedIn = response.data!;
     if (!isUserloggedIn) return InitialRouteEntity(name: InitialRoute.signIn);
 
-    return InitialRouteEntity(name: InitialRoute.initialConfig);
+    return InitialRouteEntity();
+  }
+
+  Future<InitialRouteEntity> _checkOnboardingCompleted() async {
+    final response = await _splashRepository.isOnboardingCompleted();
+    if (response.isFailed)
+      return InitialRouteEntity(name: InitialRoute.initialConfig);
+
+    final isOnboardingCompleted = response.data!;
+    if (!isOnboardingCompleted)
+      return InitialRouteEntity(name: InitialRoute.initialConfig);
+
+    return InitialRouteEntity(name: InitialRoute.home);
   }
 }

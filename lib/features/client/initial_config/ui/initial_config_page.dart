@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
+import 'package:healthy_app/core/domain/enums/saving_status.dart';
 import 'package:healthy_app/core/ui/extensions/buildcontext.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
@@ -29,11 +30,18 @@ class InitialConfigPage extends StatelessWidget {
                     p.initialConfigStatus != c.initialConfigStatus,
                 listener: _initialConfigListener,
               ),
+              BlocListener<InitialConfigBloc, InitialConfigState>(
+                listenWhen: (p, c) =>
+                    p.completeOnboardingStatus != c.completeOnboardingStatus,
+                listener: _completeOnboardingListener,
+              ),
             ],
             child: BlocBuilder<InitialConfigBloc, InitialConfigState>(
               builder: (context, state) {
                 // Failure
-                if (state.initialConfigStatus == FetchingStatus.failure)
+                if (state.initialConfigStatus == FetchingStatus.failure ||
+                    state.emailVerifyStatus == FetchingStatus.failure ||
+                    state.completeOnboardingStatus == SavingStatus.failure) {
                   return ErrorFullScreen(
                     onRetry: () {
                       context
@@ -41,6 +49,7 @@ class InitialConfigPage extends StatelessWidget {
                           .add(CheckEmailVerifiedEvent());
                     },
                   );
+                }
 
                 // Loading
                 return Center(
@@ -85,6 +94,13 @@ class InitialConfigPage extends StatelessWidget {
 
     if (!state.initialConfig.doctorCode) //
       return context.goNamed('doctor_code');
+
+    context.read<InitialConfigBloc>().add(CompleteOnboardingEvent());
+  }
+
+  void _completeOnboardingListener(
+      BuildContext context, InitialConfigState state) {
+    if (state.completeOnboardingStatus != SavingStatus.success) return;
 
     return context.goNamed('home');
   }

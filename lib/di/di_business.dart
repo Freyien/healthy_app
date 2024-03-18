@@ -188,7 +188,7 @@ void _registerRepositories() {
     () => AnalyticsRepositoryImpl(sl(), sl(), sl(), sl()),
   );
   sl.registerLazySingleton<SplashRepository>(
-    () => SplashRepositoryImpl(sl(), sl()),
+    () => SplashRepositoryImpl(sl(), sl(), sl()),
   );
   sl.registerLazySingleton<AppUpdateRepository>(
     () => AppUpdateRepositoryImpl(sl(), sl()),
@@ -206,7 +206,7 @@ void _registerRepositories() {
     () => DoctorCodeRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<InitialConfigRepository>(
-    () => InitialConfigRepositoryImpl(sl(), sl(), sl()),
+    () => InitialConfigRepositoryImpl(sl(), sl(), sl(), sl()),
   );
   sl.registerLazySingleton<PersonalInfoRepository>(
     () => PersonalInfoRepositoryImpl(sl(), sl()),

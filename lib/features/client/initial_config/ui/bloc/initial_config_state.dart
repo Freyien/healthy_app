@@ -6,6 +6,7 @@ class InitialConfigState extends Equatable {
     required this.emailVerifyStatus,
     required this.initialConfigStatus,
     required this.initialConfig,
+    required this.completeOnboardingStatus,
   });
 
   final FetchingStatus emailVerifyStatus;
@@ -14,10 +15,13 @@ class InitialConfigState extends Equatable {
   final FetchingStatus initialConfigStatus;
   final InitialConfigEntity initialConfig;
 
+  final SavingStatus completeOnboardingStatus;
+
   factory InitialConfigState.initial() => InitialConfigState(
         emailVerified: true,
         emailVerifyStatus: FetchingStatus.initial,
         initialConfigStatus: FetchingStatus.initial,
+        completeOnboardingStatus: SavingStatus.initial,
         initialConfig: InitialConfigEntity.initial(),
       );
 
@@ -25,12 +29,15 @@ class InitialConfigState extends Equatable {
     FetchingStatus? emailVerifyStatus,
     bool? emailVerified,
     FetchingStatus? initialConfigStatus,
+    SavingStatus? finishOnboardingStatus,
     InitialConfigEntity? initialConfig,
   }) {
     return InitialConfigState(
       emailVerifyStatus: emailVerifyStatus ?? this.emailVerifyStatus,
       emailVerified: emailVerified ?? this.emailVerified,
       initialConfigStatus: initialConfigStatus ?? this.initialConfigStatus,
+      completeOnboardingStatus:
+          finishOnboardingStatus ?? this.completeOnboardingStatus,
       initialConfig: initialConfig ?? this.initialConfig,
     );
   }
@@ -40,6 +47,7 @@ class InitialConfigState extends Equatable {
         emailVerifyStatus,
         emailVerified,
         initialConfigStatus,
+        completeOnboardingStatus,
         initialConfig,
       ];
 }

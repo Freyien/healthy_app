@@ -3,29 +3,24 @@ import 'package:equatable/equatable.dart';
 class InitialConfigEntity extends Equatable {
   final bool personalInfo;
   final bool doctorCode;
-  final int eatingPlanVersion;
 
   InitialConfigEntity({
     required this.personalInfo,
     required this.doctorCode,
-    required this.eatingPlanVersion,
   });
 
   factory InitialConfigEntity.initial() => InitialConfigEntity(
         personalInfo: false,
         doctorCode: false,
-        eatingPlanVersion: 0,
       );
 
   InitialConfigEntity copyWith({
     bool? personalInfo,
     bool? doctorCode,
-    int? eatingPlanVersion,
   }) {
     return InitialConfigEntity(
       personalInfo: personalInfo ?? this.personalInfo,
       doctorCode: doctorCode ?? this.doctorCode,
-      eatingPlanVersion: eatingPlanVersion ?? this.eatingPlanVersion,
     );
   }
 
@@ -40,7 +35,6 @@ class InitialConfigEntity extends Equatable {
     return InitialConfigEntity(
       personalInfo: map['personalInfo'] ?? false,
       doctorCode: map['doctorCode'] ?? false,
-      eatingPlanVersion: map['eatingPlanVersion'] ?? 0,
     );
   }
 
@@ -48,6 +42,5 @@ class InitialConfigEntity extends Equatable {
   List<Object> get props => [
         personalInfo,
         doctorCode,
-        eatingPlanVersion,
       ];
 }

@@ -10,3 +10,5 @@ sealed class InitialConfigEvent extends Equatable {
 class CheckEmailVerifiedEvent extends InitialConfigEvent {}
 
 class GetInitialConfigEvent extends InitialConfigEvent {}
+
+class CompleteOnboardingEvent extends InitialConfigEvent {}

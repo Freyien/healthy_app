@@ -5,13 +5,20 @@ import 'package:healthy_app/features/client/initial_config/data/datasource/initi
 import 'package:healthy_app/features/client/initial_config/data/datasource/initial_config_server_datasource.dart';
 import 'package:healthy_app/features/client/initial_config/domain/entities/initial_config_entity.dart';
 import 'package:healthy_app/features/client/initial_config/domain/repositories/initial_config_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class InitialConfigRepositoryImpl implements InitialConfigRepository {
   final FirebaseAuth _auth;
   final InitialConfigFirebaseDatasource _firebase;
   final InitialConfigServerDatasource _server;
+  final SharedPreferences _preferences;
 
-  InitialConfigRepositoryImpl(this._firebase, this._server, this._auth);
+  InitialConfigRepositoryImpl(
+    this._firebase,
+    this._server,
+    this._auth,
+    this._preferences,
+  );
 
   @override
   Future<Response<InitialConfigEntity>> getInitialConfig() async {
@@ -34,6 +41,16 @@ class InitialConfigRepositoryImpl implements InitialConfigRepository {
     try {
       final emailVerified = _auth.currentUser?.emailVerified ?? true;
       return Response.success(emailVerified);
+    } catch (e) {
+      return Response.failed(UnexpectedFailure());
+    }
+  }
+
+  @override
+  Future<Response<void>> completeOnboarding() async {
+    try {
+      await _preferences.setBool('onboardingCompleted', true);
+      return Response.success(null);
     } catch (e) {
       return Response.failed(UnexpectedFailure());
     }
