@@ -215,7 +215,7 @@ void _registerRepositories() {
     () => EatingPlanRepositoryImpl(sl()),
   );
   sl.registerLazySingleton<WaterPlanRepository>(
-    () => WaterPlanRepositoryImpl(sl()),
+    () => WaterPlanRepositoryImpl(sl(), sl()),
   );
   sl.registerLazySingleton<MeasureRepository>(
     () => MeasureRepositoryImpl(sl()),

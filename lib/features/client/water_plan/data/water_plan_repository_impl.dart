@@ -1,14 +1,16 @@
 import 'package:healthy_app/core/domain/entities/response.dart';
 import 'package:healthy_app/core/domain/failures/failures.dart';
 import 'package:healthy_app/features/client/water_plan/data/datasource/water_plan_firebase_datasource.dart';
+import 'package:healthy_app/features/client/water_plan/data/datasource/water_plan_server_datasource.dart';
 import 'package:healthy_app/features/client/water_plan/domain/entities/water_consumption_entity.dart';
 import 'package:healthy_app/features/client/water_plan/domain/entities/water_plan_entity.dart';
 import 'package:healthy_app/features/client/water_plan/domain/repositories/water_plan_repository.dart';
 
 class WaterPlanRepositoryImpl implements WaterPlanRepository {
   final WaterPlanFirebaseDatasource _firebase;
+  final WaterPlanServerDatasource _server;
 
-  WaterPlanRepositoryImpl(this._firebase);
+  WaterPlanRepositoryImpl(this._firebase, this._server);
   @override
   Future<Response<WaterPlanEntity>> getWaterPlan(DateTime date) async {
     try {
@@ -26,7 +28,7 @@ class WaterPlanRepositoryImpl implements WaterPlanRepository {
     int quantity,
   ) async {
     try {
-      final waterConsumption = await _firebase.addWaterConsumption(
+      final waterConsumption = await _server.addWaterConsumption(
         waterPlanId,
         quantity,
       );
