@@ -64,6 +64,9 @@ import 'package:healthy_app/features/common/analytics/domain/repositories/analyt
 import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
 import 'package:healthy_app/features/common/app_update/data/app_update_repository_impl.dart';
 import 'package:healthy_app/features/common/app_update/domain/repositories/app_update_repository.dart';
+import 'package:healthy_app/features/common/forgot_password/data/forgot_password_repository_impl.dart';
+import 'package:healthy_app/features/common/forgot_password/domain/repositories/forgot_password_repository.dart';
+import 'package:healthy_app/features/common/forgot_password/ui/bloc/forgot_password_bloc.dart';
 import 'package:healthy_app/features/common/notifications/data/notification_repository_impl.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
 import 'package:healthy_app/features/common/notifications/domain/usecases/show_background_notification_usecase.dart';
@@ -71,6 +74,7 @@ import 'package:healthy_app/features/common/notifications/ui/bloc/notification_b
 import 'package:healthy_app/features/common/rate/data/rate_repository_impl.dart';
 import 'package:healthy_app/features/common/rate/domain/repositories/rate_repository.dart';
 import 'package:healthy_app/features/common/rate/ui/bloc/rate_bloc.dart';
+import 'package:healthy_app/features/common/reset_password/ui/bloc/reset_password_bloc.dart';
 import 'package:healthy_app/features/common/splash/data/splash_repository_impl.dart';
 import 'package:healthy_app/features/common/splash/domain/repositories/splash_repository.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -238,6 +242,9 @@ void _registerRepositories() {
   sl.registerLazySingleton<RateRepository>(
     () => RateRepositoryImpl(sl(), sl()),
   );
+  sl.registerLazySingleton<ForgotPasswordRepository>(
+    () => ForgotPasswordRepositoryImpl(sl(), sl()),
+  );
 }
 
 // Blocs
@@ -258,6 +265,8 @@ void _registerBlocs() {
   sl.registerFactory(() => DeleteAccountBloc(sl(), sl()));
   sl.registerFactory(() => VerifyEmailBloc(sl()));
   sl.registerFactory(() => RateBloc(sl()));
+  sl.registerFactory(() => ForgotPasswordBloc(sl()));
+  sl.registerFactory(() => ResetPasswordBloc(sl()));
 }
 
 // Use cases

@@ -8,6 +8,7 @@ import 'package:healthy_app/core/ui/widgets/primary_button.dart';
 import 'package:healthy_app/core/ui/widgets/vertical_space.dart';
 import 'package:healthy_app/features/client/sign_in/domain/entities/entities.dart';
 import 'package:healthy_app/features/client/sign_in/ui/bloc/sign_in_bloc.dart';
+import 'package:healthy_app/features/client/sign_in/ui/widgets/forgot_password.dart';
 import 'package:healthy_app/features/common/analytics/ui/bloc/analytics_bloc.dart';
 
 class SignInForm extends StatelessWidget {
@@ -26,7 +27,10 @@ class SignInForm extends StatelessWidget {
 
           // Password input
           const _PasswordInput(),
-          VerticalSpace.small(),
+
+          // Forgot password
+          ForgotPassword(),
+          VerticalSpace.large(),
 
           PrimaryButton(
             text: 'Iniciar sesión',

@@ -21,7 +21,9 @@ import 'package:healthy_app/features/client/water_reminder/ui/water_reminder_pag
 import 'package:healthy_app/features/client/water_success/ui/water_success_page.dart';
 import 'package:healthy_app/features/common/app_update/domain/entities/app_version_status.dart';
 import 'package:healthy_app/features/common/app_update/ui/app_update_page.dart';
+import 'package:healthy_app/features/common/forgot_password/ui/forgot_password_page.dart';
 import 'package:healthy_app/features/common/notifications/ui/notifications_page.dart';
+import 'package:healthy_app/features/common/reset_password/ui/reset_password_page.dart';
 
 class AppRouter {
   static GoRouter router(InitialRouteEntity initialRoute) {
@@ -46,6 +48,23 @@ class AppRouter {
           path: '/sign_in',
           builder: (context, state) {
             return SignInPage();
+          },
+        ),
+        GoRoute(
+          name: 'forgot_password',
+          path: '/forgot_password',
+          builder: (context, state) {
+            return ForgotPasswordPage();
+          },
+        ),
+        GoRoute(
+          name: 'reset_password',
+          path: '/reset_password',
+          builder: (context, state) {
+            final extra = state.extra as Map<String, dynamic>;
+            final email = extra['email'] ?? '';
+
+            return ResetPasswordPage(email: email);
           },
         ),
         GoRoute(
