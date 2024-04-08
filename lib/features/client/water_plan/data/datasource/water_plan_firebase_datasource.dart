@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:healthy_app/core/extensions/datetime.dart';
+import 'package:healthy_app/core/extensions/packages/document_snapshot.dart';
 import 'package:healthy_app/features/client/water_plan/data/datasource/water_plan_datasource.dart';
 import 'package:healthy_app/features/client/water_plan/domain/entities/water_consumption_entity.dart';
 import 'package:healthy_app/features/client/water_plan/domain/entities/water_plan_entity.dart';
@@ -57,20 +58,26 @@ class WaterPlanFirebaseDatasource implements WaterPlanDatasource {
   @override
   Future<WaterPlanEntity> getWaterPlan(DateTime date) async {
     try {
+      final startOfDay = date.removeTime();
+      final endOfDay = startOfDay.copyWith(
+        hour: 23,
+        minute: 59,
+        second: 59,
+      );
+
       // Get water plan
       final uid = _auth.currentUser!.uid;
       final snapshotWaterPlan = await _firestore
           .collection('water_plan')
           .where('userId', isEqualTo: uid)
-          .where('date', isEqualTo: date.removeTime())
-          .orderBy('createdAt', descending: true)
+          .where('date', isGreaterThanOrEqualTo: startOfDay)
+          .where('date', isLessThanOrEqualTo: endOfDay)
           .limit(1)
           .get();
 
       if (snapshotWaterPlan.docs.isEmpty) return WaterPlanEntity.initial();
 
-      final waterPlanData = snapshotWaterPlan.docs.first.data();
-      waterPlanData['id'] = snapshotWaterPlan.docs.first.id;
+      final waterPlanData = snapshotWaterPlan.docs.first.dataWithId;
 
       // Get water consumption
       final snapshot = await _firestore
@@ -82,8 +89,7 @@ class WaterPlanFirebaseDatasource implements WaterPlanDatasource {
 
       final waterConsumptionList = [];
       snapshot.docs.forEach((doc) {
-        final waterConsumption = doc.data();
-        waterConsumption['id'] = doc.id;
+        final waterConsumption = doc.dataWithId;
 
         waterConsumptionList.add(waterConsumption);
       });

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:healthy_app/core/extensions/datetime.dart';
+import 'package:healthy_app/core/extensions/packages/document_snapshot.dart';
 import 'package:healthy_app/features/client/eating_plan/data/datasource/eating_plan_datasource.dart';
 import 'package:healthy_app/features/client/eating_plan/domain/entities/eating_plan_entity.dart';
 import 'package:healthy_app/features/client/eating_plan/domain/entities/food_block_entity.dart';
@@ -16,20 +17,26 @@ class EatingPlanFirebaseDatasource implements EatingPlanDatasource {
   @override
   Future<EatingPlanEntity> getEatingPlan(DateTime date) async {
     try {
+      final startOfDay = date.removeTime();
+      final endOfDay = startOfDay.copyWith(
+        hour: 23,
+        minute: 59,
+        second: 59,
+      );
+
       // Get checked food
       final uid = _auth.currentUser!.uid;
       final snapshotChecked = await _firestore
           .collection('eating_plan_checked')
           .where('userId', isEqualTo: uid)
-          .where('date', isEqualTo: date.removeTime())
-          .orderBy('createdAt', descending: true)
+          .where('date', isGreaterThanOrEqualTo: startOfDay)
+          .where('date', isLessThanOrEqualTo: endOfDay)
           .limit(1)
           .get();
 
       if (snapshotChecked.docs.isEmpty) return EatingPlanEntity.initial();
 
-      final foodChecked = snapshotChecked.docs.first.data();
-      foodChecked['id'] = snapshotChecked.docs.first.id;
+      final foodChecked = snapshotChecked.docs.first.dataWithId;
       final eatingPlanId = foodChecked['eatingPlanId'];
 
       // Get eating plan
@@ -38,7 +45,7 @@ class EatingPlanFirebaseDatasource implements EatingPlanDatasource {
           .doc(eatingPlanId)
           .get();
 
-      final eatingPlanData = snapshot.data()!;
+      final eatingPlanData = snapshot.dataWithId;
       eatingPlanData['id'] = snapshot.id;
       eatingPlanData['foodChecked'] = foodChecked;
 

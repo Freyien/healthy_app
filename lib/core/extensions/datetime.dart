@@ -12,13 +12,17 @@ extension DateTimeExtensions on DateTime {
     int years = 0,
     int months = 0,
     int days = 0,
+    int hours = 0,
+    int minutes = 0,
+    int seconds = 0,
   }) =>
       DateTime(
         year + years,
         month + months,
         day + days,
-        hour,
-        minute,
+        hour + hours,
+        minute + minutes,
+        second + seconds,
         millisecond,
         microsecond,
       );
