@@ -54,10 +54,10 @@ class DashboardNotifications extends StatelessWidget {
       ..add(SaveTokenEvent());
   }
 
-  void _onNotificationTapped(
+  Future<void> _onNotificationTapped(
     BuildContext context,
     NotificationEntity notification,
-  ) {
+  ) async {
     context
         .read<AnalyticsBloc>()
         .add(LogEvent('notificationTapped', parameters: {
@@ -71,6 +71,12 @@ class DashboardNotifications extends StatelessWidget {
         return navigationShell.goBranch(1, initialLocation: true);
       case NotificationType.eatingReminder:
         return;
+      case NotificationType.reminderAppointment:
+      case NotificationType.newAppointment:
+      case NotificationType.updateAppointment:
+      case NotificationType.leaveNowAppointment:
+      case NotificationType.cancelAppointment:
+        return navigationShell.goBranch(3, initialLocation: true);
     }
   }
 }

@@ -6,6 +6,7 @@ export 'draggable_scroll_sheet.dart';
 export 'dropdown.dart';
 export 'error_full_screen.dart';
 export 'expandable_page_view.dart';
+export 'healthy_badge.dart';
 export 'horizontal_divider.dart';
 export 'horizontal_space.dart';
 export 'input_text.dart';

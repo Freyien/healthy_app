@@ -34,9 +34,12 @@ import 'package:healthy_app/features/client/measures_chart/ui/bloc/measure_bloc.
 import 'package:healthy_app/features/client/personal_info/data/personal_info_repository_impl.dart';
 import 'package:healthy_app/features/client/personal_info/domain/repositories/personal_info_repository.dart';
 import 'package:healthy_app/features/client/personal_info/ui/bloc/personal_info_bloc.dart';
+import 'package:healthy_app/features/client/settings/data/appointment_repository_impl.dart';
 import 'package:healthy_app/features/client/settings/data/settings_repository_impl.dart';
+import 'package:healthy_app/features/client/settings/domain/repositories/appointment_repository.dart';
 import 'package:healthy_app/features/client/settings/domain/repositories/settings_repository.dart';
 import 'package:healthy_app/features/client/settings/ui/bloc/settings_bloc.dart';
+import 'package:healthy_app/features/client/settings/ui/sections/appointment/bloc/appointment_bloc.dart';
 import 'package:healthy_app/features/client/sign_in/data/sign_in_repository_impl.dart';
 import 'package:healthy_app/features/client/sign_in/domain/repositories/sign_in_repository.dart';
 import 'package:healthy_app/features/client/sign_in/ui/bloc/sign_in_bloc.dart';
@@ -245,6 +248,9 @@ void _registerRepositories() {
   sl.registerLazySingleton<ForgotPasswordRepository>(
     () => ForgotPasswordRepositoryImpl(sl(), sl()),
   );
+  sl.registerLazySingleton<AppointmentRepository>(
+    () => AppointmentRepositoryImpl(sl(), sl(), sl()),
+  );
 }
 
 // Blocs
@@ -259,7 +265,7 @@ void _registerBlocs() {
   sl.registerFactory(() => EatingPlanBloc(sl()));
   sl.registerFactory(() => WaterPlanBloc(sl(), sl()));
   sl.registerFactory(() => MeasureBloc(sl()));
-  sl.registerFactory(() => SettingsBloc(sl(), sl(), sl()));
+  sl.registerFactory(() => SettingsBloc(sl(), sl(), sl(), sl()));
   sl.registerFactory(() => SuggestionBloc(sl()));
   sl.registerFactory(() => WaterReminderBloc(sl()));
   sl.registerFactory(() => DeleteAccountBloc(sl(), sl()));
@@ -267,6 +273,7 @@ void _registerBlocs() {
   sl.registerFactory(() => RateBloc(sl()));
   sl.registerFactory(() => ForgotPasswordBloc(sl()));
   sl.registerFactory(() => ResetPasswordBloc(sl()));
+  sl.registerFactory(() => AppointmentBloc(sl()));
 }
 
 // Use cases

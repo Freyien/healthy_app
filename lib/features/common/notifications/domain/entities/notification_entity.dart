@@ -89,4 +89,9 @@ enum NotificationType {
   initial,
   waterReminder,
   eatingReminder,
+  newAppointment,
+  updateAppointment,
+  cancelAppointment,
+  reminderAppointment,
+  leaveNowAppointment,
 }

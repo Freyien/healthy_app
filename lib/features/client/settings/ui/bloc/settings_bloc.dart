@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:healthy_app/core/domain/enums/fetching_status.dart';
 import 'package:healthy_app/core/domain/enums/signout_status.dart';
 import 'package:healthy_app/features/client/settings/domain/entities/client_entity.dart';
+import 'package:healthy_app/features/client/settings/domain/repositories/appointment_repository.dart';
 import 'package:healthy_app/features/client/settings/domain/repositories/settings_repository.dart';
 import 'package:healthy_app/features/client/sign_in/domain/repositories/sign_in_repository.dart';
 import 'package:healthy_app/features/common/notifications/domain/repositories/notification_repository.dart';
@@ -14,11 +15,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final SignInRepository _authRepository;
   final SettingsRepository _settingsRepository;
   final NotificationRepository _notificationRepository;
+  final AppointmentRepository _appointmentRepository;
 
   SettingsBloc(
     this._authRepository,
     this._settingsRepository,
     this._notificationRepository,
+    this._appointmentRepository,
   ) : super(SettingsState.initial()) {
     on<SignOutEvent>(_onSignOutEvent);
     on<FetchAppVersionEvent>(_onFetchAppVersionEvent);
@@ -35,6 +38,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     try {
       await Future.wait([
+        _appointmentRepository.closeStreams(),
         _notificationRepository.closeStreams(),
         _notificationRepository.unsuscribeToCommonTipics(),
         _notificationRepository.deleteToken(),
