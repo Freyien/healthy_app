@@ -54,10 +54,10 @@ class DashboardNotifications extends StatelessWidget {
       ..add(SaveTokenEvent());
   }
 
-  Future<void> _onNotificationTapped(
+  void _onNotificationTapped(
     BuildContext context,
     NotificationEntity notification,
-  ) async {
+  ) {
     context
         .read<AnalyticsBloc>()
         .add(LogEvent('notificationTapped', parameters: {
