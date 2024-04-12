@@ -10,7 +10,6 @@ import 'package:healthy_app/core/ui/utils/toast.dart';
 import 'package:healthy_app/core/ui/widgets/core_widgets.dart';
 import 'package:healthy_app/di/di_business.dart';
 import 'package:healthy_app/features/client/settings/ui/bloc/settings_bloc.dart';
-import 'package:healthy_app/features/client/settings/ui/sections/appointment/appointment_section.dart';
 import 'package:healthy_app/features/client/settings/ui/sections/appointment/bloc/appointment_bloc.dart';
 import 'package:healthy_app/features/client/settings/ui/widgets/account_option.dart';
 import 'package:healthy_app/features/client/settings/ui/widgets/app_version.dart';
@@ -76,7 +75,7 @@ class Settingspage extends StatelessWidget {
                     Spacer(),
 
                     // Appointment
-                    AppointmentSection(),
+                    // AppointmentSection(),
 
                     // Sugestions
                     AccountOption(
